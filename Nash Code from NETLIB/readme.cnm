@@ -1,0 +1,479 @@
+                README.CNM   ---   1995-01-23
+                 based on file of 1990-01-17
+
+This file contains notes on the usage of the algorithms and codes in
+
+              Compact Numerical Methods for Computers:
+              Linear Algebra and Function Minimisation
+
+                          Second Edition
+
+                           John C. Nash
+
+                  (Bristol: Adam Hilger)   1990
+
+Most of the files on the disk are listed and described briefly in the book
+in Appendix 4 (page 257ff).  A full listing is given at the end of this
+file.
+
+Because there are over 100 files, they have been placed in the
+sub-directory \CNM on the disk, since MS-DOS root directories have a limit
+on the number of files in the root directory, typically of 111 files plus
+a disk name.  This file README.CNM (i.e.  this file) is stored twice, once
+in the root directory and once in the sub-directory, to ensure users can
+find it easily.  The disk is named NASHCNM2 (for J.C.Nash, Compact
+Numerical Methods, 2nd edition).
+
+The program files were initially intended to be used with Turbo Pascal
+version 3.01a, which is a programming environment in which a compiler is
+embedded.  The files on the distribution diskette are supplied in a form
+that will work with the Turbo Pascal 3.01a programming environment.
+
+
+CHANGES IN THE PROGRAMS SINCE THE BOOK WAS TYPE-SET
+
+Only changes to the displayed algorithms are discussed here, since only
+the programs ALG??.PAS were presented in the book.
+
+     ALG01.PAS -- The loop index in the sub-program (procedure)
+           is now as follows:
+
+           procedure rotate;
+           var
+             ii : integer;
+
+           begin
+             for ii := 1 to nRow+nCol do
+             begin
+               D1 := W[ii,j]; D2 := W[ii,k];
+               W[ii,j] := D1*c0+D2*s0; W[ii,k] := -D1*s0+D2*c0
+             end;
+           end;
+
+           That is, the loop index (previously "i") is now declared
+           explicitly as "ii".  This change was necessary in order that
+           DR0102.PAS could be executed under Turbo Pascal 5.0.
+
+      ALG21.PAS -- A more detailed test of the projection of the search
+           direction on the gradient (variable "gradproj") is now
+           performed to terminate the minimisation if a zero or positive
+           gradient projection is encountered.  The changes are marked
+           with a double exclamation mark within a comment.
+
+      ALG22.PAS -- a WRITELN statement to the console image file has been
+           replaced with a WRITE statement to conform with the screen
+           output.
+
+
+
+
+USAGE OF PROGRAMS UNDER TURBO PASCAL 3.01A
+
+There are many different configurations possible for IBM PC and compatible
+computers.  In order to compiler and run the programs on the distribution
+diskette NASHCNM2 you must provide some information about the storage
+location of your copy of Turbo Pascal and your copy of the Compact
+Numerical Methods files, as well as any derived (i.e.  executable or
+output) files you create.  The following information is intended to serve
+as an example of how to provide such inputs.
+
+To use the programs from a disk in drive B:, where the codes are in a
+directory CNM, issue the following commands, assuming Turbo Pascal is in
+drive A:.  Prompts from Turbo Pascal are in square brackets.  The
+following indicates how to run the driver DR0102.PAS which use the first
+two algorithms.  We assume drive A: is initially logged in (active).  The
+symbol <Enter> means press the Enter (i.e.  Carriage Return) key.
+
+  [A:>] turbo <Enter>
+  [Include error messages (Y/N)] Y
+  [(main Turbo menu)] L
+  [ New drive: ]  b <Enter>
+  [(main Turbo menu)] A
+  [ New directory: ] CNM <Enter>
+  [(main Turbo menu)] M
+  [ Main file: ] DR0102 <Enter>
+  [(main Turbo menu)] R
+
+  The program will be compiled and execution will start.
+
+
+
+NOTES ON TURBO PASCAL 3.01A
+
+1.  An executable program may be created by selecting O(ptions) in the
+    main Turbo menu, and specifying C(om-file), then Q(uit) in the
+    sub-menu before C(ompile) in the main menu.  The resulting file is
+    (for DR0102.PAS as Main File) called DR0102.COM.
+
+2.  The file TURBO.CNM contains compiler directives appropriate to the
+    compiler version used.  In the case of Turbo Pascal 3.01a, the file
+    should contain
+
+       {$G512}
+       { TURBO.CNM for Turbo Pascal 3.01a}
+
+    which is the same as TURBO3.CNM.  The compiler directive allows for
+    input-output re-direction, so that the user may provide all keyboard
+    input in a file, such as DR0102X, and invoke COMPILED (i.e.  COM file
+    form) programs using the command line
+
+      DR0102 <DR0102X
+
+    Such command lines may be included in BATch command files which may be
+    used under MS-DOS on IBM PC and compatible computers.  The file
+    CNM3TEST.BAT contains such commands to test all the driver programs
+    BUT the programs must already have been compiled within the integrated
+    programming environment as under point (1) above.
+
+    (As this is being revised on 950123, we are NOT making updates to the
+     Turbo Pascal 3 commentary or support files.}
+
+3.  The source code INCLUDE files
+
+            CONSTYPE.DEF
+            STARTUP.PAS
+            TDSTAMP.PAS
+            TURBO.CNM
+
+    are different for Turbo Pascal 3.01a and Turbo Pascal 5.0.
+    The differences are mainly related to Input-Output redirection,
+    console operations, and clock functions. The distribution 
+    diskette has the default files set up for Turbo Pascal 5 or later.
+
+4.  To ensure the diskette is ready to use with Turbo Pascal 3.01a, you
+    may execute the BATch command file
+
+            USETP3.BAT
+
+    which is also provided.  This simply copies the appropriate Turbo
+    Pascal 3.01a adjusted files to the files TURBO.CNM, CONSTYPE.DEF,
+    STARTUP.PAS, and TDSTAMP.PAS.
+
+
+
+USAGE OF PROGRAMS UNDER TURBO PASCAL 5.0 or later.
+
+We have NOT tested these routines under Turbo Pascal for Windows.
+
+There are many different configurations possible for IBM PC and compatible
+computers.  In order to compiler and run the programs on the distribution
+diskette NASHCNM2 you must provide some information about the storage
+location of your copy of Turbo Pascal and your copy of the Compact
+Numerical Methods files, as well as any derived (i.e.  executable or
+output) files you create.  The following information is intended to serve
+as an example of how to provide such inputs.
+
+To use the programs from a disk in drive B:, where the codes are in a
+directory CNM, issue the following commands, assuming Turbo Pascal is in
+drive A:.  Prompts from Turbo Pascal are in square brackets.  The
+following indicates how to run the driver DR0102.PAS which use the first
+two algorithms.  We assume drive A: is initially logged in (active).  The
+symbol <Enter> means press the Enter (i.e.  Carriage Return) key.
+  
+  [A:>] b: <Enter>
+  [B:>] cd cnm <Enter>
+  [B:\CNM>] usetp5 <Enter>       
+  [(description of USETP5.BAT, with PAUSE in middle)] <Enter>
+  [B:\CNM>] a: <Enter>
+  [A:>] turbo
+  [(Copyright banner for Turbo Pascal)]  <Enter>
+  [(main Turbo 5 menu has FILE higlighted)]  <Enter>
+  [(drop down window opens)]  C
+  [(data entry box for Change Directory opens)] B:\CNM <Enter>
+  [(empty program editing window)]  <F3>
+  [(file LOAD box opens)]  DR0102  <Enter>
+  [(program editing window filled with source code)]  <Ctrl-F9>
+
+  The program will be compiled and execution will start.
+
+
+
+NOTES ON TURBO PASCAL 5.0 
+
+1.  Version 5.0 of Turbo Pascal creates a different form of executable
+    file from Turbo Pascal 3.01a.  If DR0102.PAS is compiled under TP5.0
+    the file DR0102.EXE is created.  Programs larger than 64K bytes may be
+    created, and a number of other features are provided to allow quite
+    sophisticated interaction with the operating system.
+
+2.  The file TURBO.CNM contains compiler directives appropriate to the
+    compiler version used.  In the case of Turbo Pascal 5.0, the file
+    should contain
+
+           {$M 20000,0,512000}
+           {TURBO.CNM for Turbo Pascal 5.0}
+
+    which is the same as TURBO5.CNM.  The compiler directive increases the
+    stack size (to 20000 bytes from the default of 16K}.  This proved
+    necessary to run DR1920.PAS and DR21.PAS.
+
+3.  Input-Output redirection is supported via assignment of the input and
+    output "files" in the routine STARTUP.PAS (provided as STARTUP5.PAS). 
+    The console also needs to be assigned, and this is also carried out in
+    this routine.  The command line
+
+      DR0102 <DR0102X
+
+    can then be used to execute DR0102.EXE using information in the file
+    DR0102X.  Such command lines may be included in BATch command files
+    which may be used under MS-DOS on IBM PC and compatible computers.
+
+4.  Turbo Pascal 5.0 as supplied by Borland International comes in two
+    forms -- an integrated programming environment (TURBO.EXE) and a
+    command line compiler (TPC.EXE).  Using the latter form, we can in
+    fact compile and execute the (source) program DR0102.PAS via the two
+    commands
+
+        TPC DR0102
+        DR0102 <DR0102X
+
+    These commands presume that the files TPC.EXE, DR0102.PAS (and the
+    INCLUDE files it requires) and DR0102X are all in the same disk
+    directory.  If this is not the case, then the appropriate directories
+    must be defined.
+
+5.  The BATch file CNM5TEST.BAT uses the ideas of point (4) to compile and
+    execute all the driver programs in the suite.  This batch file
+    presumes that
+
+      a) The Turbo Pascal 5.0 compiler TPC.EXE and its library TURBO.TPL
+         are both on drive c: in directory \TP5
+
+      b) all other files are in the current logged-in (active) directory
+
+      c) the current logged in directory has a fairly large amount of free
+         space and an adequate number of unused directory entries (if it
+         is a root directory).  The space and directory entries are needed
+         for the executable programs and the output files (e.g.  OUT0102)
+         created by running the programs.
+
+6.  The source code INCLUDE files
+
+            CONSTYPE.DEF
+            STARTUP.PAS
+            TDSTAMP.PAS
+            TURBO.CNM
+
+    are different for Turbo Pascal 3.01a and Turbo Pascal 5.0.  The
+    diskette supplied has the above files identical in contents to the
+    files
+
+            CONSTYP5.DEF
+            STARTUP5.PAS
+            TDSTAMP5.PAS
+            TURBO5.CNM
+
+    so that the user MUST first copy the appropriate Turbo Pascal 5.0
+    versions into the files having generic names.
+
+7.  To ensure the diskette is ready to use with Turbo Pascal 5.0, you may
+    execute the BATch command file
+
+            USETP5.BAT
+
+    which is also provided.  This simply copies the appropriate Turbo
+    Pascal 5.0 adjusted files to the files TURBO.CNM, CONSTYPE.DEF,
+    STARTUP.PAS, and TDSTAMP.PAS.
+
+
+FILES LOADED ONTO THE DISTRIBUTION DISKETTE
+
+This file
+
+README   CNM        18,764 23/01/95   23:38
+
+
+Other documentation files
+
+ERRATA   CNM         4,167 23/01/95   23:05
+FILELIST CNM         2,886 23/01/95   23:35
+
+
+The algorithm codes (comments removed)
+
+ALG01    PAS         2,589 26/11/94   11:46
+ALG02    PAS         1,684 18/01/90   16:04
+ALG03    PAS         1,138 18/01/90   15:58
+ALG03A   PAS         1,168 18/01/90   15:58
+ALG04    PAS         6,039 26/11/94   11:46
+ALG05    PAS         1,590 18/01/90   15:58
+ALG06    PAS           518 18/01/90   15:58
+ALG07    PAS           712 18/01/90   15:58
+ALG08    PAS           823 18/01/90   15:58
+ALG09    PAS           912 18/01/90   15:58
+ALG10    PAS         1,720 18/01/90   15:58
+ALG11    PAS           727 18/01/90   15:58
+ALG12    PAS           750 18/01/90   15:59
+ALG13    PAS         1,222 18/01/90   15:59
+ALG14    PAS         2,493 18/01/90   15:59
+ALG15    PAS           991 18/01/90   15:59
+ALG16    PAS         1,864 18/01/90   15:59
+ALG17    PAS         3,258 18/01/90   15:59
+ALG18    PAS         1,996 18/01/90   15:59
+ALG19    PAS         6,346 10/05/90   10:11
+ALG20    PAS         1,835 18/01/90   15:59
+ALG21    PAS         4,851 18/01/90   16:00
+ALG22    PAS         6,710 18/01/90   15:59
+ALG23    PAS         3,487 13/01/91   12:44
+ALG24    PAS         1,628 18/01/90   15:59
+ALG25    PAS         3,711 18/01/90   15:59
+ALG26    PAS         6,675 18/01/90   15:59
+ALG27    PAS         3,292 18/01/90   15:59
+
+
+Driver programs (commented)
+
+DR0102   PAS         6,199 14/07/93   20:59
+DR03     PAS         2,748 18/01/90   16:00
+DR03A    PAS         2,752 18/01/90   16:00
+DR04     PAS         1,190 18/01/90   16:00
+DR0506   PAS         4,464 18/01/90   16:00
+DR0708   PAS         3,187 18/01/90   16:00
+DR09     PAS         3,081 18/01/90   16:00
+DR10     PAS         5,018 18/01/90   16:01
+DR13     PAS         2,232 18/01/90   16:01
+DR14     PAS         2,265 18/01/90   16:01
+DR15     PAS         2,637 18/01/90   16:01
+DR1617   PAS         3,121 18/01/90   16:01
+DR1618   PAS         2,111 18/01/90   16:01
+DR1920   PAS         2,397 10/05/90   10:12
+DR21     PAS         1,745 18/01/90   16:00
+DR22     PAS         1,857 18/01/90   16:04
+DR23     PAS         1,754 13/01/91   12:44
+DR23A    PAS         1,643 13/01/91   22:07
+DR24II   PAS         6,354 18/01/90   16:04
+DR24LE   PAS         1,685 18/01/90   16:04
+DR24LS   PAS         3,324 18/01/90   16:04
+DR25     PAS         2,137 18/01/90   16:04
+DR26     PAS         2,515 18/01/90   16:04
+DR27     PAS         1,957 18/01/90   16:04
+
+
+
+Support codes
+
+CALCEPS  PAS           750 18/01/90   16:04
+CONSTYPE DEF         3,705 18/01/90   16:03 ** Turbo Pascal 5 version
+CUBEFN   PAS           367 18/01/90   15:59
+FNMIN    PAS         1,212 18/01/90   16:01
+GENEVRES PAS         1,325 18/01/90   16:01
+GETOBSN  PAS           802 18/01/90   16:01
+HTANFN   PAS         1,112 18/01/90   16:01
+JJACF    PAS         3,534 13/01/91   12:44
+LOGISTIC PAS         2,659 13/01/91   20:56
+MATCOPY  PAS           251 18/01/90   16:04
+MATMUL   PAS           564 18/01/90   16:01
+MATRIXIN PAS         6,625 18/01/90   16:04
+PSVDRES  PAS         1,252 18/01/90   16:04
+QUADFN   PAS           400 18/01/90   16:01
+RAYQUO   PAS           616 18/01/90   16:01
+RESIDS   PAS         1,159 18/01/90   16:04
+ROSEN    PAS         2,517 13/01/91   12:44
+SPENDFN  PAS           617 18/01/90   16:01
+STARTUP  PAS         1,596 18/01/90   15:58 ** Turbo Pascal 5 version
+SVDTST   PAS         4,527 18/01/90   16:04
+TDSTAMP  PAS         1,364 18/01/90   16:03 ** Turbo Pascal 5 version
+TURBO    CNM            55 18/01/90   16:00 ** Turbo Pascal 5 version
+VECTORIN PAS         3,901 18/01/90   16:04
+
+
+Example data files (for control data)
+
+EX0102   CNM            51 18/01/90   16:27
+EX03     CNM            15 18/01/90   16:27
+EX03A    CNM            16 18/01/90   16:28
+EX04     CNM           515 18/01/90   16:02
+EX044-2  CNM           517 18/01/90   16:02
+EX0506   CNM            29 18/01/90   16:02
+EX0506S  CNM            58 18/01/90   16:02
+EX0708   CNM            22 18/01/90   16:02
+EX09     CNM            16 18/01/90   16:02
+EX10     CNM            49 18/01/90   16:02
+EX13     CNM            16 18/01/90   16:02
+EX13A    CNM            16 18/01/90   16:02
+EX14     CNM            16 18/01/90   16:02
+EX14A    CNM            16 18/01/90   16:03
+EX15     CNM            18 18/01/90   16:03
+EX15A    CNM            18 18/01/90   16:03
+EX1617   CNM            26 18/01/90   16:03
+EX1618   CNM            26 18/01/90   16:03
+EX19     CNM             8 18/01/90   16:03
+EX1920   CNM            11 18/01/90   16:03
+EX1920J  CNM           497 18/01/90   16:03
+EX21     CNM             8 18/01/90   16:03
+EX22     CNM            18 18/01/90   16:03
+EX23     CNM             8 18/01/90   16:03
+EX23A    CNM           117 13/01/91   20:47
+EX24II   CNM            41 18/01/90   16:03
+EX24LE   CNM            35 18/01/90   16:03
+EX24LS   CNM            30 18/01/90   16:03
+EX24LS1  CNM           134 18/01/90   16:03
+EX25     CNM            30 18/01/90   16:03
+EX26     CNM            20 18/01/90   16:03
+EX26A    CNM            17 18/01/90   16:03
+EX27J    CNM           454 18/01/90   16:03
+EX27R    CNM             9 18/01/90   16:03
+
+
+Command line data source files (note that these require the
+      presence of a corresponding EX??.CNM file)
+
+DR0102X                 12 18/01/90   15:59
+DR03AX                  11 18/01/90   16:00
+DR03X                   10 18/01/90   16:00
+DR04X                   10 18/01/90   16:00
+DR0506X                 12 18/01/90   16:00
+DR0506XA                12 18/01/90   16:00
+DR0506XB                13 18/01/90   16:00
+DR0708X                 12 18/01/90   16:00
+DR09X                   10 18/01/90   16:00
+DR10X                   10 18/01/90   16:00
+DR13X                   10 18/01/90   16:00
+DR14X                   10 18/01/90   16:01
+DR15X                   10 18/01/90   16:01
+DR1617X                 12 18/01/90   16:01
+DR1618X                 12 18/01/90   16:01
+DR1920RX                12 18/01/90   16:02
+DR19X                   10 18/01/90   16:02
+DR21X                   10 18/01/90   16:02
+DR22X                   10 18/01/90   16:02
+DR23AX                  11 13/01/91   21:09
+DR23X                   10 18/01/90   16:02
+DR24IIX                 12 18/01/90   16:02
+DR24LEX                 12 18/01/90   16:02
+DR24LSX                 12 18/01/90   16:02
+DR25X                   10 18/01/90   16:02
+DR26X                   10 18/01/90   16:02
+DR27X                   11 18/01/90   16:02
+
+
+Depending on the use of the Turbo Pascal 3 or 5
+type files, the files 
+
+CONSTYPE.DEF, TURBO.CNM, STARTUP.PAS and TDSTAMP.PAS will
+be created by running either USETP3.BAT or USETP5.BAT.
+You should run one of these before starting. The disk
+comes with the TP5 files already created as defaults.
+
+
+Files for using Turbo Pascal 3.01a
+
+CNM3TEST BAT           410 17/01/90   19:22
+CONSTYP3 DEF         3,357 20/05/89   16:00
+TURBO3   CNM            46 17/01/90   19:36
+USETP3   BAT           369 17/01/90   23:54
+STARTUP3 PAS         1,605 17/01/90   19:25
+TDSTAMP3 PAS         1,416 20/05/89   15:59
+
+
+
+Files for using Turbo Pascal 5.0
+
+CNM5TEST BAT         1,376 23/01/95   22:51
+CONSTYP5 DEF         3,705 18/01/90   16:03
+STARTUP5 PAS         1,596 18/01/90   15:58
+TDSTAMP5 PAS         1,364 18/01/90   16:03
+TURBO5   CNM            55 18/01/90   16:00
+USETP5   BAT           367 17/01/90   23:55
+
+         ----- end of file -----
