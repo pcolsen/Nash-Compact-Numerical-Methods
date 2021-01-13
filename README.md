@@ -6,4 +6,4 @@ Our goal is to provide a good set of numerical methods in Python source for peop
 
 We plan to do this in two stages.  First we plan to translate the code from Pascal into Python so that the interfaces conform as closesly as possible the original Pascal so that users can refer to Professor Nash's original text.  Second we plan to bring the interfases as close as possible to those of NumPy and SciPy.
 
-Note: The original Pascal code is not ready to use.  It was written to run under TurboPascal running on DOS and has not been modified to run on more modern system.   
+Note: The original Pascal code is not ready to use.  It was written to run under TurboPascal running on DOS and has not been modified to run on more modern systems.   
