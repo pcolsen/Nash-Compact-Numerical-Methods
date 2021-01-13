@@ -1,4 +1,4 @@
-# Nash-Compact-Numerics
+# Nash-Compact-Numerical-Methods
 
 Thie ia a project to convert the Pacal Routines in John Nash's book "Compact Numerical Methods for Computers: Linear Algebra and FUnction Minimization" into Python
 
