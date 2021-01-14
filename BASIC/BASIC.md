@@ -15,3 +15,15 @@ number of other BASIC interpreters and compilers.
 John Nash, January 2021
 
 
+Possible BASIC processors to use in Linux:
+
+bwbasic  (Bywater BASIC)
+yabasic
+gambas
+brandy
+gambas (but may not be dialect compatible)
+xbasic
+smallbasic
+wxBasic -- too old (2002)
+Chipmunk Basic (website dead 2021-1-13
+FreeBasic -- wrong dialect
