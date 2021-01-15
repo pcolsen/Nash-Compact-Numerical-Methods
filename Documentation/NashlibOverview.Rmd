@@ -1,0 +1,138 @@
+---
+title: "Overview of Nashlib and its Implementations"
+author: 
+   - John C Nash, retired professor, University of Ottawa
+   - Peter Olsen, retired ??
+date: "11/01/2021"
+output: pdf_document
+bibliography: nashlib.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Abstract
+
+The repository \url{https://github.com/pcolsen/Nash-Compact-Numerical-Methods}
+is a collection of implementations of the algorithms from @jncnm79, which was 
+written by one of us (JN) in the mid 1970s. The present collection originated with a query 
+from the other author (PO) concerning a possible Python implementation based on the
+Pascal codes in the second edition of the original book (@nlacatvn1060620). 
+
+From email interchanges, the repository and the idea of gathering different 
+implementations and ensuring workable example codes arose. We hope that these will
+be useful in various ways:
+
+- as a focus for comparison of programming languages and coding styles for numerical
+computations
+- as a source of didactic examples and exercises for students
+- as a resource for workers needing to embed numerical computations within their
+application programs.
+
+# History
+
+?? give a history of the codes
+
+# Documentation of this project
+
+Github allows for Markdown (\url{http://www.aaronsw.com/weblog/001189} and
+\url{https://daringfireball.net/projects/markdown/}) files to be included in the file repository. 
+We have used this for the `README.md` file and some other introductory or indexing
+documentation. There is also a wiki associated with each project. We have NOT 
+used the wiki in favour of including a `Documentation` directory within the 
+file repository so that the documentation is carried along with any clone of
+the repository or download as a Zip archive.
+
+A relatively well-developed resource for documentation is the `knitr` set of tools
+(@xie2013dynamic). vastly expanded within the RStudio computational ecosystem.
+See \url{https://rstudio.com/products/rstudio/}. In particular, the **Rmarkdown**
+flavour of the **markdown** markup language allows for LaTeX mathematical
+expressions to be included inline, BibTeX references to be cited easily, and
+code in a number of programming languages to be executed, with the results automatically
+included in the report. Reports can be output in a variety of ways such as HTML,
+PDF (our choice), or even as Microsoft Word documents.
+
+
+# Programming language issues in  Nashlib implementations
+
+## Fortran
+
+## BASIC
+
+## Pascal
+
+## Python
+
+## R
+
+## Others
+
+# Running codes in different programming languages
+
+This part of the Overview document is likely to evolve as we and other workers
+apply our ideas to different computing platforms. We welcome input and collaboration.
+
+Our principal objective is to be able to take a program in one of the selected
+programming languages (or dialects) and have it execute correctly and produce
+acceptable output. In the subsections below, we outline how we do this, possibly
+with variations for different operating environments.
+
+## Fortran
+
+Rmarkdown is able to compiler Fortran subroutines and then call them from
+R. We leave out the question of timing for which this simple example was
+devised.
+
+```{r compfort, engine='fortran', results='hide'}
+C Fortran test
+      subroutine fexp(n, x)
+      double precision x
+C  output
+      integer n, i
+C  input value
+      do 10 i=1,n
+         x=dexp(dcos(dsin(dble(float(i)))))
+  10  continue
+      return
+      end
+```
+
+Now try running it from R. 
+
+```{r testfort, collapse=TRUE}
+res = .Fortran("fexp", n=100000L, x=0)
+str(res)
+```
+
+What about complete programs? In this case we need to work through the operating
+system. For JN this is a Linux Mint MATE distribution. 
+
+The following is file `knitrExample.f`. It is in the directory `../fortran/` relative
+to this documentation file (`NashlibOverview.Rmd`). See the source of this document
+for the mechanism by which the Fortran code is read into our discussion text.
+
+```{exfort code=xfun::read_utf8('../fortran/knitrExample.f'), echo=TRUE}
+```
+
+We run the code with a command line script (**bash** script).
+
+```{bash script1}
+#!/bin/bash
+gfortran ../fortran/knitrExample.f
+./a.out
+```
+
+## BASIC
+
+## Pascal
+
+## Python
+
+## R
+
+## Others
+
+
+
+# References
