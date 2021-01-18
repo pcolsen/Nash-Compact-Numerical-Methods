@@ -10,6 +10,7 @@ bibliography: nashlib.bib
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+## ??require(bookdown) # language engine to display text??
 ```
 
 # Abstract
@@ -53,20 +54,101 @@ code in a number of programming languages to be executed, with the results autom
 included in the report. Reports can be output in a variety of ways such as HTML,
 PDF (our choice), or even as Microsoft Word documents.
 
+Code is placed in `chunk` blocks that are delimited with three reverse single quotation
+marks (\`) at the left hand margin. The first of these can (and should) be qualified
+by various instructions and parameters inside curly braces {}. To display the 
+text 
+
+```{r plaintext1a, echo=TRUE, eval=FALSE}
+some text to display
+more text
+yet more
+```
+
+we preface it with a line having the three back-quotes followed by 
+
+```
+{r plaintext1, echo=TRUE, eval=FALSE}
+```
+
+(It is very difficult to get any line with the codes to display verbatim.)
+       
+We finish the text block with a line of just three reverse single quotes in a row.
+Though we seem to be trying to display an R code chunk, we effectively list the text.
+Similarly following the three back-quotes with
+
+```
+{r code=xfun::read_utf8('../pascal/knitrExample.pas'), echo=TRUE, eval=FALSE}
+```
+
+will list the program `knitrExample.pas`. Note we still need to follow this with
+a line having the three back-quotes. See the `NashlibOverview.Rmd` file which is
+the source of the present document for details.
 
 # Programming language issues in  Nashlib implementations
 
 ## Fortran
 
+Fortran is one of the oldest so-called "high-level" programming languages. One of us
+first used this language in 1966 (as Fortran II) on an IBM 1620 computer. Fortran
+has gone through a number of revisions, but a lot of legacy code still runs easily, 
+particularly in the Fortran 1977 dialect (possibly also so-called Fortran IV which 
+is close to this). Especially is some special-purpose structures are avoided, we
+can often run legacy Fortran using the `gfortran` compiler available for Linux and
+likely some other platforms.
+
+Note that Fortran indexes arrays from 1 (i.e., the first element is element 1). 
+Moreover, the storage layout of multidimensional arrays is such that the first
+index varies most rapidly. That is, conventional 2-dimensional matrices are
+stored in memory in column order, top to bottom. This was important in early
+programs, where a number of tricks were used to exploit the indexing and
+storage for speed or code size. 
+
 ## BASIC
+
+BASIC was developed in 1964 for the Dartmouth College Time Sharing System by John Kemeny
+and Thomas Kurtz. One of us (JN) was Canadian representative at the meeting in 1983 that
+agreed the ISO/IEC 6373:1984 "Data Processing—Programming Languages—Minimal BASIC". 
+Unfortunately, BASIC has been plagued by a multitude of incompatible dialects, though
+in the 1980s many BASIC interpreters and compilers would execute code that used all
+but a few of the IBM/Microsoft GWBASIC dialect elements. Microsoft has released the
+source code in 2020 at \url{https://github.com/microsoft/GW-BASIC}, but without any
+build scripts. However, executables are available, though some claimed sources
+may be malware. CAUTION! One of us has an old MS-DOS executable `GWBASIC.EXE` that
+runs quite satisfactorily under the `DOSbox` emulation software available in Linux
+repositories, but the infrastructure is awkward to use under `knitr` environment
+used for this document.
+
+For the purposes of the present effort, it seems that the Linux `bwbasic` (Bywater
+BASIC) is close enough to the GWBAIC dialect to be usable, and is, moreover, usable
+under `knitr` as illustrated below and elsewhare in this repository.
+
+Typically BASIC indexes arrays from 1, but we make no comment on storage layout.
 
 ## Pascal
 
+Pascal is another programming language that suffers from many dialects. In this case,
+it is less from dialect variation in the language itself, but in the libraries of 
+functions supporting the execution of programs. In specifying the language, 
+@Wirth1971Pascal left these libraries undefined, leading to some considerable chaos
+in the commands to read or write information to or from programs. Borland Turbo
+Pascal gained sufficient marked dominance to create a *de facto* common dialect
+that has been more or less copied by the Free Pascal initiative (@FreePascal1993).
+
 ## Python
+
+- Issue of indexing arrays from 0. 
+- Issue of numPy and sciPy infrastructure. 
+- Issue of array indexing style. [i] [j] vs [i, j]
+
 
 ## R
 
+Indexes from 1. Very high level. Good for reference implementations.
+
 ## Others
+
+?? Do we want to consider C (possibly using the Fortran and using f2c as starter?)
 
 # Running codes in different programming languages
 
@@ -111,13 +193,19 @@ system. For JN this is a Linux Mint MATE distribution.
 The following is file `knitrExample.f`. It is in the directory `../fortran/` relative
 to this documentation file (`NashlibOverview.Rmd`). See the source of this document
 for the mechanism by which the Fortran code is read into our discussion text.
+Note the spaces before `exfort` -- this is the name of the chunk, and NOT the
+name of the `knitr` programming language engine. Here we want simply to include
+a chunk of text which is echoed but not evaluated.
 
-```{exfort code=xfun::read_utf8('../fortran/knitrExample.f'), echo=TRUE}
+```{fortran code=xfun::read_utf8('../fortran/knitrExample.f'), echo=TRUE}
 ```
 
-We run the code with a command line script (**bash** script).
+We run the code with a command line script (**bash** script). Note that we
+would ideally like to time the execution, but timing commands tend to be 
+very particular to the programming environment. To keep this document portable,
+we will leave out the timing except for R.
 
-```{bash script1}
+```{bash scriptfor}
 #!/bin/bash
 gfortran ../fortran/knitrExample.f
 ./a.out
@@ -125,7 +213,36 @@ gfortran ../fortran/knitrExample.f
 
 ## BASIC
 
+Our example code is similar to that for Fortran.
+
+```{r code=xfun::read_utf8('../BASIC/knitrExample.BAS'), echo=TRUE, eval=FALSE}
+```
+
+And we run it with **bash**.  Note that our example above includes a line
+`quit`. This is NOT general, but seems to be the way to exit from the **bwbasic**
+interpreter chosen for Linux Mint 20 by the authors.
+
+```{bash scriptbas}
+#!/bin/bash
+bwbasic ../BASIC/knitrExample.BAS
+echo "done"
+```
+
 ## Pascal
+
+Our example code is once again similar to that for Fortran.
+
+```{r code=xfun::read_utf8('../pascal/knitrExample.pas'), echo=TRUE, eval=FALSE}
+```
+
+And we run it with **bash** after compiling with **fpc**. 
+
+```{bash scriptpas, eval=FALSE}
+#!/bin/bash
+fpc ../pascal/knitrExample.pas
+./knitrExample
+```
+
 
 ## Python
 

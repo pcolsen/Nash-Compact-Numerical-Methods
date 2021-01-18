@@ -17,13 +17,13 @@ John Nash, January 2021
 
 Possible BASIC processors to use in Linux:
 
-bwbasic  (Bywater BASIC)
-yabasic
-gambas
-brandy
+bwbasic  (Bywater BASIC)  -- seems to work, but not easy to work with!
+yabasic -- even worse
+brandy -- limited terminal screen
 gambas (but may not be dialect compatible)
-xbasic
-smallbasic
+xbasic -- ??
+smallbasic -- too old 
 wxBasic -- too old (2002)
 Chipmunk Basic (website dead 2021-1-13
 FreeBasic -- wrong dialect
+https://github.com/paladin-t/my_basic -- but where is the code?
