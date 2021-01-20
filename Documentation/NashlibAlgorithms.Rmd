@@ -1,0 +1,528 @@
+---
+title: "Algorithms in the Nashlib set in various programming languages"
+author: 
+   - John C Nash, retired professor, University of Ottawa
+   - Peter Olsen, retired ??
+date: "11/01/2021"
+output: 
+  pdf_document:
+    keep_tex: false
+bibliography: nashlib.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+## ??require(bookdown) # language engine to display text??
+```
+
+# Abstract
+
+Algorithms from the book @jncnm79 are implemented in a variety of programming
+languages including Fortran, BASIC, Pascal, Python and R. 
+
+# Overview of this document
+
+A companion document **Overview of Nashlib and its Implementations** describes the
+process and computing environments for the implementation of Nashlib algorithms.
+This document gives some comments and/or details relating to the algorithms 
+themselves or their implementations.
+
+
+# Algorithms 1 and 2 -- one-sided SVD and least squares solution
+
+These were two of the first algorithms to interest the first author in compact codes.
+At the time (1973-1978) he was working at Agriculture Canada in support of econometric
+modeling. More or less "regular" computers required accounts linked to official projects,
+but there was a time-shared Data General NOVA that offered 4K to 7K byte working spaces
+for data and programs in interpreted BASIC. BASIC of a very similar dialect was available
+also on an HP 9830 calculator. On these machines, availability of a terminal or the
+calculator was the only limitation to experimentation with recent innovations in
+algorithms. In particular, a lot of modeling was done with linear least squares
+regression, mostly using the traditional normal equations. The singular value decomposition
+and other methods such as the Householder, Givens or Gram-Schmidt 
+approaches to the QR matrix decomposition were relatively recent innovations. However,
+the code for the Golub-Kahan SVD was rather long for both the hardware and the 
+BASIC language. Instead, a one-sided Jacobi method was developed from ideas of @Hestenes58
+and @Chartres62. Some work by @Kaiser72 was also observed. Later workers have generally credited 
+Hestenes with this approach, and
+he certainly wrote about it, but we (JN) suspect strongly that he never actually
+attempted an implementation. In a conversation at a conference, Chartres said that some 
+experiments were tried, but that he believed no production usage occurred. We must
+remember that access to computers until the 1970s was quite difficult. 
+
+The method published in @jn75cj and later revised in @jnss87 ignored some advice that Jacobi
+rotations should not use angles greater than $\pi/4$ (see @ForsytheHenrici1960). This allowed of a cyclic process that
+not only developed a form of the decomposition, but also sorted it to effectively present
+the singular values in descending order of size. This avoided extra program code of about
+half the length of the svd routine.
+
+About 2 decades after @jn75cj, there was renewed interest in one-sided Jacobi methods, but 
+rather little acknowledgment of the earlier development, and much more complicated codes.
+?? How far to reference more recent developments??
+
+
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/dr0102.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run0102}
+## #!/bin/bash
+gfortran ../fortran/dr0102.f
+./a.out < ../fortran/dr0102.txt
+```
+
+## BASIC
+
+### Listing
+
+```{r code=xfun::read_utf8('../BASIC/dr0102.bas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+NOT YET WORKING!!??
+
+```{bash scriptbas}
+bwbasic ../BASIC/dr0102.bas
+echo "done"
+```
+
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../pascal/dr0102.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+For some reason not yet understood, running the compiled Pascal program does not transfer the output
+to our Rmarkdown output, so we resort to saving the output and then listing it as we do program code.
+
+```{bash scriptpas, eval=TRUE, echo=TRUE}
+fpc ../pascal/dr0102.pas
+# now execute it
+../pascal/dr0102 > ../pascal/dr0102.out
+```
+
+```{r code=xfun::read_utf8('../pascal/dr0102.out'), echo=TRUE, eval=FALSE}
+```
+?? For some reason, we get extra line-feed characters in the output file. They are easily removed
+with a text editor from the output file, but their origin is unclear. JN 2021-1-20
+
+## Python
+
+Pending ...
+
+## R
+
+Pending ... (Look at work on Sidey Timmons problem -- there is a sort-of implementation)
+
+```{r exa1R, eval=TRUE, echo=TRUE}
+# test dr0102.pas
+A<-matrix(0, 4,3)
+A[1,]<-c(5, 1e-6, 1)
+A[2,]<-c(6, 0.999999, 1)
+A[3,]<-c(7, 2.00001, 1)
+A[4,]<-c(8, 2.9999, 1)
+print(A)
+b<-c(1,2,3,4)
+print(b)
+sA <- svd(A)
+sA
+yy <- t(sA$u) %*% as.matrix(b)
+xx <- sA$v %*% diag(1/sA$d) %*% yy
+xx
+source("../R/Nashsvd.R")
+nsvd <- Nashsvd(A)
+print(nsvd)
+# Note least squares solution can be done by matrix multiplication
+U <- nsvd$u
+V <- nsvd$v
+d <- nsvd$d
+di <- 1/d
+di <- diag(di) # convert to full matrix -- note entry sizes
+print(di)
+lsol <- t(U) %*% b
+lsol <- di %*% lsol
+lsol <- V %*% lsol
+print(lsol)
+res <- b - A %*% lsol
+print(res)
+cat("sumsquares = ", as.numeric(crossprod(res)))
+# now set smallest singular value to 0 and in pseudo-inverse
+dix <- di
+dix[3,3] <- 0
+lsolx <- V %*% dix %*% t(U) %*% b
+# this gives a very different least squares solution
+print(lsolx)
+# but the residuals (in this case) are nearly 0 too
+resx <- b - A %*% lsolx
+cat("sumsquares = ", as.numeric(crossprod(resx)))
+
+```
+
+## Others
+
+Pending ...
+
+
+<!-- # Algorithm 3 -- Givens' decomposition -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithm 4 -- Row-wise SVD and least squares solution -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithms 5 and 6 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithms 7 and 8 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+# Algorithm 9 -- Bauer-Reinsch matrix inversion
+
+@wilkinson1971linear, pages 45-49, is a contribution entitled **Inversion of Positive
+Definite Matrices by the Gauss-Jordan Method**. It hardly mentions, but appears to
+assume, that the matrix to be inverted is symmetric. Two Algol procedures are provided,
+one for a matrix stored as a square array, the other for the a matrix where only the
+lower triangle is stored as a single vector in row-wise order. That is, if A is
+of order n=3 and has values
+
+```
+  1  2  4
+  2  3  5
+  4  5  6
+```
+
+Then the corresponding vector of 6 = n*(n+1)/2 values is 
+
+```
+   1  2  3  4  5  6
+```
+
+By some exceedingly clever coding and matrix manipulation, Bauer and Reinsch developed
+tiny codes that invert a positive-definite matrix *in situ* using only one extra vector
+of length n. Thus, besides the memory to store a very small code, we need only 
+n*(n+3)/2 floating point numbers and a few integers to index arrays.
+
+Truthfully, we rarely need an explicit matrix inverse, and the most common positive-definite
+symmetric matrix that arises in scientific computations is the sum of squares and cross-products
+(SSCP) in the normal equations used for linear (or also nonlinear) least squares problems. However,
+the formation of this SSCP matrix is rarely the best approach to solving least squares problems.
+The SVD introduced in Algorithm 1 and the least squares solution in Algorithm 2 lead to better
+methods. (??mention A4, Choleski in A7, A8 etc.)
+
+Despite these caveats, the Bauer-Reinsch algorithm is interesting 
+as a historical curiosity,
+showing what can be done when resources are very limited.
+
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/a9.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run09}
+## #!/bin/bash
+gfortran ../fortran/a9.f
+./a.out
+```
+
+## BASIC
+
+### Listing
+
+```{r code=xfun::read_utf8('../BASIC/a9.bas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash a9bas}
+bwbasic ../BASIC/a9.bas >../BASIC/a9.out
+# echo "done"
+```
+
+```{r code=xfun::read_utf8('../BASIC/a9.out'), echo=TRUE, eval=FALSE}
+```
+
+
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../pascal/dr09.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+For some reason not yet understood, running the compiled Pascal program does not transfer the output
+to our Rmarkdown output, so we resort to saving the output and then listing it as we do program code.
+
+```{bash script9pas, eval=FALSE}
+fpc ../pascal/dr09.pas
+../pascal/dr09 >../pascal/dr09.out
+```
+
+```{r code=xfun::read_utf8('../pascal/dr09.out'), echo=TRUE, eval=FALSE}
+```
+
+## Python
+
+WARNING: interim test only!!!???
+### Listing
+
+The Algorithm 9 code:
+
+```{r code=xfun::read_utf8('../python/A9.py'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash trya9py}
+python3 ../python/A9.py
+```
+
+## R
+
+
+## Others
+
+<!-- # Algorithm 10 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithms 11 and 12 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithm 13 -- -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithms 14 and 15 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithm 16 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithm 17 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithm 18 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+
+<!-- # Algorithm 19 and 20 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithm 21 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithm 22 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithm 23 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithm 24 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithm 25 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+
+
+
+# References
