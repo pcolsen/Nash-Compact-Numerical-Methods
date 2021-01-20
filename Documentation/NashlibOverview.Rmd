@@ -246,6 +246,16 @@ fpc ../pascal/knitrExample.pas
 
 ## Python
 
+We can run python code as follows:
+
+```{bash trya9py}
+python3 ../python/A9.py
+```
+
+?? need to display this!!!
+
+
+
 ## R
 
 ## Others

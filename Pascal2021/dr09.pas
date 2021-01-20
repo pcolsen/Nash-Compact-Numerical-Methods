@@ -180,7 +180,7 @@ BEGIN { main program }
         writeln;
     end;
   end;
-  mat2vec(n, A
+  mat2vec(n, A, avector);
   begin
     writeln('Symmetric matrix -- Vector form');
     k := 0;

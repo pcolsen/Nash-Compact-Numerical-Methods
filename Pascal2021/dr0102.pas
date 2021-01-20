@@ -223,15 +223,13 @@ begin
       t1:=0.0; {accumulate inner products}
       if i=j then t1:=-1;
       for k:=1 to nRow do t1:=t1+U[k,i]*U[k,j];
-        {writeln('Inner product ',i,',',j,' = ',t1);}
       if abs(t1)>abs(valmax) then
       begin
         imax:=i; jmax:=j; valmax:=t1;
       end;
     end;
   end;
-  writeln('Largest inner product is ',imax,',',jmax,' = ',valmax);
-{  write('Hit [cr] to continue ');readln(infile);}
+  writeln('Largest inner product is ',imax,',',jmax,'=',valmax);
   writeln('Row orthogonality of U (NOT guaranteed in svd)');
   valmax:=0.0;
   imax:=0;
@@ -243,15 +241,13 @@ begin
       t1:=0.0; {accumulate inner products}
       if i=j then t1:=-1;
       for k:=1 to UCol do t1:=t1+U[i,k]*U[j,k];
-      {writeln('Inner product ',i,',',j,' = ',t1);}
       if abs(t1)>abs(valmax) then
       begin
         imax:=i; jmax:=j; valmax:=t1;
       end;
     end;
   end;
-  writeln('Largest inner product is ',imax,',',jmax,' = ',valmax);
-{  write('Hit [cr] to continue ');readln(infile);}
+  writeln('Largest inner product is ',imax,',',jmax,'=',valmax);
   writeln('Column orthogonality of V');
   valmax:=0.0;
   imax:=0;
@@ -263,15 +259,13 @@ begin
       t1:=0.0; {accumulate inner products}
       if i=j then t1:=-1.0;
       for k:=1 to VCol do t1:=t1+V[k,i]*V[k,j];
-      {writeln('Inner product ',i,',',j,' = ',t1); }
       if abs(t1)>abs(valmax) then
       begin
         imax:=i; jmax:=j; valmax:=t1;
       end;
     end;
   end;
-  writeln('Largest inner product is ',imax,',',jmax,' = ',valmax);
-{  write('Hit [cr] to continue ');readln(infile);}
+  writeln('Largest inner product is ',imax,',',jmax,'=',valmax);
   writeln('Row orthogonality of V');
   valmax:=0.0;
   imax:=0;
@@ -283,15 +277,13 @@ begin
       t1:=0.0; {accumulate inner products}
       if i=j then t1:=-1;
       for k:=1 to VCol do t1:=t1+V[i,k]*V[j,k];
-      {writeln('Inner product ',i,',',j,' = ',t1);}
       if abs(t1)>abs(valmax) then
       begin
         imax:=i; jmax:=j; valmax:=t1;
       end;
     end;
   end;
-  writeln('Largest inner product is ',imax,',',jmax,' = ',valmax);
-{  write('Hit [cr] to continue ');readln(infile);}
+  writeln('Largest inner product is ',imax,',',jmax,'=',valmax);
   writeln('Reconstruction of initial matrix');
   valmax:=0.0;
   imax:=0;
@@ -310,7 +302,7 @@ begin
       end;
     end;
   end;
-  writeln('Largest error is ',imax,',',jmax,' = ',valmax);
+  writeln('Largest error is ',imax,',',jmax,'=',valmax);
 end; {svdtst.pas}
 
 
@@ -439,7 +431,7 @@ begin
     for j := 1 to nCol do
     begin
       write(Z[j]:18,' ');
-      if j = 4 * (j div 4) then writeln;
+      if j=4 * (j div 4) then writeln;
     end;
     writeln;
 }
@@ -465,7 +457,7 @@ begin
       for j := 1 to nCol do
       begin
         write(Bvec[j]:12,' ');
-        if j = 5 * (j div 5) then writeln;
+        if j=5 * (j div 5) then writeln;
       end;
       writeln;
       s := resids(nRow, nCol, A, Y, Bvec, true);
@@ -512,9 +504,6 @@ begin
         computed for matrix A by columnwise orthogonalization of the
         working array W, to which a unit matrix of order nCol is added
         in order to form the matrix V in the bottom nCol rows of W.}
-  write('Do you want to print / test the svd results ? ([cr]=no) ');
-  inchar:='Y';
-  if (inchar='Y') or (inchar='y') then
   begin
     for j:=1 to nCol do
     begin
@@ -535,7 +524,6 @@ begin
           t1:=0.0;
           for k:=1 to nCol do
             t1:=t1+W[i,k]*W[j+nRow,k]; { U * S * V-transpose}
-        {writeln('A[',i,',',j,']=',A[i,j],' Recon. =',t1,' error=',A[i,j]-t1);}
           t1:=A[i,j]-t1; {to compute the residual}
           if abs(t1)>t2 then
           begin
@@ -543,7 +531,7 @@ begin
           end;
         end; {loop over columns}
       end; {loop over rows}
-      writeln('Largest error is ',imax,',',jmax,' = ',t2);
+      writeln('Largest error is ',imax,',',jmax,'=',t2);
     end; {test svd results}
   end; {print results}
   svdlss(nRow, nCol, W, Y, Zsq, A, Bvec, 1.0e-16); 
