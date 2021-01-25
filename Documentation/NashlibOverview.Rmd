@@ -78,7 +78,7 @@ Though we seem to be trying to display an R code chunk, we effectively list the 
 Similarly following the three back-quotes with
 
 ```
-{r code=xfun::read_utf8('../pascal/knitrExample.pas'), echo=TRUE, eval=FALSE}
+{r code=xfun::read_utf8('../Pascal2021/knitrExample.pas'), echo=TRUE, eval=FALSE}
 ```
 
 will list the program `knitrExample.pas`. Note we still need to follow this with
@@ -232,14 +232,14 @@ echo "done"
 
 Our example code is once again similar to that for Fortran.
 
-```{r code=xfun::read_utf8('../pascal/knitrExample.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/knitrExample.pas'), echo=TRUE, eval=FALSE}
 ```
 
 And we run it with **bash** after compiling with **fpc**. 
 
 ```{bash scriptpas, eval=FALSE}
 #!/bin/bash
-fpc ../pascal/knitrExample.pas
+fpc ../Pascal2021/knitrExample.pas
 ./knitrExample
 ```
 
@@ -260,6 +260,189 @@ python3 ../python/A9.py
 
 ## Others
 
+?? Possibly C
 
+# Data storage and algorithmic considerations
+
+## Matrices and Arrays
+
+Mathematics generally talks about matrices (or sometimes tensors), while programmers
+use arrays for storing data. In designing compact algorithms, JN was often constrained
+by memory limits that affected the combined needs of both program and working data. 
+Thus some structures used in the Nashlib algorithms may seem quite unlike the matrices
+that are presented in mathematical treatments of the same computational processes.
+
+### Solving linear equations
+
+In matrix notation, we want to find $x$ that solves
+
+$$     A  x  =  b $$
+
+where $A$ is a square matrix of order $n$ and $b$ is the so-called Right Hand Side (RHS).
+If we have a number of different RHS vectors, they can be consolidated as
+columns of a matrix $B$, and the solutions then viewed as the columns of a
+matrix $X$, so that
+
+$$     A  X  =  B $$
+In particular, if $B$ is the identity (unit) matrix of order $n$, X will be the 
+**inverse** of $A$, $A^{-1}$. For a number of reasons, we generally should NOT compute
+$A^{-1}$ to solve for $x$ via
+
+$$   x   =  A^{-1} b $$
+though there are some situations where we may wish the inverse.
+
+Many methods for solving linear equations can be thought of as applying a series
+of transformations in sequence to the initial equations. If $T_k$ is a transformation
+matrix of order $n$, then the equations 
+
+$$     T_k A  X  = T_k B $$
+stay valid for any such transformation. There are many such transformations:
+
+- row permutations
+- row scalings -- multiplication by a constant
+- elimination operations where one element is zeroed by subtraction of a multiple of
+  another row of the equations
+- plane rotations (Givens' rotations), see \url{https://en.wikipedia.org/wiki/Givens_rotation}
+- reflections (Householder transformations), see \url{https://en.wikipedia.org/wiki/Householder_transformation}
+
+The general goal is to get the matrix 
+
+$$  \prod_k{T_k A}$$
+into a form that makes solution for each $x$ easy. Typically we want an upper or
+lower triangular matrix that allows of back- or forward-substitution to solve for
+the elements of $x$ recursively, or else a diagonal matrix, in which case the solution
+is obtained by division. Note that such "solution" methods are also available via
+transformations, and if we can obtain 
+
+$$  \prod_k{T_k A} = 1_n $$
+then the solution(s) are 
+
+$$  X = \prod_k{T_k B} $$
+
+If we think of actually carrying out the computation, the obvious approach is to compute
+the matrix multiplication of $T_k$ and $A$, then that of $T_k$ and $B$. However, this uses
+two sets of code, one for $A$ and one for $B$. On the other hand, if we use a working array
+`W` that stores $ A | B $, we just have to extend the column index in the loop over the
+working array, and use just one set of code.
+
+We will also find that we don't generally apply a full matrix multiplication in each
+transformation, but strip each such operation to its bare essentials.
+
+In practice, we often break up the work. In Nashlib:
+
+- Algorithm 3 uses Givens' rotations to transform $A | B$ so that the $A$ part of the
+working array is upper triangular. Then Algorithm 6 is used to back-solve for the
+solution(s).
+- Algorithm 5 uses row-wise elimination with partial-pivoting (row permutations to 
+avoid near division by zero) to get an upper triangular form for the $A$ portion of
+the working array, then the same Algorithm 6 back transformation. 
+
+Back-solution generally can be performed in the space to hold the RHS for a further
+saving of storage.
+
+### Compact storage
+
+In the 1960s and 1970s, when storage was exceedingly tight, there was much interest
+in avoiding use of unnecessary memory. In particular, we often tried to avoid storing
+the strict upper (or alternatively lower) triangle of a symmetric matrix. Moreover, 
+there were possibly (though in hindsight perhaps not truly) efficiencies if we could
+avoid arrays where both row and column indexing was required. Thus, we tried to store
+matrices in single storage vectors (linear arrays). The IBM 7090 Fortran IV Scientific
+Subroutine Library used the column-wise indexing of two-dimensional arrays to avoid
+explicit i and j indices. And in Nashlib, Algorithms 7, 8, and 9 work with the 
+symmetric (and hopefully positive definite) matrix $A$ in linear equations above
+stored as a vector of $n * (n+1)/2$ elements taken row-wise, i.e., the elements 
+of such a matrix enter the vector in order (from the 2D matrix)
+
+(1,1), (2,1), (2,2), (3,1), (3,2), ..., (n,1), (n,2), ..., (n,n)
+
+Of course, this now limits our ability to easily append columns of $B$ to those of
+$A$. And our code becomes much, much more complicated.
+
+Was this worth the trouble? In retrospect, and as the author, JN thinks not! Sigh.
+
+### Linear least squares and storage considerations
+
+Without going into too many details, we will present the linear least squares 
+problem as 
+
+$$    A x \tilde =  b $$
+
+In this case $A$ is an $m$ by $n$ matrix with $m >= n$ and $b$ a vector of lenght $m$.
+We write **residuals** as
+
+$$  r  =  A x - b  $$
+or as 
+
+$$  r_1  = b - A x  $$
+Then we wish to minimize the sum of squares $r' r$. This problem does not necessarily
+have a unique solution, but the **minimal length least squares solution** which is 
+the $x$ that has the smallest $x' x$ that also minimizes $r' r$ is unique.
+
+The historically traditional method for solving the linear least squares problem was
+to form the **normal equations**
+
+$$ A' A x  = A' b $$
+This was attractive to early computational workers, since while $A$ is $m$ by $n$, $A' A$
+is only $n$ by $n$. Unfortunately, this **sum of squares and cross-products** (SSCP) matrix
+can make the solution less reliable, and this is discussed with examples in @jncnm79 and
+@nlacatvn1060620.
+
+Another approach is to form a QR decomposition of $A$, for example with Givens rotations.
+
+$$ A =  Q R $$
+
+where $Q$ is orthogonal (by construction for plane rotations) and $R$ is upper triangular.
+We can rewrite our original form of the least squares problem as 
+
+$$  Q' A = Q' Q R = R \tilde= Q' b $$
+
+$R$ is an upper triangular matrix $R_n$ stacked on an $m-n$ by $n$ matrix of zeros. But 
+$z = Q' b$ can be thought of as $n$-vector $z_1$ stacked on ($m-n$)-vector $z_2$. 
+It can easily be shown (we won't do so here) that a least squares solution is the
+rather easily found (by back-substitution) solution of 
+
+$$  R_n x = z_1 $$
+and the minimal sum of squares turns out to be the cross-product $z_2' z_2$. Sometimes
+the elements of $z_2$ are called **uncorrelated residuals**. The solution for $x$ can
+actually be formed in the space used to store $z_1$ as a further storage saving,
+since back-substitution forms the elements of $x$ in reverse order.
+
+All this is very nice, but how can we use the ideas to both avoid forming the SSCP
+matrix and keep our storage requirements low? 
+
+Let us think of the row-wise application of the Givens transformations, and use a 
+working array that is $n+1$ by $n+1$. (We can actually add more columns if we have
+more than one $b$ vector.)
+
+Suppose we put the first $n+1$ rows of a merged $A | b$ working matrix into this
+storage and apply the row-wise Givens transformations until we have an $n$ by $n$
+upper triangular matrix in the first $n$ rows and columns of our working array.
+We further want row $n+1$ to have $n$ zeros (which is possible by simple transformations)
+and a single number in the $n+1$, $n+1$ position. This is the first element of $z_2$.
+We can write it out to external storage if was want to have it available, or else
+we can begin to accumulate the sum of squares. 
+
+We then put row $n+2$ of $A | b$ into the bottom row of our working storage and
+eliminate the first $n$ columns of this row with Givens transformations. This
+gives us another element of $z_2$. Repeat until all the data has been processed.
+
+We can at this point solve for $x$. Algorithm 4, however, applies the one-sided
+Jacobi method to get a singular value decomposition of $A$ allowing of a minimal
+length least squares solution as well as some useful diagnostic information about
+the condition of our problem. This was also published as @jnll76.
+
+### Which choices to make?
+
+Clearly there are many options, and for users the fact that different implementations
+of linear algebraic methods make use of different choices causes quite a burden of
+care in ensuring data structures and program invocation is carried out correctly.
+We urge good documentation and clear but simple examples be provided, and hope to 
+follow our own advice in this.
+
+
+```{bash cleanup, echo=FALSE}
+rm a.out
+```
 
 # References

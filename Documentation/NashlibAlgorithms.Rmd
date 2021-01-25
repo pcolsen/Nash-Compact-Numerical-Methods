@@ -24,8 +24,11 @@ languages including Fortran, BASIC, Pascal, Python and R.
 
 A companion document **Overview of Nashlib and its Implementations** describes the
 process and computing environments for the implementation of Nashlib algorithms.
-This document gives some comments and/or details relating to the algorithms 
-themselves or their implementations.
+This document gives comments and/or details relating to implementations of
+the algorithms themselves.
+
+Note that some discussion of the reasoning behind certain choices in algorithms or
+implementations are given in the Overview document.
 
 
 # Algorithms 1 and 2 -- one-sided SVD and least squares solution
