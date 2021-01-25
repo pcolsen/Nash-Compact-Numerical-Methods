@@ -294,17 +294,21 @@ bwbasic ../BASIC/a3.bas
 
 ## Pascal
 
-### Listing
+### Listing -- column-wise approach
 
 ```{r code=xfun::read_utf8('../Pascal2021/dr03.pas'), echo=TRUE, eval=FALSE}
 ```
 
-### Example output
+### Example output -- column-wise approach
 
 ```{bash script3pas, eval=FALSE}
 fpc ../Pascal2021/dr03.pas
 mv ../Pascal2021/dr03 ../Pascal2021/dr03.run
 ../Pascal2021/dr03.run >../Pascal2021/dr03.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr03.out'), echo=TRUE, eval=FALSE}
 ```
 
 
