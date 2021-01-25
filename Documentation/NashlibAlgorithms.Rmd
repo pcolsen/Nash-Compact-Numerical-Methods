@@ -65,6 +65,10 @@ rather little acknowledgment of the earlier development, and much more complicat
 
 ### Listing
 
+Note that this is a single precision code. Very few modern calculations are carried out at
+this precision. Moreover, the dialect of Fortran (Fortran 77) is now decidedly old-fashioned, 
+though it compiles and executes just fine.
+
 ```{r code=xfun::read_utf8('../fortran/dr0102.f'), echo=TRUE, eval=FALSE}
 ```
 
@@ -76,6 +80,19 @@ gfortran ../fortran/dr0102.f
 ./a.out < ../fortran/dr0102.txt
 ```
 
+
+### Special implementations
+
+Most singular value decomposition codes are much, much more complicated than
+Algorithm 1 of the Nashlib collection. For some work on the magnetic field of
+Jupiter for NASA, Sidey Timmins has used an extended (quad) precision version
+of the method. One of us (JN) has converted an updated algorithm (@jnss87) to
+the Fortran 95 dialect so the multiple precision FM Fortran tools of David M. Smith
+(see \url{http://dmsmith.lmu.build/}).
+
+?? include this code and example in the repo??
+
+
 ## BASIC
 
 ### Listing
@@ -85,18 +102,17 @@ gfortran ../fortran/dr0102.f
 
 ### Example output
 
-NOT YET WORKING!!??
-
 ```{bash scriptbas}
 bwbasic ../BASIC/dr0102.bas
 echo "done"
 ```
 
+
 ## Pascal
 
 ### Listing
 
-```{r code=xfun::read_utf8('../pascal/dr0102.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/dr0102.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -105,15 +121,15 @@ For some reason not yet understood, running the compiled Pascal program does not
 to our Rmarkdown output, so we resort to saving the output and then listing it as we do program code.
 
 ```{bash scriptpas, eval=TRUE, echo=TRUE}
-fpc ../pascal/dr0102.pas
+fpc ../Pascal2021/dr0102.pas
 # now execute it
-../pascal/dr0102 > ../pascal/dr0102.out
+../Pascal2021/dr0102 > ../Pascal2021/dr0102.out
 ```
 
-```{r code=xfun::read_utf8('../pascal/dr0102.out'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/dr0102.out'), echo=TRUE, eval=FALSE}
 ```
-?? For some reason, we get extra line-feed characters in the output file. They are easily removed
-with a text editor from the output file, but their origin is unclear. JN 2021-1-20
+For some reason, we get extra line-feed characters in the output file. They are easily removed
+with a text editor from the output file, but their origin is unclear. JN 2021-1-20 ??
 
 ## Python
 
@@ -121,10 +137,20 @@ Pending ...
 
 ## R
 
-Pending ... (Look at work on Sidey Timmons problem -- there is a sort-of implementation)
+### Listing
+
+While based on @jnss87, the following code shows that R can be used quite easily
+to implement Algorithm 1. The least squares solution (Algorithm 2) is embedded
+in the example output.
+
+```{r code=xfun::read_utf8('../R/Nashsvd.R'), echo=TRUE, eval=FALSE}
+```
+
+
+### Example output
 
 ```{r exa1R, eval=TRUE, echo=TRUE}
-# test dr0102.pas
+# test taken from dr0102.pas
 A<-matrix(0, 4,3)
 A[1,]<-c(5, 1e-6, 1)
 A[2,]<-c(6, 0.999999, 1)
@@ -133,11 +159,13 @@ A[4,]<-c(8, 2.9999, 1)
 print(A)
 b<-c(1,2,3,4)
 print(b)
+# try the R-base svd 
 sA <- svd(A)
 sA
 yy <- t(sA$u) %*% as.matrix(b)
 xx <- sA$v %*% diag(1/sA$d) %*% yy
 xx
+# Now the Nashsvd code (this is likely NOT true to 1979 code)
 source("../R/Nashsvd.R")
 nsvd <- Nashsvd(A)
 print(nsvd)
@@ -171,14 +199,97 @@ cat("sumsquares = ", as.numeric(crossprod(resx)))
 
 Pending ...
 
+?? Could we f2c the Fortran and manually tweak to get a C code?
 
-<!-- # Algorithm 3 -- Givens' decomposition -->
+===========================================================================
 
-<!-- ## Fortran -->
+# Algorithm 3 -- Givens' decomposition
 
-<!-- ## BASIC -->
+The Givens and Householder decompositions of a rectangular $m$ by $n$ matrix $A$
+($m  >= n$) both give an $m$ by $m$ orthogonal matrix $Q$ and an upper-triangular
+$n$ by $n$ matrix $R$ whose product $QR$ is a close approximation of $A$. At the time
+@jncnm79 was being prepared, the Givens approach seemed to give a more compact program
+code, though neither approach is large.
 
-<!-- ## Pascal -->
+In practice, if one is trying to solve linear equations 
+
+$$    A  x  =  b $$
+
+or linear least squares problems of the form
+
+$$    A  x  ~=  b  $$
+
+then the right hand side (RHS)  $b$ can be appended to the matrix A so that the
+resulting working matrix
+
+$$  W  =  [A | b]  $$
+is transformed during the formation of the $Q$ matrix into 
+
+$$   W_{trans}  = [ R | Q' b]  $$
+This saves us the effort of multiplying $b$ by the transpose of $Q$ before we 
+back-solve for x. 
+
+In fact, $m$ does not have to be greater than or equal to $n$. However, underdetermined
+systems of equations do raise some issues that we will not address here.
+
+
+It is therefore unnecessary to store $Q$, which when @jncnm79 was being prepared was a
+potentially large matrix. There are alternative designs of the code which could save
+information on the plane rotations that make up $Q$. Such codes can then apply the 
+rotations to a unit matrix of the right size to reconstruct $Q$ as needed. However,
+these details have largely become irrelevant in an age of cheap memory chips.
+
+
+## Fortran
+
+### Listing
+
+The following listing uses the Frank matrix as a test. 
+
+```{r code=xfun::read_utf8('../fortran/a3.f'), echo=TRUE, eval=FALSE}
+```
+
+
+### Example output
+
+As a precaution, we use a 1 by 1 matrix as our first test. We have seen situations 
+where otherwise reliable programs have failed on such trivial cases.
+
+```{bash run3}
+gfortran ../fortran/a3.f
+./a.out < ../fortran/a3data.txt > ../fortran/a3out.txt
+```
+
+```{r code=xfun::read_utf8('../fortran/a3out.txt'), echo=TRUE, eval=FALSE}
+```
+
+
+## BASIC
+
+### Listing
+
+The following listing also uses the Frank matrix as a test. The code has been 
+adjusted for fixed input to allow it to be run within the `knitr` processor for
+`Rmarkdown`.
+
+```{r code=xfun::read_utf8('../BASIC/a3.bas'), echo=TRUE, eval=FALSE}
+```
+
+
+### Example output
+
+As a precaution, we use a 1 by 1 matrix as our first test. We have seen situations 
+where otherwise reliable programs have failed on such trivial cases.
+
+```{bash run3bas}
+bwbasic ../BASIC/a3.bas
+```
+
+
+## Pascal
+
+
+
 
 <!-- ## Python -->
 
@@ -302,7 +413,7 @@ bwbasic ../BASIC/a9.bas >../BASIC/a9.out
 
 ### Listing
 
-```{r code=xfun::read_utf8('../pascal/dr09.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/dr09.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -311,11 +422,11 @@ For some reason not yet understood, running the compiled Pascal program does not
 to our Rmarkdown output, so we resort to saving the output and then listing it as we do program code.
 
 ```{bash script9pas, eval=FALSE}
-fpc ../pascal/dr09.pas
-../pascal/dr09 >../pascal/dr09.out
+fpc ../Pascal2021/dr09.pas
+../Pascal2021/dr09 >../Pascal2021/dr09.out
 ```
 
-```{r code=xfun::read_utf8('../pascal/dr09.out'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/dr09.out'), echo=TRUE, eval=FALSE}
 ```
 
 ## Python

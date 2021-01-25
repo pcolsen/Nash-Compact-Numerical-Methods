@@ -1,0 +1,170 @@
+rem makecnm2.bat -- make a software diskette for CNM edition 2
+rem   on disk drive %1
+rem PUT A FORMATTED DISKETTE IN DRIVE %1
+pause
+rem check it
+chkdsk %1
+pause
+rem get files from master set on drive d: of Tower3
+d:
+cd \cnm2
+copy readme.cnm %1
+copy errata.cnm %1
+md %1\cnm
+cd %1\cnm
+rem repeat information files
+copy readme.cnm %1
+copy errata.cnm %1
+rem now algorithms
+copy ALG01.PAS %1
+copy ALG02.PAS %1
+copy ALG03.PAS %1
+copy ALG03A.PAS %1
+copy ALG04.PAS %1
+copy ALG05.PAS %1
+copy ALG06.PAS %1
+copy ALG07.PAS %1
+copy ALG08.PAS %1
+copy ALG09.PAS %1
+copy ALG10.PAS %1
+copy ALG11.PAS %1
+copy ALG12.PAS %1
+copy ALG13.PAS %1
+copy ALG14.PAS %1
+copy ALG15.PAS %1
+copy ALG16.PAS %1
+copy ALG17.PAS %1
+copy ALG18.PAS %1
+copy ALG19.PAS %1
+copy ALG20.PAS %1
+copy ALG21.PAS %1
+copy ALG22.PAS %1
+copy ALG23.PAS %1
+copy ALG24.PAS %1
+copy ALG25.PAS %1
+copy ALG26.PAS %1
+copy ALG27.PAS %1
+rem now the driver programs
+copy DR0102.PAS %1
+copy DR03.PAS %1
+copy DR03A.PAS %1
+copy DR04.PAS %1
+copy DR0506.PAS %1
+copy DR0708.PAS %1
+copy DR09.PAS %1
+copy DR10.PAS %1
+copy DR13.PAS %1
+copy DR14.PAS %1
+copy DR15.PAS %1
+copy DR1617.PAS %1
+copy DR1618.PAS %1
+copy DR1920.PAS %1
+copy DR21.PAS %1
+copy DR22.PAS %1
+copy DR23.PAS %1
+copy DR24II.PAS %1
+copy DR24LE.PAS %1
+copy DR24LS.PAS %1
+copy DR25.PAS %1
+copy DR26.PAS %1
+copy DR27.PAS %1
+rem now the support files
+copy CALCEPS.PAS %1
+copy CNM3TEST.BAT %1
+copy CNM5TEST.BAT %1
+copy CONSTYP3.DEF %1
+copy CONSTYP5.DEF %1
+copy CONSTYPE.DEF %1
+copy CUBEFN.PAS %1
+copy FNMIN.PAS %1
+copy GENEVRES.PAS %1
+copy GETOBSN.PAS %1
+copy HTANFN.PAS %1
+copy JJACF.PAS %1
+copy LOGISTIC.PAS %1
+copy MATCOPY.PAS %1
+copy MATMUL.PAS %1
+copy MATRIXIN.PAS %1
+copy PSVDRES.PAS %1
+copy QUADFN.PAS %1
+copy RAYQUO.PAS %1
+copy RESIDS.PAS %1
+copy ROSEN.PAS %1
+copy SPENDFN.PAS %1
+copy STARTUP.PAS %1
+copy STARTUP3.PAS %1
+copy STARTUP5.PAS %1
+copy SVDTST.PAS %1
+copy TDSTAMP.PAS %1
+copy TDSTAMP3.PAS %1
+copy TDSTAMP5.PAS %1
+copy TURBO.CNM %1
+copy TURBO3.CNM %1
+copy TURBO5.CNM %1
+copy USETP3.BAT %1
+copy USETP5.BAT %1
+copy VECTORIN.PAS %1
+rem now the data files
+copy EX0102.CNM %1
+copy EX03.CNM %1
+copy EX03A.CNM %1
+copy EX04.CNM %1
+copy EX044-2.CNM %1
+copy EX0506.CNM %1
+copy EX0506S.CNM %1
+copy EX0708.CNM %1
+copy EX09.CNM %1
+copy EX10.CNM %1
+copy EX13.CNM %1
+copy EX13A.CNM %1
+copy EX14.CNM %1
+copy EX14A.CNM %1
+copy EX15.CNM %1
+copy EX15A.CNM %1
+copy EX1617.CNM %1
+copy EX1618.CNM %1
+copy EX19.CNM %1
+copy EX1920.CNM %1
+copy EX1920J.CNM %1
+copy EX21.CNM %1
+copy EX22.CNM %1
+copy EX23.CNM %1
+copy EX23A.CNM %1
+copy EX24II.CNM %1
+copy EX24LE.CNM %1
+copy EX24LS.CNM %1
+copy EX24LS1.CNM %1
+copy EX25.CNM %1
+copy EX26.CNM %1
+copy EX26A.CNM %1
+copy EX27J.CNM %1
+copy EX27R.CNM %1
+copy DR0102X %1
+copy DR03AX %1
+copy DR03X %1
+copy DR04X %1
+copy DR0506X %1
+copy DR0506XA %1
+copy DR0506XB %1
+copy DR0708X %1
+copy DR09X %1
+copy DR10X %1
+copy DR13X %1
+copy DR14X %1
+copy DR15X %1
+copy DR1617X %1
+copy DR1618X %1
+copy DR1920RX %1
+copy DR19X %1
+copy DR21X %1
+copy DR22X %1
+copy DR23AX %1
+copy DR23X %1
+copy DR24IIX %1
+copy DR24LEX %1
+copy DR24LSX %1
+copy DR25X %1
+copy DR26X %1
+copy DR27X %1
+rem now all files present -- optimize disk
+optune %1 /OP

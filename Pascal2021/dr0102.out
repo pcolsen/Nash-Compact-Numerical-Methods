@@ -1,0 +1,40 @@
+alg01.pas -- NashSVD
+End of Sweep #1-  no. of rotations performed =3
+End of Sweep #2-  no. of rotations performed =3
+End of Sweep #3-  no. of rotations performed =1
+End of Sweep #4-  no. of rotations performed =0
+ Singular values and vectors:
+Singular value (1) = 1.3752987437308155E+001
+Principal coordinate (U):
+ 0.3589430 0.4465265 0.5341101 0.6216916
+Principal component (V):
+ 0.9587864 0.2457477 0.1426069
+Singular value (2) = 1.6896078122466185E+000
+Principal coordinate (U):
+-0.7557625-0.3171936 0.1213826 0.5598907
+Principal component (V):
+-0.2090249 0.9500361-0.2318187
+Singular value (3) = 1.1885323302979959E-005
+Principal coordinate (U):
+-0.3286873 0.1117406 0.7626745-0.5457163
+Principal component (V):
+-0.1924506 0.1924563 0.9622491
+Column orthogonality of U
+Largest inner product is 1,3= 2.8635982474156663E-011
+Row orthogonality of U (NOT guaranteed in svd)
+Largest inner product is 2,2=-6.8751638785273139E-001
+Column orthogonality of V
+Largest inner product is 3,3=-1.1102230246251565E-016
+Row orthogonality of V
+Largest inner product is 3,3=-1.1102230246251565E-016
+Reconstruction of initial matrix
+Largest error is 4,1=-1.7763568394002505E-015
+Reconstruction of initial matrix from Nash working form
+Largest error is 4,1= 1.7763568394002505E-015
+alg02.pas == svdlss
+Least squares solution
+ 1.0000E+000  2.4766E-006 -4.0000E+000 
+Residuals
+-9.21E-011 -2.43E-011  7.57E-011 -1.24E-010 
+Sum of squared residuals = 3.0174571907166908E-020
+
