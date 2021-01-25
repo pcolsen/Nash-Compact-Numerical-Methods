@@ -304,7 +304,7 @@ bwbasic ../BASIC/a3.bas
 
 ### Example output -- column-wise approach
 
-```{bash script3pas, eval=FALSE}
+```{bash script3pas, eval=TRUE}
 fpc ../Pascal2021/dr03.pas
 mv ../Pascal2021/dr03 ../Pascal2021/dr03.run
 ../Pascal2021/dr03.run >../Pascal2021/dr03.out
