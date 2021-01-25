@@ -75,9 +75,9 @@ though it compiles and executes just fine.
 ### Example output
 
 ```{bash run0102}
-## #!/bin/bash
 gfortran ../fortran/dr0102.f
-./a.out < ../fortran/dr0102.txt
+mv ./a.out ../fortran/dr0102.run
+../fortran/dr0102.run < ../fortran/dr0102.txt
 ```
 
 
@@ -122,8 +122,9 @@ to our Rmarkdown output, so we resort to saving the output and then listing it a
 
 ```{bash scriptpas, eval=TRUE, echo=TRUE}
 fpc ../Pascal2021/dr0102.pas
+mv ../Pascal2021/dr0102 ../Pascal2021/dr0102.run
 # now execute it
-../Pascal2021/dr0102 > ../Pascal2021/dr0102.out
+../Pascal2021/dr0102.run > ../Pascal2021/dr0102.out
 ```
 
 ```{r code=xfun::read_utf8('../Pascal2021/dr0102.out'), echo=TRUE, eval=FALSE}
@@ -201,6 +202,10 @@ Pending ...
 
 ?? Could we f2c the Fortran and manually tweak to get a C code?
 
+There is also a C version in 
+
+\url{https://github.com/LuaDist/gsl/blob/master/linalg/svd.c}
+
 ===========================================================================
 
 # Algorithm 3 -- Givens' decomposition
@@ -257,7 +262,8 @@ where otherwise reliable programs have failed on such trivial cases.
 
 ```{bash run3}
 gfortran ../fortran/a3.f
-./a.out < ../fortran/a3data.txt > ../fortran/a3out.txt
+mv ./a.out ../fortran/a3.run
+../fortran/a3.run < ../fortran/a3data.txt > ../fortran/a3out.txt
 ```
 
 ```{r code=xfun::read_utf8('../fortran/a3out.txt'), echo=TRUE, eval=FALSE}
@@ -288,7 +294,18 @@ bwbasic ../BASIC/a3.bas
 
 ## Pascal
 
+### Listing
 
+```{r code=xfun::read_utf8('../Pascal2021/dr03.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script3pas, eval=FALSE}
+fpc ../Pascal2021/dr03.pas
+mv ../Pascal2021/dr03 ../Pascal2021/dr03.run
+../Pascal2021/dr03.run >../Pascal2021/dr03.out
+```
 
 
 <!-- ## Python -->
@@ -388,7 +405,8 @@ showing what can be done when resources are very limited.
 ```{bash run09}
 ## #!/bin/bash
 gfortran ../fortran/a9.f
-./a.out
+mv ./a.out ../fortran/a9.run
+../fortran/a9.run
 ```
 
 ## BASIC
@@ -418,20 +436,20 @@ bwbasic ../BASIC/a9.bas >../BASIC/a9.out
 
 ### Example output
 
-For some reason not yet understood, running the compiled Pascal program does not transfer the output
-to our Rmarkdown output, so we resort to saving the output and then listing it as we do program code.
-
-```{bash script9pas, eval=FALSE}
+```{bash script9pas, eval=TRUE, echo=TRUE}
 fpc ../Pascal2021/dr09.pas
-../Pascal2021/dr09 >../Pascal2021/dr09.out
+# copy to run file
+mv ../Pascal2021/dr09 ../Pascal2021/dr09.run
+../Pascal2021/dr09.run >../Pascal2021/dr09p.out
 ```
 
-```{r code=xfun::read_utf8('../Pascal2021/dr09.out'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/dr09p.out'), echo=TRUE, eval=FALSE}
 ```
 
 ## Python
 
 WARNING: interim test only!!!???
+
 ### Listing
 
 The Algorithm 9 code:
@@ -633,7 +651,21 @@ python3 ../python/A9.py
 
 <!-- ## Others -->
 
-
+```{bash cleanup}
+## remove object and run files
+cd ../fortran/
+rm  *.o
+rm  *.run
+rm *.out
+cd ../Pascal2021/
+rm  *.o
+rm  *.run
+rm *.out
+cd ../BASIC
+rm *.out
+cd ../Documentation
+## ?? others
+```
 
 
 # References

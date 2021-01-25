@@ -10,54 +10,43 @@ C  I/O CHANNELS
       NOUT=6
       ND=10
       MD=30
-      ND1=ND+1
-   1  READ(NIN,900)M,NVAR
- 900  FORMAT(10I4)
-      WRITE(NOUT,950)M,NVAR
- 950  FORMAT(' TEST USING FRANK MATRIX',I4,' BY',I4)
-      IF(M.LE.0.OR.NVAR.LE.0)STOP
-      CALL A3PREP(M,NVAR,D,MD,FRANKM)
-      WRITE(NOUT,952)
- 952  FORMAT(' D MATRIX')
-      CALL OUT(D,MD,M,NVAR,NOUT)
-  11  READ(NIN,900)IPOS
-      WRITE(NOUT,951)IPOS
- 951  FORMAT(' COL. #S OF INDEPENDENT VARIABLES'/10I4)
-      N=0
-  20  N=N+1
-      IF(IPOS(N).LE.0)GOTO 30
-      K=IPOS(N)
-      DO 25 J=1,M
-        A(J,N)=D(J,K)
+      D(1,1)=5
+      D(1,2)=1.0E-6
+      D(1,3)=1
+      Y(1)=1
+      D(2,1)=6
+      D(2,2)=0.999999
+      D(2,3)=1
+      Y(2)=2
+      D(3,1)=7
+      D(3,2)=2.00001
+      D(3,3)=1
+      Y(3)=3
+      D(4,1)=8
+      D(4,2)=2.9999
+      D(4,3)=1
+      Y(4)=4
+      N=3
+      M=4
+      DO 30 J=1,N
+      DO 25 I=1,M
+        A(I,J)=D(I,J)
   25  CONTINUE
-      GOTO 20
-  30  N=N-1
-      IF(N.EQ.0)GOTO 1
+  30  CONTINUE
       ESVD=.FALSE.
-      WRITE(NOUT,953)
- 953  FORMAT(' A MATRIX')
-      CALL OUT(A,MD,M,N,NOUT)
-  35  READ(NIN,900)YPOS
-      WRITE(NOUT,954)YPOS
- 954  FORMAT(' DEPENDENT VARIABLE = COL.',I4)
-      IF(YPOS.LE.0)GOTO 11
-      DO 40 I=1,M
-        Y(I)=D(I,YPOS)
-  40  CONTINUE
       WRITE(NOUT,955)(Y(I),I=1,M)
  955  FORMAT(1H ,5E16.8)
       NTOL=.FALSE.
-  50  READ(NIN,902)Q
- 902  FORMAT(E16.8)
+      Q = 1e-5
       WRITE(NOUT,956)Q
  956  FORMAT(' SING. VALS. .LE.',E16.8,'  ARE PRESUMED ZERO')
-      IF(Q.LT.0.0)GOTO 35
-C  IBM MACHINE PRECISION VALUE
-      EPS=16.0**(-5)
+      IF(Q.LT.0.0) STOP
+C  "MACHINE PRECISION" VALUE
+      EPS=1E-6
       CALL A2LSVD(M,N,A,MD,EPS,V,ND,Z,NOUT,Y,G,X,Q,ESVD,NTOL)
       WRITE(NOUT,957)(J,X(J),J=1,N)
  957  FORMAT(' X(',I3,')=',1PE16.8)
-      GOTO 50
+      STOP
       END
       SUBROUTINE OUT(A,NA,N,NP,NOUT)
 C  J.C. NASH   JULY 1978, APRIL 1989

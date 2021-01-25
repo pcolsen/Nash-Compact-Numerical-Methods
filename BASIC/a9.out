@@ -1,16 +1,0 @@
-Bywater BASIC Interpreter/Shell, version 2.20 patch level 2
-Copyright (c) 1993, Ted A. Campbell
-Copyright (c) 1995-1997, Jon B. Volkoff
- 
-ALGORITHM 9 - BAUER REINSCH INVERSION TEST
-MATRIX A
- 1
- 1 2
- 1 2 3
- 1 2 3 4
-MATRIX A
- 2
- -1 2
- 0 -1 2
- 0 0 -1 1
-

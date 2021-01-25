@@ -2,6 +2,8 @@
 
 The 1989 Turbo Pascal 5 code is at https://netlib.org/pascal/cnm.tgz
 
+It is also in the cnm-pascal subdirectory of Pascal2021 in this repository.
+
 ## Notes
 
 A very large portion of the code in the 1989 collection is directed to handling issues related to the
