@@ -59,12 +59,14 @@ svec2mat <- function(svec){
   Amat
 }
 
-AA <- FrankMat(4)
+n <- 4
+AA <- FrankMat(n)
 vv <- smat2vec(AA)
 vv
-vinv<-A9(vv, 4)
+vinv<-A9(vv, n)
 vinv
 print(vinv)
 Ainv<-svec2mat(vinv)
 print(Ainv)
 print(Ainv %*% AA)
+

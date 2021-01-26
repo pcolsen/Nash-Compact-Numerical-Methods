@@ -335,9 +335,19 @@ mv ../Pascal2021/dr03 ../Pascal2021/dr03.run
 
 <!-- ## Others -->
 
-<!-- # Algorithms 5 and 6 -- ?? -->
+# Algorithms 5 and 6 -- Gaussian elimination and back-solution
 
-<!-- ## Fortran -->
+## Fortran
+
+```{bash run56}
+gfortran ../fortran/dr0506.f
+mv ./a.out ../fortran/dr0506.run
+../fortran/dr0506.run > ../fortran/dr0506out.txt
+```
+
+```{r code=xfun::read_utf8('../fortran/dr0506out.txt'), echo=TRUE, eval=FALSE}
+```
+
 
 <!-- ## BASIC -->
 
@@ -472,6 +482,10 @@ python3 ../python/A9.py
 
 ## R
 
+### Listing and Example output
+
+```{r code=xfun::read_utf8('../R/dr09.R'), echo=TRUE, eval=TRUE}
+```
 
 ## Others
 
@@ -658,17 +672,25 @@ python3 ../python/A9.py
 
 <!-- ## Others -->
 
-```{bash cleanup}
+## Cleanup of working files
+
+The following script is included to remove files created during compilation or
+execution of the examples.
+
+```{bash cleanup, echo=TRUE}
 ## remove object and run files
 cd ../fortran/
+echo `pwd`
 rm  *.o
 rm  *.run
 rm *.out
 cd ../Pascal2021/
+echo `pwd`
 rm  *.o
 rm  *.run
 rm *.out
 cd ../BASIC
+echo `pwd`
 rm *.out
 cd ../Documentation
 ## ?? others
