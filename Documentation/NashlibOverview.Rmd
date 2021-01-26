@@ -4,7 +4,9 @@ author:
    - John C Nash, retired professor, University of Ottawa
    - Peter Olsen, retired ??
 date: "11/01/2021"
-output: pdf_document
+output: 
+    pdf_document:
+        keep_tex: false
 bibliography: nashlib.bib
 ---
 
@@ -144,7 +146,11 @@ that has been more or less copied by the Free Pascal initiative (@FreePascal1993
 
 ## R
 
-Indexes from 1. Very high level. Good for reference implementations.
+R indexes from 1. It is a very high level language, since there are single commands
+for many quite complex calculations like linear modeling (least squares solution, with
+extra computations to estimate standard errors and other ancillary information.
+R is, in the experience of one of the authors (JN), extremely good for presenting
+reference implementations of algorithms. In this it is similar to Matlab / Octave.
 
 ## Others
 
@@ -360,6 +366,9 @@ Of course, this now limits our ability to easily append columns of $B$ to those 
 $A$. And our code becomes much, much more complicated.
 
 Was this worth the trouble? In retrospect, and as the author, JN thinks not! Sigh.
+
+In the case of Algorithm 9, the use of compact storage is an integral part
+of the algorithm of @BauerReinsch71 in @wilkinson1971linear.
 
 ### Linear least squares and storage considerations
 
