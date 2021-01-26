@@ -304,7 +304,7 @@ bwbasic ../BASIC/a3.bas
 
 ### Example output -- column-wise approach
 
-```{bash script3pas, eval=TRUE}
+```{bash script56pas, eval=TRUE}
 fpc ../Pascal2021/dr03.pas
 mv ../Pascal2021/dr03 ../Pascal2021/dr03.run
 ../Pascal2021/dr03.run >../Pascal2021/dr03.out
@@ -351,7 +351,24 @@ mv ./a.out ../fortran/dr0506.run
 
 <!-- ## BASIC -->
 
-<!-- ## Pascal -->
+## Pascal
+
+### Listing -- column-wise approach
+
+```{r code=xfun::read_utf8('../Pascal2021/dr03.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output -- column-wise approach
+
+```{bash script3pas, eval=TRUE}
+fpc ../Pascal2021/dr0506.pas
+mv ../Pascal2021/dr0506 ../Pascal2021/dr0506.run
+../Pascal2021/dr0506.run >../Pascal2021/dr0506.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr0506.out'), echo=TRUE, eval=FALSE}
+```
 
 <!-- ## Python -->
 
@@ -519,11 +536,42 @@ python3 ../python/A9.py
 
 <!-- # Algorithm 13 -- -->
 
-<!-- ## Fortran -->
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/dr13.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run13}
+## #!/bin/bash
+gfortran ../fortran/dr13.f
+mv ./a.out ../fortran/dr13.run
+../fortran/dr13.run < ../fortran/dr13.in
+```
 
 <!-- ## BASIC -->
 
-<!-- ## Pascal -->
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/dr13.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script13pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr13.pas
+# copy to run file
+mv ../Pascal2021/dr13 ../Pascal2021/dr13.run
+../Pascal2021/dr13.run <../Pascal2021/dr13p.in >../Pascal2021/dr13p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr13p.out'), echo=TRUE, eval=FALSE}
+```
 
 <!-- ## Python -->
 
@@ -683,15 +731,15 @@ cd ../fortran/
 echo `pwd`
 rm  *.o
 rm  *.run
-rm *.out
+# rm *.out
 cd ../Pascal2021/
 echo `pwd`
 rm  *.o
 rm  *.run
-rm *.out
+# rm *.out
 cd ../BASIC
 echo `pwd`
-rm *.out
+# rm *.out
 cd ../Documentation
 ## ?? others
 ```
