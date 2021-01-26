@@ -432,7 +432,7 @@ and a single number in the $n+1$, $n+1$ position. This is the first element of $
 We can write it out to external storage if was want to have it available, or else
 we can begin to accumulate the sum of squares. 
 
-We then put row $n+2$ of $A | b$ into the bottom row of our working storage and
+We then put row $n+2$ of [$A | b$] into the bottom row of our working storage and
 eliminate the first $n$ columns of this row with Givens transformations. This
 gives us another element of $z_2$. Repeat until all the data has been processed.
 
@@ -440,6 +440,38 @@ We can at this point solve for $x$. Algorithm 4, however, applies the one-sided
 Jacobi method to get a singular value decomposition of $A$ allowing of a minimal
 length least squares solution as well as some useful diagnostic information about
 the condition of our problem. This was also published as @jnll76.
+
+### A simplification of the one-sided Jacobi svd storage
+
+Similar to the concatenation of matrices and vectors in the previous section to
+allow (row or left-hand side) transformations to be applied to multiple columns 
+simultaneously, we can set up the column rotations for the Jacobi-svd (Algorithm
+1) to be applied simultaneously to the working array (initially our $m$ by $n$
+matrix A) that becomes $B = U S$ and the $n$ by $n$ unit matrix that is transformed
+by rotations to $V$. This saves some duplication of code.
+
+### An extension to Marquardt stabilization or ridge regression
+
+The Marquardt stabilization of the Gauss-Newton equations (@Marq63) and ridge
+regression (@HoerlKennard70) approximately solve singular or near-singular 
+linear least squares problems $$ A x \tilde = b $$ by modifying the normal equations
+via the addition of a positive diagonal matrix $D^2$ (usually a unit matrix. We
+use squares here to emphasize the positivity and to simplify the exposition below.)
+
+$$  (A' A + k^2 D^2) x = A' b $$
+
+This can be accomplished without formation of the SSCP $A' A$ by appending $k D$ to
+the bottom of A when applying transformations to solve the least squares problem. Zeros
+are added to the bottom of $b$ as needed.
+
+This approach is used in the present nonlinear least squares package `nlsr` (@nlsr-manual),
+but it is NOT used in the Nashlib Algorithm 23. At the time (1974) when this choice was
+made, the balance of performance and storage seemed to favour the use of the SSCP (which
+was stored since several tries with different $k$ were often needed) and Choleski
+decomposition and back-solution. Furthermore, the precision of calculations available
+was less than half that used by default today. The present use of a QR approach allows
+for more reliable calculations when $k = 0$ (no Marquardt stabilization or ridge
+parameter). 
 
 ### Which choices to make?
 
