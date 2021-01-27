@@ -30,7 +30,7 @@ the algorithms themselves.
 Note that some discussion of the reasoning behind certain choices in algorithms or
 implementations are given in the Overview document.
 
-
+\pagebreak
 # Algorithms 1 and 2 -- one-sided SVD and least squares solution
 
 These were two of the first algorithms to interest the first author in compact codes.
@@ -211,6 +211,7 @@ There is also a C version in
 
 ===========================================================================
 
+\pagebreak
 # Algorithm 3 -- Givens' decomposition
 
 The Givens and Householder decompositions of a rectangular $m$ by $n$ matrix $A$
@@ -335,6 +336,7 @@ mv ../Pascal2021/dr03 ../Pascal2021/dr03.run
 
 <!-- ## Others -->
 
+\pagebreak
 # Algorithms 5 and 6 -- Gaussian elimination and back-solution
 
 ## Fortran
@@ -390,6 +392,7 @@ mv ../Pascal2021/dr0506 ../Pascal2021/dr0506.run
 
 <!-- ## Others -->
 
+\pagebreak
 # Algorithm 9 -- Bauer-Reinsch matrix inversion
 
 @wilkinson1971linear, pages 45-49, is a contribution entitled **Inversion of Positive
@@ -506,6 +509,7 @@ python3 ../python/A9.py
 
 ## Others
 
+\pagebreak
 # Algorithm 10 -- Inverse iteration via Gaussian elimination
 
 The purpose of this algorithm is to find a single eigensolution of
@@ -526,7 +530,8 @@ The Algorithm 10 code:
 ### Example output
 
 We illustrate by finding a single eigensolution of the Hilbert segments of
-order 5 and 10.
+order 5 and 10. ?? Do we want to swap in the Frank matrix (the computations
+are generally easier)?
 
 ```{bash run10}
 ## #!/bin/bash
@@ -581,13 +586,57 @@ mv ../Pascal2021/dr10 ../Pascal2021/dr10.run
 
 <!-- ## Others -->
 
-<!-- # Algorithms 11 and 12 -- ?? -->
+\pagebreak
+# Algorithms 11 and 12 -- standardization and residuals for a complex eigensolution
 
-<!-- ## Fortran -->
+These algorithms are probably among the least used of those included in Nashlib.
+Their intent was to allow proposed eigensolutions of complex matrices to be 
+standardized and tested. This seemed a potentially important task in the 1970s.
+?? include COMEIG (ref to Eberlein's work, others??)
+
+The purpose of standardization is to facilitate comparisons between eigenvectors
+that are supposedly equivalent. Any (preferably) unit-length multiple of an 
+eigenvector is also an eigenvector, so it is difficult to compare two proposed
+solutions for the same eigenvalue. Therefore we choose a multiplier so that the
+largest magnitude component of the eigenvector is set to $1 + 0 i$ where 
+
+$$ i = \sqrt{-1}$$
+## Fortran
+
+The Algorithm 11 and 12 code:
+
+```{r code=xfun::read_utf8('../fortran/a1112.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We illustrate by finding a single eigensolution of the Hilbert segments of
+order 5 and 10. ?? Do we want to swap in the Frank matrix (the computations
+are generally easier)?
+
+```{bash run1112}
+## #!/bin/bash
+gfortran ../fortran/a1112.f
+mv ./a.out ../fortran/a1112.run
+../fortran/a1112.run <../fortran/a1112.in
+```
+
 
 <!-- ## BASIC -->
 
-<!-- ## Pascal -->
+## Pascal
+
+?? Currently we do not seem to have an example driver for these two codes.
+
+### Listing -- a11.pas
+
+```{r code=xfun::read_utf8('../Pascal2021/a11.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- a12.pas
+
+```{r code=xfun::read_utf8('../Pascal2021/a12.pas'), echo=TRUE, eval=FALSE}
+```
 
 <!-- ## Python -->
 
@@ -595,6 +644,7 @@ mv ../Pascal2021/dr10 ../Pascal2021/dr10.run
 
 <!-- ## Others -->
 
+\pagebreak
 # Algorithm 13
 
 ## Fortran
@@ -656,6 +706,7 @@ mv ../Pascal2021/dr13 ../Pascal2021/dr13.run
 
 <!-- ## Others -->
 
+\pagebreak
 # Algorithms 14 and 15 - Generalized symmetric eigenproblem
 
 We aim to solve the generalized symmetric eigenproblem
@@ -806,7 +857,58 @@ mv ./a.out ../fortran/dr1415.run
 
 <!-- ## Others -->
 
-<!-- # Algorithm 25 -- ?? -->
+\pagebreak
+# Algorithm 25 -- Rayleight quotient minimization
+
+## Fortran 
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/a25.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+?? explanation needed
+
+```{bash run25}
+gfortran ../fortran/a25.f
+mv ./a.out ../fortran/a25.run
+../fortran/a25.run < ../fortran/a25.in
+```
+
+
+<!-- ## BASIC -->
+
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/dr25.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+?? not yet working
+
+<!-- ```{bash script25pas, eval=TRUE, echo=TRUE} -->
+<!-- fpc ../Pascal2021/dr25.pas -->
+<!-- # copy to run file -->
+<!-- mv ../Pascal2021/dr25 ../Pascal2021/dr25.run -->
+<!-- ../Pascal2021/dr25.run <../Pascal2021/dr25p.in >../Pascal2021/dr25p.out -->
+<!-- ``` -->
+
+<!-- ```{r code=xfun::read_utf8('../Pascal2021/dr25p.out'), echo=TRUE, eval=FALSE} -->
+<!-- ``` -->
+
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithm 26 -- ?? -->
 
 <!-- ## Fortran -->
 
@@ -819,6 +921,23 @@ mv ./a.out ../fortran/dr1415.run
 <!-- ## R -->
 
 <!-- ## Others -->
+
+<!-- # Algorithm 27 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+
+
 
 ## Cleanup of working files
 
