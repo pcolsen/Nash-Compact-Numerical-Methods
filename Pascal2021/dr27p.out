@@ -1,0 +1,76 @@
+Function: Rosenbrock Banana Valley
+Classical starting point (-1.2,1)
+Initial function value = 2.4199999999999996E+001
+  -1.20000    1.00000 
+Return to old base point
+stepsize now  4.80E-002  Best fn value= 4.4562559999999998E+000 after 12
+  -0.96000    1.00000 
+Return to old base point
+stepsize now  9.60E-003  Best fn value= 4.0578692096000006E+000 after 24
+  -1.00800    1.00000 
+Return to old base point
+Return to old base point
+Return to old base point
+stepsize now  1.92E-003  Best fn value= 1.0707319193525812E-003 after 161
+   0.98880    0.98080 
+Return to old base point
+stepsize now  3.84E-004  Best fn value= 1.3884319308353293E-004 after 172
+   0.99072    0.98080 
+Return to old base point
+stepsize now  7.68E-005  Best fn value= 9.3512661164573335E-005 after 184
+   0.99034    0.98080 
+Return to old base point
+stepsize now  1.54E-005  Best fn value= 1.1312841503153136E-007 after 387
+   0.99978    0.99954 
+Return to old base point
+stepsize now  3.07E-006  Best fn value= 5.6836523263813657E-008 after 399
+   0.99977    0.99954 
+Return to old base point
+stepsize now  6.14E-007  Best fn value= 5.2964452813167824E-008 after 410
+   0.99977    0.99954 
+Return to old base point
+stepsize now  1.23E-007  Best fn value= 1.4270706145809712E-011 after 506
+   1.00000    0.99999 
+Return to old base point
+stepsize now  2.46E-008  Best fn value= 9.4796228739601164E-012 after 517
+   1.00000    0.99999 
+Return to old base point
+stepsize now  4.92E-009  Best fn value= 9.4690619892340589E-012 after 529
+   1.00000    0.99999 
+Return to old base point
+Return to old base point
+stepsize now  9.83E-010  Best fn value= 4.4567065650768205E-015 after 661
+   1.00000    1.00000 
+Return to old base point
+stepsize now  1.97E-010  Best fn value= 4.0727302462025689E-015 after 673
+   1.00000    1.00000 
+Return to old base point
+stepsize now  3.93E-011  Best fn value= 5.5957365459244406E-019 after 1084
+   1.00000    1.00000 
+Return to old base point
+stepsize now  7.86E-012  Best fn value= 1.7697158812184515E-019 after 1096
+   1.00000    1.00000 
+Return to old base point
+stepsize now  1.57E-012  Best fn value= 1.5428882521329409E-019 after 1107
+   1.00000    1.00000 
+Return to old base point
+stepsize now  3.15E-013  Best fn value= 2.9714142551459652E-023 after 1190
+   1.00000    1.00000 
+Return to old base point
+stepsize now  6.29E-014  Best fn value= 3.6918757417520296E-024 after 1201
+   1.00000    1.00000 
+Return to old base point
+stepsize now  1.26E-014  Best fn value= 2.5495050765906063E-024 after 1213
+   1.00000    1.00000 
+Return to old base point
+stepsize now  2.52E-015  Best fn value= 4.7610344079933319E-027 after 1293
+   1.00000    1.00000 
+Return to old base point
+stepsize now  5.03E-016  Best fn value= 3.9955928108960689E-027 after 1304
+   1.00000    1.00000 
+Converged to Fmin= 3.9955928108960689E-027 after 1304 evaluations
+
+ Minimum function value found = 3.9955928108960689E-027
+ At parameters
+ B[1]= 9.9999999999993683E-001
+ B[2]= 9.9999999999987343E-001

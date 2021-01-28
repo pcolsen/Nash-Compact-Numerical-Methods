@@ -908,13 +908,44 @@ mv ./a.out ../fortran/a25.run
 
 <!-- ## Others -->
 
-<!-- # Algorithm 26 -- ?? -->
+# Algorithnms added in the 2nd Edition, 1990.
+
+# Algorithm 26 -- Complex matrix eigensolutions
 
 <!-- ## Fortran -->
 
 <!-- ## BASIC -->
 
-<!-- ## Pascal -->
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/dr26.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We create an order 5 complex matrix where the real part is a Frank matrix and the imaginary 
+part is a Moler matrix.
+
+```{bash script2pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr26.pas
+# copy to run file
+mv ../Pascal2021/dr26 ../Pascal2021/dr26.run
+../Pascal2021/dr26.run <../Pascal2021/dr26p.in >../Pascal2021/dr26p.out
+```
+
+<!-- Note how it appears fpc output seems to have too many linefeeds (\r characters).  -->
+<!-- We can use sed to strip them out. -->
+
+```{bash strip26, echo=FALSE}
+cd ../Pascal2021
+sed 's/\r//' dr26p.out >tmp.out
+mv tmp.out dr26p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr26p.out'), echo=TRUE, eval=FALSE}
+```
 
 <!-- ## Python -->
 
@@ -922,13 +953,33 @@ mv ./a.out ../fortran/a25.run
 
 <!-- ## Others -->
 
-<!-- # Algorithm 27 -- ?? -->
+# Algorithm 27 -- Hooke and Jeeves pattern search minimization
 
 <!-- ## Fortran -->
 
 <!-- ## BASIC -->
 
-<!-- ## Pascal -->
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/dr27.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+Use Rosenbrock banana-shaped valley problem in 2 dimensions.
+
+```{bash script27pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr27.pas
+# copy to run file
+mv ../Pascal2021/dr27 ../Pascal2021/dr27.run
+../Pascal2021/dr27.run  >../Pascal2021/dr27p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr27p.out'), echo=TRUE, eval=FALSE}
+```
+
 
 <!-- ## Python -->
 
