@@ -6,7 +6,7 @@ Program dr15(input,output);
 }
 {$I constype.def}
 {$I tdstamp.pas}  {time and date stamp}
-{$I Matrixin.pas}
+{$I matrixin.pas}
 {$I genevres.pas}
 {$I rayquo.pas}
 {$I alg14.pas}

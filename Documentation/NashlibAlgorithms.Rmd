@@ -80,7 +80,7 @@ though it compiles and executes just fine.
 ```{bash run0102}
 gfortran ../fortran/dr0102.f
 mv ./a.out ../fortran/dr0102.run
-../fortran/dr0102.run < ../fortran/dr0102.txt
+../fortran/dr0102.run < ../fortran/dr0102.in
 ```
 
 
@@ -707,7 +707,68 @@ mv ../Pascal2021/dr13 ../Pascal2021/dr13.run
 <!-- ## Others -->
 
 \pagebreak
-# Algorithms 14 and 15 - Generalized symmetric eigenproblem
+# Algorithm 14 -- Jacobi symmetric matrix eigensolutions
+
+## Fortran
+
+<!-- ### Listing -->
+
+<!-- ```{r code=xfun::read_utf8('../fortran/dr13.f'), echo=TRUE, eval=FALSE} -->
+<!-- ``` -->
+
+<!-- ### Example output -->
+
+<!-- ```{bash run13} -->
+<!-- ## #!/bin/bash -->
+<!-- gfortran ../fortran/dr13.f -->
+<!-- mv ./a.out ../fortran/dr13.run -->
+<!-- ../fortran/dr13.run < ../fortran/dr13.in -->
+<!-- ``` -->
+
+<!-- ## BASIC -->
+
+<!-- ### Listing -->
+
+<!-- ```{r code=xfun::read_utf8('../BASIC/a13.bas'), echo=TRUE, eval=FALSE} -->
+<!-- ``` -->
+
+<!-- ### Example output -->
+
+<!-- ```{bash a13bas} -->
+<!-- bwbasic ../BASIC/a13.bas  >../BASIC/a13.out -->
+<!-- # echo "done" -->
+<!-- ``` -->
+
+<!-- ```{r code=xfun::read_utf8('../BASIC/a13.out'), echo=TRUE, eval=FALSE} -->
+<!-- ``` -->
+
+
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/dr14x.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script14pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr14x.pas
+# copy to run file
+mv ../Pascal2021/dr14x ../Pascal2021/dr14x.run
+../Pascal2021/dr14x.run <../Pascal2021/dr14xp.in >../Pascal2021/dr14xp.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr14xp.out'), echo=TRUE, eval=FALSE}
+```
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+# Algorithm 15 - Generalized symmetric eigenproblem
 
 We aim to solve the generalized symmetric eigenproblem
 
@@ -908,7 +969,7 @@ mv ./a.out ../fortran/a25.run
 
 <!-- ## Others -->
 
-# Algorithnms added in the 2nd Edition, 1990.
+# Algorithms added in the 2nd Edition, 1990.
 
 # Algorithm 26 -- Complex matrix eigensolutions
 
