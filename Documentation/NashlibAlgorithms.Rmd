@@ -912,9 +912,39 @@ mv ./a.out ../fortran/a25.run
 
 # Algorithm 26 -- Complex matrix eigensolutions
 
-<!-- ## Fortran -->
+## Fortran 
 
-<!-- ## BASIC -->
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/comeigd26.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+?? explananation needed. Note use of Pascal input file
+
+```{bash runf26}
+gfortran ../fortran/comeigd26.f
+mv ./a.out ../fortran/comeigd26.run
+../fortran/comeigd26.run < ../fortran/d26f.in
+```
+
+## BASIC
+
+### Listing
+
+```{r code=xfun::read_utf8('../BASIC/comeiga26.bas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash a26bas}
+bwbasic ../BASIC/comeiga26.bas  >../BASIC/a26.out
+# echo "done"
+```
+
+```{r code=xfun::read_utf8('../BASIC/a26.out'), echo=TRUE, eval=FALSE}
+```
 
 ## Pascal
 
