@@ -1,0 +1,59 @@
+Order of problem (n) = 5
+Matrixin.pas -- generate or input a real matrix 5 by 5
+Possible matrices to generate:
+0) Keyboard or console file input
+1) Hilbert segment
+2) Ding Dong
+3) Moler
+4) Frank symmetric
+5) Bordered symmetric
+6) Diagonal
+7) Wilkinson W+
+8) Wilkinson W-
+9) Constant
+10) Unit
+Enter type to generate 3
+   1.00000   -1.00000   -1.00000   -1.00000   -1.00000 
+  -1.00000    2.00000    0.00000    0.00000    0.00000 
+  -1.00000    0.00000    3.00000    1.00000    1.00000 
+  -1.00000    0.00000    1.00000    4.00000    2.00000 
+  -1.00000    0.00000    1.00000    2.00000    5.00000 
+alg14.pas -- eigensolutions of a real symmetric
+             matrix via a Jacobi method
+sweep 1   0 / 10  rotations skipped
+sweep 2   0 / 10  rotations skipped
+sweep 3   0 / 10  rotations skipped
+sweep 4   0 / 10  rotations skipped
+sweep 5   7 / 10  rotations skipped
+sweep 6   10 / 10  rotations skipped
+Eigenvalue 1 =  7.4874999307049812E+000
+ 0.2556536 -0.0465883 -0.3403404 -0.5720713 -0.6995524 
+Residuals
+ 2.00E-015 -2.08E-016 -1.11E-015 -3.77E-015 -4.44E-016 
+Sum of squared residuals = 1.9715552247697695E-029
+
+Eigenvalue 2 =  2.8289347824203293E+000
+-0.3290435  0.3969474  0.6440739  0.1142105 -0.5534327 
+Residuals
+-8.88E-016  1.33E-015  1.11E-015  8.88E-016 -4.44E-016 
+Sum of squared residuals = 4.7824692379023841E-030
+
+Eigenvalue 3 =  2.3964685319861365E+000
+-0.2547217  0.6424765 -0.0808234 -0.6002650  0.3943227 
+Residuals
+-4.44E-016  6.66E-016  1.11E-016 -1.11E-015  0.00E+000 
+Sum of squared residuals = 1.8858706015439813E-030
+
+Eigenvalue 4 =  2.2784504826045859E+000
+-0.1364558  0.4900540 -0.6433686  0.5337402 -0.2059737 
+Residuals
+-6.11E-016  1.11E-016  2.78E-016  9.99E-016 -2.22E-016 
+Sum of squared residuals = 1.5099290763995929E-030
+
+Eigenvalue 5 =  8.6462722839592467E-003
+-0.8618981 -0.4328202 -0.2210920 -0.1203898 -0.0801439 
+Residuals
+-2.36E-016  2.22E-016  4.16E-017  2.50E-016  2.22E-016 
+Sum of squared residuals = 2.1840045569351255E-031
+
+Order of problem (n) = 0

@@ -267,7 +267,7 @@ where otherwise reliable programs have failed on such trivial cases.
 ```{bash run3}
 gfortran ../fortran/a3.f
 mv ./a.out ../fortran/a3.run
-../fortran/a3.run < ../fortran/a3data.txt > ../fortran/a3out.txt
+../fortran/a3.run < ../fortran/a3data.in > ../fortran/a3out.txt
 ```
 
 ```{r code=xfun::read_utf8('../fortran/a3out.txt'), echo=TRUE, eval=FALSE}
@@ -797,7 +797,25 @@ mv ./a.out ../fortran/dr1415.run
 
 <!-- ## BASIC -->
 
-<!-- ## Pascal -->
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/dr14x.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script15pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr15x.pas
+# copy to run file
+mv ../Pascal2021/dr15x ../Pascal2021/dr15x.run
+../Pascal2021/dr15x.run <../Pascal2021/dr15xp.in >../Pascal2021/dr15xp.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr15xp.out'), echo=TRUE, eval=FALSE}
+```
+
 
 <!-- ## Python -->
 
