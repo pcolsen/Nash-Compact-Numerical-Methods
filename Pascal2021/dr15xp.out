@@ -1,0 +1,110 @@
+Order of matrices = 5
+Provide matrix A
+Matrixin.pas -- generate or input a real matrix 5 by 5
+Possible matrices to generate:
+0) Keyboard or console file input
+1) Hilbert segment
+2) Ding Dong
+3) Moler
+4) Frank symmetric
+5) Bordered symmetric
+6) Diagonal
+7) Wilkinson W+
+8) Wilkinson W-
+9) Constant
+10) Unit
+Enter type to generate 4
+   1.00000    1.00000    1.00000    1.00000    1.00000 
+   1.00000    2.00000    2.00000    2.00000    2.00000 
+   1.00000    2.00000    3.00000    3.00000    3.00000 
+   1.00000    2.00000    3.00000    4.00000    4.00000 
+   1.00000    2.00000    3.00000    4.00000    5.00000 
+Provide matrix B
+Matrixin.pas -- generate or input a real matrix 5 by 5
+Possible matrices to generate:
+0) Keyboard or console file input
+1) Hilbert segment
+2) Ding Dong
+3) Moler
+4) Frank symmetric
+5) Bordered symmetric
+6) Diagonal
+7) Wilkinson W+
+8) Wilkinson W-
+9) Constant
+10) Unit
+Enter type to generate 3
+   1.00000   -1.00000   -1.00000   -1.00000   -1.00000 
+  -1.00000    2.00000    0.00000    0.00000    0.00000 
+  -1.00000    0.00000    3.00000    1.00000    1.00000 
+  -1.00000    0.00000    1.00000    4.00000    2.00000 
+  -1.00000    0.00000    1.00000    2.00000    5.00000 
+alg15.pas -- generalized symmetric matrix eigenproblem
+Eigensolutions of metric B
+alg14.pas -- eigensolutions of a real symmetric
+             matrix via a Jacobi method
+sweep 1   0 / 10  rotations skipped
+sweep 2   0 / 10  rotations skipped
+sweep 3   0 / 10  rotations skipped
+sweep 4   0 / 10  rotations skipped
+sweep 5   7 / 10  rotations skipped
+sweep 6   10 / 10  rotations skipped
+Eigensolutions of general problem
+alg14.pas -- eigensolutions of a real symmetric
+             matrix via a Jacobi method
+sweep 1   0 / 10  rotations skipped
+sweep 2   0 / 10  rotations skipped
+sweep 3   0 / 10  rotations skipped
+sweep 4   3 / 10  rotations skipped
+sweep 5   10 / 10  rotations skipped
+
+Eigenvalue 1 =  4.5198745112453821E+002
+-9.2524772 -4.6568542 -2.3845068 -1.3017749 -0.8684904 
+Generalized matrix eigensolution residuals
+ 3.98E-013 -7.11E-013  0.00E+000 -5.68E-013 -6.82E-013 
+Sum of squared residuals = 1.4525521166230544E-024
+Rayleigh quotient =  4.5198745112453753E+002
+Generalized matrix eigensolution residuals
+ 1.71E-013 -7.11E-013  3.98E-013 -4.55E-013 -2.27E-013 
+Sum of squared residuals = 9.5172010511633844E-025
+
+Eigenvalue 2 =  4.9797005187099336E-001
+ 0.3224789  0.2680005  0.0784294 -0.1506762 -0.3038294 
+Generalized matrix eigensolution residuals
+-2.22E-016  1.11E-016  2.22E-016  3.33E-016  5.55E-016 
+Sum of squared residuals = 5.3001592069536731E-031
+Rayleigh quotient =  4.9797005187099297E-001
+Generalized matrix eigensolution residuals
+-1.11E-016  2.22E-016  2.22E-016  0.00E+000 -1.11E-016 
+Sum of squared residuals = 1.2325951644078309E-031
+
+Eigenvalue 3 =  2.4095744686996778E-001
+ 0.3782595  0.0138457 -0.3723758 -0.1720849  0.2992493 
+Generalized matrix eigensolution residuals
+ 5.55E-017  6.66E-016  8.88E-016  8.88E-016  8.88E-016 
+Sum of squared residuals = 2.8133984627608741E-030
+Rayleigh quotient =  2.4095744686996767E-001
+Generalized matrix eigensolution residuals
+ 1.67E-016  5.55E-016  5.55E-016  8.88E-016  1.11E-015 
+Sum of squared residuals = 2.6654870430319344E-030
+
+Eigenvalue 4 =  1.5349826485584656E-001
+ 0.3288484 -0.3365795 -0.0739346  0.3925750 -0.2233883 
+Generalized matrix eigensolution residuals
+-1.94E-015 -2.89E-015 -3.33E-015 -3.55E-015 -3.66E-015 
+Sum of squared residuals = 4.9245258306003866E-029
+Rayleigh quotient =  1.5349826485584656E-001
+Generalized matrix eigensolution residuals
+-1.94E-015 -2.89E-015 -3.33E-015 -3.55E-015 -3.66E-015 
+Sum of squared residuals = 4.9245258306003866E-029
+
+Eigenvalue 5 =  1.2012311186486965E-001
+-0.1909232  0.3583396 -0.4047793  0.3145640 -0.1181507 
+Generalized matrix eigensolution residuals
+ 9.44E-016  9.16E-016  1.55E-015  1.44E-015  1.67E-015 
+Sum of squared residuals = 9.0017965600659404E-030
+Rayleigh quotient =  1.2012311186486951E-001
+Generalized matrix eigensolution residuals
+ 9.16E-016  1.03E-015  1.39E-015  1.44E-015  1.67E-015 
+Sum of squared residuals = 8.6759292134756201E-030
+
