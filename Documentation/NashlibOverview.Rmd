@@ -7,6 +7,7 @@ date: "11/01/2021"
 output: 
     pdf_document:
         keep_tex: false
+        toc: true
 bibliography: nashlib.bib
 ---
 
@@ -33,11 +34,112 @@ computations
 - as a resource for workers needing to embed numerical computations within their
 application programs.
 
+\pagebreak
 # History
 
-?? give a history of the codes
+Nashlib began with a desire on the part of John Nash to be able to carry out
+some speculative computations at Agriculture Canada. After completing his D.Phil.
+at Oxford in June of 1972, ostensibly in quantum mechanics but with a large 
+computational component, he had a Post-Doc in the Chemistry Department of 
+the University of Alberta with Fraser Birss in the Theoretical Chemistry group.
+In the Autumn of 1972, he started a job search in a very tight market. At an 
+interview with the Public Service of Canada, he met Tom Kerr of Agriculture
+Canada who -- with likely a fine disregard of many rules and policies related to hiring
+in the Public Service -- arranged an interview in Ottawa at the end of November 1972.
+John joined Ag Can in February 1973, and quickly discovered that computations generally
+needed to be attached to a project and be given a budget code. Programs were run
+on punched cards with remote job entry to either DataCrown (whose mainframe was
+in Toronto), or else Computel, who had a Univac 1108 in the basement of Ottawa's
+St. Laurent Shopping Center.
 
-# Documentation of this project
+Given the effort and bureaucracy to establish a budget code for speculative work
+exploring computational algorithms, it turned out to be more attractive to use a
+Data General NOVA minicomputer to which there were perhaps half a dozen Teletype
+terminals (10 characters per second, noisy, but with the capability of reading
+or punching paper tape). One could connect to the DG and obtain a partition (workspace)
+of between 3K and 7K bytes (1500 to 3500 words) for both program and data. Programs
+were in a fairly restricted dialect of BASIC. As I recall they were tokenized which
+reduced storage a little. I requested and was supplied with ear protectors, which 
+were necessary when "saving" a program to punched tape. This was done by LISTing
+it and turning on the punch.
+
+The Economics Branch also had Hewlett-Packard 9820 and 9830 desktop calculators. These
+were for producing the many graphs used in the various reports on different sectors of
+the Canadian agricultural economy, but after hours could be used for experimental
+computations. The 9830A ran BASIC of a dialect more or less compatible with that of
+the NOVA, but the programs had to be re-entered from the keyboard at first. Later 
+we acquired a card-reader. But not a punched tape reader! Even later a Tektronix
+4051 was acquired (1976). Its BASIC was yet again different. Some designer thought
+it would be neat to include a FUZZ option that allowed comparisons in program logic
+to be done approximately. If you were not careful, this would vitiate program logic
+and lead to strange outputs.
+
+In 1975, Mary Nash was awarded the Nancy Stirling Lambert Scholarship by Blackwell's
+of Oxford, the booksellers and publishers. This was to carry out a 1 year research
+Masters' degree in Librarianship. Mary decided to investigate the microfiche and
+microfilm sector of the publishing industry. In the process, she intereviewed Neville
+Goodman of Adam Hilger Inc., a 1-man scientific publishing house in Bristol. Neville
+thought there would be a good market for a book about minicomputer scientific programs
+and John got a contract. Neville's instinct was correct. The usual print run of books
+was around 750 at the time. Compact Numerical Methods (CNM) has sold over 5000. Not quite
+a best seller, but also not a best cellar -- a book that lives in the author's 
+basement.
+
+The 1979 edition of CNM has algorithms in pseudo-code (Step and Description). For
+the Second Edition (with Adam Hilger acquired by the Institute of Physics), a 
+5.25 inch diskette of programs in Turbo Pascal was provided. In the present project,
+John has been horrified to realize that the vast majority of the code is to work 
+around difficulties of the MD-DOS operating system. Hopefully the present project
+will go some way to cleaning up the code, as much of the work-around material is
+no longer needed.
+
+At the time of release of CNM in 1979, John also prepared a Fortran collection of
+the codes. In an era before open source and online collections, this was called 
+Nashlib and was sold on magnetic tape. There were, of course, still many BASIC 
+programs around, primarily for North Star BASIC after John built a Horizon computer
+in the summer of 1978. We named it THINK. This initially had 48K of RAM and two 
+80K diskette drives,
+and used a DEC LA-36 printing terminal (30 characters per second). It also came
+with a kit to build a decimal floating-point unit. Cost: $8000, which came from our
+own pockets. Henry Wolkowicz of Waterloo
+was kind enough to offer early access to the new "electronic mail" facility of 
+DARPA and so we got a 300 bps acoustic coupler and John wrote his own drivers in
+assembly code. (This is something one should avoid doing if at all possible.)
+THINK eventually got a TV-style monitor, another 8K of RAM (the kit cost $350).
+some custom, self-designed fuse protection for the very expensive print head of
+the LA-36, and a few other niceties.
+
+Around 1980, John was engaged by the magazine **Interface Age** to write their
+MicroMathematician column. For some reason, nobody seemed to pick up on the 
+potentially pejorative connotation of the title. Later, in the mid-1980s,
+he was Scientific Computing Editor for **Byte**.
+
+While BASIC was John's primary computing language around this time and as the 
+IBM PC and its clones came on stream, there was sufficient incompatibility 
+between BASIC dialects on the many personal computers that it seemed sensible
+to seek another approach when writing the Second Edition of CNM. By 1987, Turbo
+Pascal was becoming popular, and John chose to implement in Pascal. Besides
+the fact it could be acquired cheaply and was widely used, Pascal does allow
+the presentation of algorithms in an orderly way. In particular, a cardinal rule
+is that nothing can be used before it is defined, a useful condition for 
+presenting algorithms. Less conveniently, Pascal's authors did not specify the
+library of functions to be supplied, nor the interface to an Operating System.
+Moreover, Pascal can be rather verbose.
+
+In recent years (post 2010), John has found R to be a useful programming language
+for exploring algorithms and for encoding **reference implementations**, that is,
+expressions of algorithms that will actually run and which record the structure
+of the algorithm. Reference implementations are not necessarily the most efficient
+nor the most elegant forms for a particular programming language. They are meant 
+to express the flow and reasoning behind an algorithm, and be easy to follow.
+
+\pagebreak
+# Operation and documentation of this project
+
+To provide for easy collaboration and for storage of the results of this project, 
+one of us set up a Github repository at
+
+**\url{https://github.com/pcolsen/Nash-Compact-Numerical-Methods}**
 
 Github allows for Markdown (\url{http://www.aaronsw.com/weblog/001189} and
 \url{https://daringfireball.net/projects/markdown/}) files to be included in the file repository. 
@@ -48,13 +150,15 @@ file repository so that the documentation is carried along with any clone of
 the repository or download as a Zip archive.
 
 A relatively well-developed resource for documentation is the `knitr` set of tools
-(@xie2013dynamic). vastly expanded within the RStudio computational ecosystem.
+(@xie2013dynamic) that are vastly expanded within the RStudio computational ecosystem.
 See \url{https://rstudio.com/products/rstudio/}. In particular, the **Rmarkdown**
 flavour of the **markdown** markup language allows for LaTeX mathematical
 expressions to be included inline, BibTeX references to be cited easily, and
 code in a number of programming languages to be executed, with the results automatically
 included in the report. Reports can be output in a variety of ways such as HTML,
-PDF (our choice), or even as Microsoft Word documents.
+PDF (our choice), or even as Microsoft Word documents. While Rstudio is a commercial
+operation, they provide a no-charge version of the Rstudio desktop and have 
+committed Rmarkdown and supporting code to open source licenses.
 
 Code is placed in `chunk` blocks that are delimited with three reverse single quotation
 marks (\`) at the left hand margin. The first of these can (and should) be qualified
@@ -84,9 +188,11 @@ Similarly following the three back-quotes with
 ```
 
 will list the program `knitrExample.pas`. Note we still need to follow this with
-a line having the three back-quotes. See the `NashlibOverview.Rmd` file which is
-the source of the present document for details.
+a line having the three back-quotes. The source code of the present document is
+in the file `NashlibOverview.Rmd`, and viewing that file in a text editor (or in
+the Rstudio IDE) will display the details.
 
+\pagebreak
 # Programming language issues in  Nashlib implementations
 
 ## Fortran
@@ -156,21 +262,24 @@ reference implementations of algorithms. In this it is similar to Matlab / Octav
 
 ?? Do we want to consider C (possibly using the Fortran and using f2c as starter?)
 
-# Running codes in different programming languages
+\pagebreak
+# Running codes under different operating systems
 
 This part of the Overview document is likely to evolve as we and other workers
 apply our ideas to different computing platforms. We welcome input and collaboration.
 
 Our principal objective is to be able to take a program in one of the selected
 programming languages (or dialects) and have it execute correctly and produce
-acceptable output. In the subsections below, we outline how we do this, possibly
-with variations for different operating environments.
+acceptable output on any reasonably popular operating system. 
+In the subsections below, we outline how we do this, including the adaptations
+for different operating environments.
 
 ## Fortran
 
 Rmarkdown is able to compiler Fortran subroutines and then call them from
 R. We leave out the question of timing for which this simple example was
-devised.
+devised. Also we are assuming that Rmarkdown works for the operating
+systems likely to be of interest.
 
 ```{r compfort, engine='fortran', results='hide'}
 C Fortran test
