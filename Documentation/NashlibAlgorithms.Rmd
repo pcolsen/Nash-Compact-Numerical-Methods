@@ -7,6 +7,7 @@ date: "11/01/2021"
 output: 
   pdf_document:
     keep_tex: false
+    toc: true
 bibliography: nashlib.bib
 ---
 
@@ -20,6 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Algorithms from the book @jncnm79 are implemented in a variety of programming
 languages including Fortran, BASIC, Pascal, Python and R. 
 
+\pagebreak
 # Overview of this document
 
 A companion document **Overview of Nashlib and its Implementations** describes the
@@ -378,13 +380,30 @@ mv ../Pascal2021/dr0506 ../Pascal2021/dr0506.run
 
 <!-- ## Others -->
 
-<!-- # Algorithms 7 and 8 -- ?? -->
+# Algorithms 7 and 8 -- Choleski decomposition and solution
 
 <!-- ## Fortran -->
 
 <!-- ## BASIC -->
 
-<!-- ## Pascal -->
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/dr0708.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script78pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr0708.pas
+# copy to run file
+mv ../Pascal2021/dr0708 ../Pascal2021/dr0708.run
+../Pascal2021/dr0708.run <../Pascal2021/dr0708p.in >../Pascal2021/dr0708p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr0708p.out'), echo=TRUE, eval=FALSE}
+```
+
 
 <!-- ## Python -->
 
@@ -1099,7 +1118,7 @@ mv ../Pascal2021/dr27 ../Pascal2021/dr27.run
 
 
 
-## Cleanup of working files
+# Cleanup of working files
 
 The following script is included to remove files created during compilation or
 execution of the examples.
