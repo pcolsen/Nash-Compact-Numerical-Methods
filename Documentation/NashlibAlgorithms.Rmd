@@ -32,6 +32,8 @@ the algorithms themselves.
 Note that some discussion of the reasoning behind certain choices in algorithms or
 implementations are given in the Overview document.
 
+?? Should list ONLY subroutines/procedures and put examples in non-listed files
+
 \pagebreak
 # Algorithms 1 and 2 -- one-sided SVD and least squares solution
 
@@ -382,10 +384,14 @@ mv ../Pascal2021/dr0506 ../Pascal2021/dr0506.run
 
 # Algorithms 7 and 8 -- Choleski decomposition and solution
 
-<!-- ## Fortran -->
+## Fortran
+
+
 
 <!-- ## BASIC -->
 
+
+## Pascal
 
 ### Listing
 
@@ -842,7 +848,22 @@ mv ../Pascal2021/dr15x ../Pascal2021/dr15x.run
 
 <!-- ## Others -->
 
-<!-- # Algorithm 16 -- ?? -->
+# Algorithm 16 -- Grid search
+
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/a16.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run16}
+gfortran ../fortran/a16.f
+mv ./a.out ../fortran/a16.run
+../fortran/a16.run < ../fortran/a16f.in
+```
 
 <!-- ## Fortran -->
 
@@ -1019,7 +1040,8 @@ mv ./a.out ../fortran/a25.run
 
 ### Example output
 
-?? explananation needed. Note use of Pascal input file
+?? explanation needed. Note use of Pascal input file
+
 
 ```{bash runf26}
 gfortran ../fortran/comeigd26.f
