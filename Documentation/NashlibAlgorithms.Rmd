@@ -560,9 +560,9 @@ are generally easier)?
 
 ```{bash run10}
 ## #!/bin/bash
-gfortran ../fortran/a10.f
-mv ./a.out ../fortran/a10.run
-../fortran/a10.run
+gfortran ../fortran/d10.f
+mv ./a.out ../fortran/d10.run
+../fortran/d10.run
 ```
 ## BASIC
 
@@ -628,10 +628,17 @@ largest magnitude component of the eigenvector is set to $1 + 0 i$ where
 $$ i = \sqrt{-1}$$
 ## Fortran
 
-The Algorithm 11 and 12 code:
+The Algorithm 11 code:
 
-```{r code=xfun::read_utf8('../fortran/a1112.f'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../fortran/alg11.f'), echo=TRUE, eval=FALSE}
 ```
+
+The Algorithm 11 code:
+
+
+```{r code=xfun::read_utf8('../fortran/alg12.f'), echo=TRUE, eval=FALSE}
+```
+
 
 ### Example output
 

@@ -34,6 +34,25 @@ computations
 - as a resource for workers needing to embed numerical computations within their
 application programs.
 
+
+# TO DO
+
+The Nashlib project has been an ongoing effort since the mid-1970s, and there are
+always other ideas and implementations to try. Some of these are as follows.
+
+- in this document, documentation of how to run the codes under Microsoft Windows,
+in particular, Windows 10
+
+- in this document, documentation of how to run the codes under Apple Mac OS. Particular
+versions may or may not be relevant.
+
+- in this document, documentation of how to run the codes under Android and/or Chrome
+operating systems, with possible version notes.
+
+- codes in C and C++
+
+- codes in Python. A list of those still to do ??
+
 \pagebreak
 # History
 
@@ -358,20 +377,149 @@ fpc ../Pascal2021/knitrExample.pas
 ./knitrExample
 ```
 
+### Support routines and files for Pascal
+
+The original Turbo Pascal 5 and 5.5 used in @nlacatvn1060620 required a great
+deal of code to interface successfully with the MS-DOS operating system to 
+provide a relatively general software system. Some of this code was to define
+data structures, while other parts were for handling input and output, timing,
+and other functionality. Some of that code is included here, particularly for
+data structures.
+
+#### Constants and type definitions
+
+```
+{constype.def ==
+  This file contains various definitions and type statements which are
+  used throughout the collection of "Compact Numerical Methods".  In many
+  cases not all definitions are needed, and users with very tight memory
+  constraints may wish to remove some of the lines of this file when
+  compiling certain programs.
+
+  Modified for Turbo Pascal 5.0
+
+          Copyright 1988, 1990 J.C.Nash
+}
+uses Dos, Crt; {Turbo Pascal 5.0 Modules}
+{ 1. Interrupt, Unit, Interface, Implementation, Uses are reserved words now.}
+{ 2. System,Dos,Crt are standard unit names in Turbo 5.0.}
+
+const
+  big = 1.0E+35;    {a very large number}
+  Maxconst = 25;    {Maximum number of constants in data record}
+  Maxobs = 100;     {Maximum number of observations in data record}
+  Maxparm  = 25;    {Maximum number of parameters to adjust}
+  Maxvars = 10;     {Maximum number of variables in data record}
+  acctol = 0.0001;  {acceptable point tolerance for minimisation codes}
+  maxm = 20;        {Maximum number or rows in a matrix}
+  maxn = 20;        {Maximum number of columns in a matrix}
+  maxmn = 40;       {maxn+maxm, the number of rows in a working array}
+  maxsym = 210;     {maximum number of elements of a symmetric matrix
+              which need to be stored = maxm * (maxm + 1)/2 }
+  reltest = 10.0;   {a relative size used to check equality of numbers.
+              Numbers x and y are considered equal if the
+              floating-point representation of reltest+x equals
+              that of reltest+y.}
+  stepredn = 0.2;   {factor to reduce stepsize in line search}
+  yearwrit = 1990;  {year in which file was written}
+
+type
+  str2 = string[2];
+  rmatrix = array[1..maxm, 1..maxn] of real; {a real matrix}
+  wmatrix = array[1..maxmn, 1..maxn] of real; {a working array, formed
+                  as one real matrix stacked on another}
+  smatvec = array[1..maxsym] of real; {a vector to store a symmetric matrix
+              as the row-wise expansion of its lower triangle}
+  rvector = array[1..maxm] of real;  {a real vector. We will use vectors
+              of m elements always. While this is NOT space efficient,
+              it simplifies program codes.}
+  cgmethodtype= (Fletcher_Reeves,Polak_Ribiere,Beale_Sorenson);
+    {three possible forms of the conjugate gradients updating formulae}
+  probdata = record
+          m     : integer; {number of observations}
+          nvar  : integer; {number of variables}
+          nconst: integer; {number of constants}
+          vconst: array[1..Maxconst] of real;
+          Ydata : array[1..Maxobs, 1..Maxvars] of real;
+          nlls  : boolean; {true if problem is nonlinear least squares}
+        end;
+{
+  NOTE: Pascal does not let us define the work-space for the function
+  within the user-defined code.  This is a weakness of Pascal for this
+  type of work.
+
+  The following variables allow us to keep a copy of all screen
+  information in a file for some of the codes.  Pascal requires a
+  variable (confile in this case) for the file itself.  The string
+  variable confname is used for the name of the file.  Similar variables
+  allow problem data to be read from the file dfile named dfname.
+}
+var {global definitions}
+  banner     : string[80]; {program name and description}
+  confile    : text;       {file for output of console image}
+  confname   : string[64]; {a name for confile}
+  dfile      : text;       {file for output of console image}
+  dfname     : string[64]; {a name for confile}
+  infile     : text;       {an input file (keyboard image)}
+  infname    : string[64]; {a name for the input file}
+  con        : text;       {the console file}
+```
+
+#### Date and Time functions
+
+The routine `tdstamp.pas` in the original Turbo Pascal MAY work 
+work in Free Pascal, since there is a code unit called `Dos`. 
+
+The following short routine shows how to get the machine time using this
+approach, if needed, e.g., for reporting the execution time of programs, 
+modified from the Free Pascal documentation example for function `GetTime`
+from the `Dos` class. 
+
+```{r code=xfun::read_utf8('../Pascal2021/Timeex3.pas'), echo=TRUE, eval=FALSE}
+```
+
+Here is some output.
+
+```{bash ttime, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/Timeex3.pas
+##
+echo "Completed fpc"
+../Pascal2021/Timeex3
+```
+
+
+<!-- ```{bash ttime, eval=TRUE, echo=TRUE} -->
+<!-- fpc ../Pascal2021/TimeExample17.pas -->
+<!-- ## -->
+<!-- echo "Completed fpc" -->
+<!-- ../Pascal2021/TimeExample17 -->
+<!-- ``` -->
+
+There are also other time and data functions for Free Pascal in the `sysutils`
+unit, as documented in 
+
+\url{https://www.freepascal.org/docs-html/rtl/sysutils/datetimeroutines.html}
+
+```{bash remout, echo=FALSE, eval=TRUE}
+##
+rm ../Pascal2021/Time*.o
+rm ../Pascal2021/Timeex3
+```
 
 ## Python
 
-We can run python code as follows:
+We can run python code in Linux Mint (and likely most Linux distributions) 
+as follows:
 
-```{bash trya9py}
+```{bash trya9py, echo=TRUE, eval=FALSE}
 python3 ../python/A9.py
 ```
 
-?? need to display this!!!
-
-
 
 ## R
+
+R is likely best run within the cross-platform Rstudio IDE, in fact in an
+Rmarkdown article such as the present document source or `NashlibAlgorithms.Rmd`.
 
 ## Others
 
@@ -591,8 +739,9 @@ We urge good documentation and clear but simple examples be provided, and hope t
 follow our own advice in this.
 
 
-```{bash cleanup, echo=FALSE}
-rm a.out
+```{bash cleanup, echo=FALSE, eval=TRUE}
+rm ./a.out
+## echo "Tried to remove a.out"
 ```
 
 # References
