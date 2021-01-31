@@ -70,13 +70,19 @@ rather little acknowledgment of the earlier development, and much more complicat
 
 ## Fortran
 
-### Listing
-
-Note that this is a single precision code. Very few modern calculations are carried out at
+Note that these are single precision codes. Very few modern calculations are carried out at
 this precision. Moreover, the dialect of Fortran (Fortran 77) is now decidedly old-fashioned, 
 though it compiles and executes just fine.
 
-```{r code=xfun::read_utf8('../fortran/dr0102.f'), echo=TRUE, eval=FALSE}
+
+### Listing -- Algorithm 1
+
+```{r code=xfun::read_utf8('../fortran/alg01.f'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 2
+
+```{r code=xfun::read_utf8('../fortran/alg02.f'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -117,9 +123,14 @@ echo "done"
 
 ## Pascal
 
-### Listing
+### Listing -- Algorithm 1
 
-```{r code=xfun::read_utf8('../Pascal2021/dr0102.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg01.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 2
+
+```{r code=xfun::read_utf8('../Pascal2021/alg02.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -255,16 +266,14 @@ these details have largely become irrelevant in an age of cheap memory chips.
 
 ## Fortran
 
-### Listing
+### Listing -- Algorithm 3
 
-The following listing uses the Frank matrix as a test. 
-
-```{r code=xfun::read_utf8('../fortran/a3.f'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../fortran/alg03.f'), echo=TRUE, eval=FALSE}
 ```
-
 
 ### Example output
 
+The following output presents an example using the Frank matrix as a test. 
 As a precaution, we use a 1 by 1 matrix as our first test. We have seen situations 
 where otherwise reliable programs have failed on such trivial cases.
 
@@ -302,9 +311,9 @@ bwbasic ../BASIC/a3.bas
 
 ## Pascal
 
-### Listing -- column-wise approach
+### Listing -- Algorithm 3, column-wise approach
 
-```{r code=xfun::read_utf8('../Pascal2021/dr03.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg03.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output -- column-wise approach
@@ -326,7 +335,7 @@ mv ../Pascal2021/dr03 ../Pascal2021/dr03.run
 
 <!-- ## Others -->
 
-<!-- # Algorithm 4 -- Row-wise SVD and least squares solution -->
+# Algorithm 4 -- Row-oriented SVD and least squares solution
 
 <!-- ## Fortran -->
 
@@ -345,6 +354,19 @@ mv ../Pascal2021/dr03 ../Pascal2021/dr03.run
 
 ## Fortran
 
+### Listing -- Algorithm 5 Gaussian elimination
+
+```{r code=xfun::read_utf8('../fortran/alg05.f'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 6 Back-solution of upper triangular equation systems
+
+```{r code=xfun::read_utf8('../fortran/alg06.f'), echo=TRUE, eval=FALSE}
+```
+
+
+
+
 ```{bash run56}
 gfortran ../fortran/dr0506.f
 mv ./a.out ../fortran/dr0506.run
@@ -359,9 +381,14 @@ mv ./a.out ../fortran/dr0506.run
 
 ## Pascal
 
-### Listing -- column-wise approach
+### Listing -- Algorithm 5, column-wise approach
 
-```{r code=xfun::read_utf8('../Pascal2021/dr03.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg05.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 6, back-solution of upper triangular equations
+
+```{r code=xfun::read_utf8('../Pascal2021/alg06.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output -- column-wise approach
@@ -382,9 +409,19 @@ mv ../Pascal2021/dr0506 ../Pascal2021/dr0506.run
 
 <!-- ## Others -->
 
-# Algorithms 7 and 8 -- Choleski decomposition and solution
+# Algorithms 7 and 8 -- Choleski decomposition and back-solution
 
 ## Fortran
+
+### Listing -- Algorithm 7 Choleski decomposition
+
+```{r code=xfun::read_utf8('../fortran/alg07.f'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 8 Choleski Back-solution
+
+```{r code=xfun::read_utf8('../fortran/alg08.f'), echo=TRUE, eval=FALSE}
+```
 
 
 
@@ -393,9 +430,14 @@ mv ../Pascal2021/dr0506 ../Pascal2021/dr0506.run
 
 ## Pascal
 
-### Listing
+### Listing -- Algorithm 7 Choleski decomposition
 
-```{r code=xfun::read_utf8('../Pascal2021/dr0708.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg07.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 8 Choleski Back-solution
+
+```{r code=xfun::read_utf8('../Pascal2021/alg08.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -459,7 +501,7 @@ showing what can be done when resources are very limited.
 
 ### Listing
 
-```{r code=xfun::read_utf8('../fortran/a9.f'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../fortran/alg09.f'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -493,7 +535,7 @@ bwbasic ../BASIC/a9.bas >../BASIC/a9.out
 
 ### Listing
 
-```{r code=xfun::read_utf8('../Pascal2021/dr09.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg09.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -549,7 +591,7 @@ that a solution may not exist in the unsymmetric case.
 
 The Algorithm 10 code:
 
-```{r code=xfun::read_utf8('../fortran/a10.f'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../fortran/alg10.f'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -588,7 +630,7 @@ bwbasic ../BASIC/a10.bas >../BASIC/a10.out
 
 ### Listing
 
-```{r code=xfun::read_utf8('../Pascal2021/dr10.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg10.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -602,8 +644,6 @@ mv ../Pascal2021/dr10 ../Pascal2021/dr10.run
 
 ```{r code=xfun::read_utf8('../Pascal2021/dr10p.out'), echo=TRUE, eval=FALSE}
 ```
-
-
 
 <!-- ## Python -->
 
@@ -653,7 +693,6 @@ mv ./a.out ../fortran/a1112.run
 ../fortran/a1112.run <../fortran/a1112.in
 ```
 
-
 <!-- ## BASIC -->
 
 ## Pascal
@@ -662,12 +701,12 @@ mv ./a.out ../fortran/a1112.run
 
 ### Listing -- a11.pas
 
-```{r code=xfun::read_utf8('../Pascal2021/a11.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg11.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Listing -- a12.pas
 
-```{r code=xfun::read_utf8('../Pascal2021/a12.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg12.pas'), echo=TRUE, eval=FALSE}
 ```
 
 <!-- ## Python -->
