@@ -244,7 +244,8 @@ build scripts. However, executables are available, though some claimed sources
 may be malware. CAUTION! One of us has an old MS-DOS executable `GWBASIC.EXE` that
 runs quite satisfactorily under the `DOSbox` emulation software available in Linux
 repositories, but the infrastructure is awkward to use under `knitr` environment
-used for this document.
+used for this document. We make some further comments below in duscussions of
+how to actually run the Nashlib codes.
 
 For the purposes of the present effort, it seems that the Linux `bwbasic` (Bywater
 BASIC) is close enough to the GWBAIC dialect to be usable, and is, moreover, usable
@@ -361,6 +362,37 @@ interpreter chosen for Linux Mint 20 by the authors.
 bwbasic ../BASIC/knitrExample.BAS
 echo "done"
 ```
+
+The use of `quit` is, however, not allowed in the `BAS` interpreter. See
+`Bas`, by Michael Haardt — \url{http://www.moria.de/~michael/bas/}
+and (at 2021-1-31) version 2.6 as \url{http://www.moria.de/~michael/bas/bas-2.6.tar.gz}
+which fixes a few bugs. Changing `QUIT` to `STOP` allows the use of lines like
+
+`bas program4bas.bas`
+
+Note that the tarball of `bas` must be extracted, then the program built with the
+commands
+
+```
+configure
+make
+sudo make install
+```
+
+which on Linux Mint 20.1 put the program in `/usr/bin/bas`.
+
+It is also possible in Linux to run the old GWBASIC.EXE interpreter in the `DOSBOX`
+program. To today's eyes, the 25 line "screen" is impossibly tight and the interface
+extremely clunky. 
+
+In the Linux Mint 20.1 repository, there is also `brandy` and `yabasic`. These do
+not seem to be very compatible with either the dialect of BASIC (Data General / North
+Star) in which Nashlib codes were run in the 1970s and 1980s. Similarly, I used to
+find Chipmunk Basic \url{http://www.nicholson.com/rhn/basic/} workable for the codes
+in @jnmws87. However an attempt to load a program on 2021-1-31 failed. Chipmunk
+basic is downloadable for several platforms as a pre-compiled binary, and it may be
+that the file access parts of the code are not set up to mesh with Linux Mint 20.1.
+
 
 ## Pascal
 
