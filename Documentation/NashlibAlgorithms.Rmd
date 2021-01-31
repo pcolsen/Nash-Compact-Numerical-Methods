@@ -697,14 +697,16 @@ mv ./a.out ../fortran/a1112.run
 
 ## Pascal
 
-?? Currently we do not seem to have an example driver for these two codes.
+Currently we do not seem to have a separate example driver for these two codes.
+However, they are used in conjunction with the example(s) for Algorithm 26 (Complex
+matrix eigensolutions).
 
-### Listing -- a11.pas
+### Listing -- Algorithm 11
 
 ```{r code=xfun::read_utf8('../Pascal2021/alg11.pas'), echo=TRUE, eval=FALSE}
 ```
 
-### Listing -- a12.pas
+### Listing -- Algorithm 12
 
 ```{r code=xfun::read_utf8('../Pascal2021/alg12.pas'), echo=TRUE, eval=FALSE}
 ```
@@ -720,9 +722,9 @@ mv ./a.out ../fortran/a1112.run
 
 ## Fortran
 
-### Listing
+### Listing - Algorithim 13
 
-```{r code=xfun::read_utf8('../fortran/dr13.f'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../fortran/alg13.f'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -751,12 +753,11 @@ bwbasic ../BASIC/a13.bas  >../BASIC/a13.out
 ```{r code=xfun::read_utf8('../BASIC/a13.out'), echo=TRUE, eval=FALSE}
 ```
 
-
 ## Pascal
 
-### Listing
+### Listing -- Algorithm 13
 
-```{r code=xfun::read_utf8('../Pascal2021/dr13.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg13.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -782,12 +783,14 @@ mv ../Pascal2021/dr13 ../Pascal2021/dr13.run
 
 ## Fortran
 
-<!-- ### Listing -->
+### Listing -- Algorithm 14
 
-<!-- ```{r code=xfun::read_utf8('../fortran/dr13.f'), echo=TRUE, eval=FALSE} -->
-<!-- ``` -->
+```{r code=xfun::read_utf8('../fortran/alg14.f'), echo=TRUE, eval=FALSE}
+```
 
-<!-- ### Example output -->
+### Example output
+
+?? need an example here
 
 <!-- ```{bash run13} -->
 <!-- ## #!/bin/bash -->
@@ -816,9 +819,9 @@ mv ../Pascal2021/dr13 ../Pascal2021/dr13.run
 
 ## Pascal
 
-### Listing
+### Listing -- Algorithm 14
 
-```{r code=xfun::read_utf8('../Pascal2021/dr14x.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg14.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -851,9 +854,9 @@ and $B$ is positive definite.
 
 ## Fortran
 
-### Listing
+### Listing -- Algorithm 15
 
-```{r code=xfun::read_utf8('../fortran/dr1415.f'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../fortran/alg15.f'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
