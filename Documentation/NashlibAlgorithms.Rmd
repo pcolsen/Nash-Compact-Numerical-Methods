@@ -32,8 +32,6 @@ the algorithms themselves.
 Note that some discussion of the reasoning behind certain choices in algorithms or
 implementations are given in the Overview document.
 
-?? Should list ONLY subroutines/procedures and put examples in non-listed files
-
 \pagebreak
 # Algorithms 1 and 2 -- one-sided SVD and least squares solution
 
@@ -790,14 +788,14 @@ mv ../Pascal2021/dr13 ../Pascal2021/dr13.run
 
 ### Example output
 
-?? need an example here
+We use a Moler matrix of order 5 for our example.
 
-<!-- ```{bash run13} -->
-<!-- ## #!/bin/bash -->
-<!-- gfortran ../fortran/dr13.f -->
-<!-- mv ./a.out ../fortran/dr13.run -->
-<!-- ../fortran/dr13.run < ../fortran/dr13.in -->
-<!-- ``` -->
+```{bash run14f}
+## #!/bin/bash
+gfortran ../fortran/dr14x.f
+mv ./a.out ../fortran/dr14x.run
+../fortran/dr14x.run < ../fortran/dr14xf.in
+```
 
 <!-- ## BASIC -->
 
@@ -861,12 +859,15 @@ and $B$ is positive definite.
 
 ### Example output
 
-```{bash run14}
+This example uses the Frank matrix as $B$ and a Unit matrix as matrix $A$.
+Essentially we get the eigensolutions of the inverse of the Frank matrix.
+
+
+```{bash run1415}
 ## #!/bin/bash
 gfortran ../fortran/dr1415.f
 mv ./a.out ../fortran/dr1415.run
-# use dr13 here as well as in Alg 13
-../fortran/dr1415.run < ../fortran/dr13.in
+../fortran/dr1415.run < ../fortran/dr1415f.in
 ```
 
 <!-- ## BASIC -->
@@ -875,7 +876,7 @@ mv ./a.out ../fortran/dr1415.run
 
 ### Listing
 
-```{r code=xfun::read_utf8('../Pascal2021/dr14x.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg14.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -886,6 +887,7 @@ fpc ../Pascal2021/dr15x.pas
 mv ../Pascal2021/dr15x ../Pascal2021/dr15x.run
 ../Pascal2021/dr15x.run <../Pascal2021/dr15xp.in >../Pascal2021/dr15xp.out
 ```
+
 
 ```{r code=xfun::read_utf8('../Pascal2021/dr15xp.out'), echo=TRUE, eval=FALSE}
 ```

@@ -1,18 +1,7 @@
 Order of problem (n) = 5
 Matrixin.pas -- generate or input a real matrix 5 by 5
-Possible matrices to generate:
-0) Keyboard or console file input
-1) Hilbert segment
-2) Ding Dong
-3) Moler
-4) Frank symmetric
-5) Bordered symmetric
-6) Diagonal
-7) Wilkinson W+
-8) Wilkinson W-
-9) Constant
-10) Unit
 Enter type to generate 3
+Type: 3) Moler
    1.00000   -1.00000   -1.00000   -1.00000   -1.00000 
   -1.00000    2.00000    0.00000    0.00000    0.00000 
   -1.00000    0.00000    3.00000    1.00000    1.00000 
