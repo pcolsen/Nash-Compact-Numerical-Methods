@@ -7,6 +7,7 @@ date: "11/01/2021"
 output: 
   pdf_document:
     keep_tex: false
+    toc: true
 bibliography: nashlib.bib
 ---
 
@@ -20,6 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Algorithms from the book @jncnm79 are implemented in a variety of programming
 languages including Fortran, BASIC, Pascal, Python and R. 
 
+\pagebreak
 # Overview of this document
 
 A companion document **Overview of Nashlib and its Implementations** describes the
@@ -66,13 +68,19 @@ rather little acknowledgment of the earlier development, and much more complicat
 
 ## Fortran
 
-### Listing
-
-Note that this is a single precision code. Very few modern calculations are carried out at
+Note that these are single precision codes. Very few modern calculations are carried out at
 this precision. Moreover, the dialect of Fortran (Fortran 77) is now decidedly old-fashioned, 
 though it compiles and executes just fine.
 
-```{r code=xfun::read_utf8('../fortran/dr0102.f'), echo=TRUE, eval=FALSE}
+
+### Listing -- Algorithm 1
+
+```{r code=xfun::read_utf8('../fortran/alg01.f'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 2
+
+```{r code=xfun::read_utf8('../fortran/alg02.f'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -113,9 +121,14 @@ echo "done"
 
 ## Pascal
 
-### Listing
+### Listing -- Algorithm 1
 
-```{r code=xfun::read_utf8('../Pascal2021/dr0102.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg01.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 2
+
+```{r code=xfun::read_utf8('../Pascal2021/alg02.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -251,16 +264,14 @@ these details have largely become irrelevant in an age of cheap memory chips.
 
 ## Fortran
 
-### Listing
+### Listing -- Algorithm 3
 
-The following listing uses the Frank matrix as a test. 
-
-```{r code=xfun::read_utf8('../fortran/a3.f'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../fortran/alg03.f'), echo=TRUE, eval=FALSE}
 ```
-
 
 ### Example output
 
+The following output presents an example using the Frank matrix as a test. 
 As a precaution, we use a 1 by 1 matrix as our first test. We have seen situations 
 where otherwise reliable programs have failed on such trivial cases.
 
@@ -298,9 +309,9 @@ bwbasic ../BASIC/a3.bas
 
 ## Pascal
 
-### Listing -- column-wise approach
+### Listing -- Algorithm 3, column-wise approach
 
-```{r code=xfun::read_utf8('../Pascal2021/dr03.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg03.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output -- column-wise approach
@@ -322,7 +333,7 @@ mv ../Pascal2021/dr03 ../Pascal2021/dr03.run
 
 <!-- ## Others -->
 
-<!-- # Algorithm 4 -- Row-wise SVD and least squares solution -->
+# Algorithm 4 -- Row-oriented SVD and least squares solution
 
 <!-- ## Fortran -->
 
@@ -341,6 +352,19 @@ mv ../Pascal2021/dr03 ../Pascal2021/dr03.run
 
 ## Fortran
 
+### Listing -- Algorithm 5 Gaussian elimination
+
+```{r code=xfun::read_utf8('../fortran/alg05.f'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 6 Back-solution of upper triangular equation systems
+
+```{r code=xfun::read_utf8('../fortran/alg06.f'), echo=TRUE, eval=FALSE}
+```
+
+
+
+
 ```{bash run56}
 gfortran ../fortran/dr0506.f
 mv ./a.out ../fortran/dr0506.run
@@ -355,9 +379,14 @@ mv ./a.out ../fortran/dr0506.run
 
 ## Pascal
 
-### Listing -- column-wise approach
+### Listing -- Algorithm 5, column-wise approach
 
-```{r code=xfun::read_utf8('../Pascal2021/dr03.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg05.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 6, back-solution of upper triangular equations
+
+```{r code=xfun::read_utf8('../Pascal2021/alg06.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output -- column-wise approach
@@ -378,13 +407,49 @@ mv ../Pascal2021/dr0506 ../Pascal2021/dr0506.run
 
 <!-- ## Others -->
 
-<!-- # Algorithms 7 and 8 -- ?? -->
+# Algorithms 7 and 8 -- Choleski decomposition and back-solution
 
-<!-- ## Fortran -->
+## Fortran
+
+### Listing -- Algorithm 7 Choleski decomposition
+
+```{r code=xfun::read_utf8('../fortran/alg07.f'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 8 Choleski Back-solution
+
+```{r code=xfun::read_utf8('../fortran/alg08.f'), echo=TRUE, eval=FALSE}
+```
+
+
 
 <!-- ## BASIC -->
 
-<!-- ## Pascal -->
+
+## Pascal
+
+### Listing -- Algorithm 7 Choleski decomposition
+
+```{r code=xfun::read_utf8('../Pascal2021/alg07.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 8 Choleski Back-solution
+
+```{r code=xfun::read_utf8('../Pascal2021/alg08.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script78pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr0708.pas
+# copy to run file
+mv ../Pascal2021/dr0708 ../Pascal2021/dr0708.run
+../Pascal2021/dr0708.run <../Pascal2021/dr0708p.in >../Pascal2021/dr0708p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr0708p.out'), echo=TRUE, eval=FALSE}
+```
+
 
 <!-- ## Python -->
 
@@ -434,7 +499,7 @@ showing what can be done when resources are very limited.
 
 ### Listing
 
-```{r code=xfun::read_utf8('../fortran/a9.f'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../fortran/alg09.f'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -468,7 +533,7 @@ bwbasic ../BASIC/a9.bas >../BASIC/a9.out
 
 ### Listing
 
-```{r code=xfun::read_utf8('../Pascal2021/dr09.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg09.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -524,7 +589,7 @@ that a solution may not exist in the unsymmetric case.
 
 The Algorithm 10 code:
 
-```{r code=xfun::read_utf8('../fortran/a10.f'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../fortran/alg10.f'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -535,9 +600,9 @@ are generally easier)?
 
 ```{bash run10}
 ## #!/bin/bash
-gfortran ../fortran/a10.f
-mv ./a.out ../fortran/a10.run
-../fortran/a10.run
+gfortran ../fortran/d10.f
+mv ./a.out ../fortran/d10.run
+../fortran/d10.run
 ```
 ## BASIC
 
@@ -563,7 +628,7 @@ bwbasic ../BASIC/a10.bas >../BASIC/a10.out
 
 ### Listing
 
-```{r code=xfun::read_utf8('../Pascal2021/dr10.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg10.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -577,8 +642,6 @@ mv ../Pascal2021/dr10 ../Pascal2021/dr10.run
 
 ```{r code=xfun::read_utf8('../Pascal2021/dr10p.out'), echo=TRUE, eval=FALSE}
 ```
-
-
 
 <!-- ## Python -->
 
@@ -603,10 +666,17 @@ largest magnitude component of the eigenvector is set to $1 + 0 i$ where
 $$ i = \sqrt{-1}$$
 ## Fortran
 
-The Algorithm 11 and 12 code:
+The Algorithm 11 code:
 
-```{r code=xfun::read_utf8('../fortran/a1112.f'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../fortran/alg11.f'), echo=TRUE, eval=FALSE}
 ```
+
+The Algorithm 11 code:
+
+
+```{r code=xfun::read_utf8('../fortran/alg12.f'), echo=TRUE, eval=FALSE}
+```
+
 
 ### Example output
 
@@ -621,21 +691,22 @@ mv ./a.out ../fortran/a1112.run
 ../fortran/a1112.run <../fortran/a1112.in
 ```
 
-
 <!-- ## BASIC -->
 
 ## Pascal
 
-?? Currently we do not seem to have an example driver for these two codes.
+Currently we do not seem to have a separate example driver for these two codes.
+However, they are used in conjunction with the example(s) for Algorithm 26 (Complex
+matrix eigensolutions).
 
-### Listing -- a11.pas
+### Listing -- Algorithm 11
 
-```{r code=xfun::read_utf8('../Pascal2021/a11.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg11.pas'), echo=TRUE, eval=FALSE}
 ```
 
-### Listing -- a12.pas
+### Listing -- Algorithm 12
 
-```{r code=xfun::read_utf8('../Pascal2021/a12.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg12.pas'), echo=TRUE, eval=FALSE}
 ```
 
 <!-- ## Python -->
@@ -649,9 +720,9 @@ mv ./a.out ../fortran/a1112.run
 
 ## Fortran
 
-### Listing
+### Listing - Algorithim 13
 
-```{r code=xfun::read_utf8('../fortran/dr13.f'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../fortran/alg13.f'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -680,12 +751,11 @@ bwbasic ../BASIC/a13.bas  >../BASIC/a13.out
 ```{r code=xfun::read_utf8('../BASIC/a13.out'), echo=TRUE, eval=FALSE}
 ```
 
-
 ## Pascal
 
-### Listing
+### Listing -- Algorithm 13
 
-```{r code=xfun::read_utf8('../Pascal2021/dr13.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg13.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -711,19 +781,21 @@ mv ../Pascal2021/dr13 ../Pascal2021/dr13.run
 
 ## Fortran
 
-<!-- ### Listing -->
+### Listing -- Algorithm 14
 
-<!-- ```{r code=xfun::read_utf8('../fortran/dr13.f'), echo=TRUE, eval=FALSE} -->
-<!-- ``` -->
+```{r code=xfun::read_utf8('../fortran/alg14.f'), echo=TRUE, eval=FALSE}
+```
 
-<!-- ### Example output -->
+### Example output
 
-<!-- ```{bash run13} -->
-<!-- ## #!/bin/bash -->
-<!-- gfortran ../fortran/dr13.f -->
-<!-- mv ./a.out ../fortran/dr13.run -->
-<!-- ../fortran/dr13.run < ../fortran/dr13.in -->
-<!-- ``` -->
+We use a Moler matrix of order 5 for our example.
+
+```{bash run14f}
+## #!/bin/bash
+gfortran ../fortran/dr14x.f
+mv ./a.out ../fortran/dr14x.run
+../fortran/dr14x.run < ../fortran/dr14xf.in
+```
 
 <!-- ## BASIC -->
 
@@ -745,9 +817,9 @@ mv ../Pascal2021/dr13 ../Pascal2021/dr13.run
 
 ## Pascal
 
-### Listing
+### Listing -- Algorithm 14
 
-```{r code=xfun::read_utf8('../Pascal2021/dr14x.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg14.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -780,19 +852,22 @@ and $B$ is positive definite.
 
 ## Fortran
 
-### Listing
+### Listing -- Algorithm 15
 
-```{r code=xfun::read_utf8('../fortran/dr1415.f'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../fortran/alg15.f'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
 
-```{bash run14}
+This example uses the Frank matrix as $B$ and a Unit matrix as matrix $A$.
+Essentially we get the eigensolutions of the inverse of the Frank matrix.
+
+
+```{bash run1415}
 ## #!/bin/bash
 gfortran ../fortran/dr1415.f
 mv ./a.out ../fortran/dr1415.run
-# use dr13 here as well as in Alg 13
-../fortran/dr1415.run < ../fortran/dr13.in
+../fortran/dr1415.run < ../fortran/dr1415f.in
 ```
 
 <!-- ## BASIC -->
@@ -801,7 +876,7 @@ mv ./a.out ../fortran/dr1415.run
 
 ### Listing
 
-```{r code=xfun::read_utf8('../Pascal2021/dr14x.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg14.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -813,6 +888,7 @@ mv ../Pascal2021/dr15x ../Pascal2021/dr15x.run
 ../Pascal2021/dr15x.run <../Pascal2021/dr15xp.in >../Pascal2021/dr15xp.out
 ```
 
+
 ```{r code=xfun::read_utf8('../Pascal2021/dr15xp.out'), echo=TRUE, eval=FALSE}
 ```
 
@@ -823,7 +899,22 @@ mv ../Pascal2021/dr15x ../Pascal2021/dr15x.run
 
 <!-- ## Others -->
 
-<!-- # Algorithm 16 -- ?? -->
+# Algorithm 16 -- Grid search
+
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/a16.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run16}
+gfortran ../fortran/a16.f
+mv ./a.out ../fortran/a16.run
+../fortran/a16.run < ../fortran/a16f.in
+```
 
 <!-- ## Fortran -->
 
@@ -1000,7 +1091,8 @@ mv ./a.out ../fortran/a25.run
 
 ### Example output
 
-?? explananation needed. Note use of Pascal input file
+?? explanation needed. Note use of Pascal input file
+
 
 ```{bash runf26}
 gfortran ../fortran/comeigd26.f
@@ -1099,7 +1191,7 @@ mv ../Pascal2021/dr27 ../Pascal2021/dr27.run
 
 
 
-## Cleanup of working files
+# Cleanup of working files
 
 The following script is included to remove files created during compilation or
 execution of the examples.

@@ -60,6 +60,7 @@ type
 }
 var {global definitions}
   banner     : string[80]; {program name and description}
+
 Procedure matrixin(var m, n: integer; var A: rmatrix;
               var avector: smatvec; var sym :boolean);
 
@@ -92,18 +93,19 @@ begin
     halt;
   end;
   writeln('Matrixin.pas -- generate or input a real matrix ',m,' by ',n);
-  writeln('Possible matrices to generate:');
-  writeln('0) Keyboard or console file input');
-  writeln('1) Hilbert segment');
-  writeln('2) Ding Dong');
-  writeln('3) Moler');
-  writeln('4) Frank symmetric');
-  writeln('5) Bordered symmetric');
-  writeln('6) Diagonal');
-  writeln('7) Wilkinson W+');
-  writeln('8) Wilkinson W-');
-  writeln('9) Constant');
-  writeln('10) Unit');
+(*  writeln('Possible matrices to generate:');
+  writeln('Type: 0) Keyboard or console file input');
+  writeln('Type: 1) Hilbert segment');
+  writeln('Type: 2) Ding Dong');
+  writeln('Type: 3) Moler');
+  writeln('Type: 4) Frank symmetric');
+  writeln('Type: 5) Bordered symmetric');
+  writeln('Type: 6) Diagonal');
+  writeln('Type: 7) Wilkinson W+');
+  writeln('Type: 8) Wilkinson W-');
+  writeln('Type: 9) Constant');
+  writeln('Type: 10) Unit');
+*)
 { Note: others could be added.}
   mn:=n;
   if m>mn then mn:=m; {mn is maximum of m and n}
@@ -112,6 +114,7 @@ begin
   writeln(mtype);
   case mtype of
     0: begin
+      writeln('Type: 0) Keyboard or console file input');
       sym:=false;
       if m=n then
       begin
@@ -149,18 +152,21 @@ begin
       end; {else not symmetric}
     end; {case 0 -- input of matrix}
     1: begin {Hilbert}
+         writeln('Type: 1) Hilbert segment');
       for i:=1 to mn do
         for j:=1 to mn do
           A[i,j]:=1.0/(i+j-1.0);
       if m=n then sym:=true;
     end;
     2: begin {Ding Dong}
+      writeln('Type: 2) Ding Dong');
       for i:=1 to mn do
         for j:=1 to mn do
           A[i,j]:=0.5/(1.5+n-i-j);
       if m=n then sym:=true;
     end;
     3: begin {Moler}
+      writeln('Type: 3) Moler');
       for i:=1 to mn do
       begin
         for j:=1 to i do
@@ -173,6 +179,7 @@ begin
       end;
     end;
     4: begin {Frank symmetric}
+      writeln('Type: 4) Frank symmetric');
       for i:=1 to mn do
         for j:=1 to i do
         begin
@@ -182,6 +189,7 @@ begin
         if m=n then sym:=true;
     end;
     5: begin {Bordered}
+      writeln('Type: 5) Bordered symmetric');
       temp:=2.0;
       for i:=1 to (mn-1) do
       begin
@@ -196,6 +204,7 @@ begin
       if m=n then sym:=true;
     end;
     6: begin {Diagonal}
+      writeln('Type: 6) Diagonal');
       for i:=1 to mn do
       begin
         for j:=1 to mn do
@@ -205,6 +214,7 @@ begin
       if m=n then sym:=true;
     end;
     7: begin {W+}
+      writeln('Type: 7) Wilkinson W+');
       k:=mn div 2; {[n/2]}
       for i:=1 to mn do
         for j:=1 to mn do
@@ -222,6 +232,7 @@ begin
       end;
     end;
     8: begin {W-}
+      writeln('Type: 8) Wilkinson W-');
       k:=mn div 2; {[n/2]}
       for i:=1 to mn do
         for j:=1 to mn do
@@ -240,6 +251,7 @@ begin
       if m=n then sym:=true;
     end;
     9: begin {Constant}
+      writeln('Type: 9) Constant');
       write('Set all elements to a constant value = ');
       readln(temp);
       writeln(temp);
@@ -249,6 +261,7 @@ begin
       if m=n then sym:=true;
     end;
     10: begin {Unit}
+      writeln('Type: 10) Unit');
       for i:=1 to mn do
       begin
         for j:=1 to mn do A[i,j]:=0.0;
