@@ -995,7 +995,7 @@ mv ../Pascal2021/dr1617 ../Pascal2021/dr1617p.run
 ```
 
 Then we run the grid search (Algorithm 16) followed by the line search routine
-(Algorithm 17).
+(Algorithm 18).
 
 ```{bash script1617prun, eval=TRUE, echo=TRUE}
 ../Pascal2021/dr1617p.run <../Pascal2021/dr1617p.in >../Pascal2021/dr1617p.out
@@ -1027,9 +1027,34 @@ total of 24.
 
 # Algorithm 18 -- Roots of a function of one parameter
 
+We use the same cubic polynomial for our rootfinding test as for the 1D minimizer
+(Algorithm 17). R has a built-in 1D rootfinder, `uniroot`. This uses ideas in 
+@brent73. As of UseR!2011 in Warwick, the R multiple-precision
+package `Rmpfr` (@Rmpfr) did not have a rootfinder because it needed to have
+a pure-R code to extend the precision. During a quite period of the conference, 
+the author (JN) translated the C code of `uniroot` to plain R, and it is now
+the `unirootR` function of `Rmpfr`. The code is in the `rootoned` package at
+http://download.r-forge.r-project.org/src/contrib/rootoned_2018-8.28.tar.gz.
 
+Note that this is a different algorithm to that in Nashlib. Moreover, even the
+Nashlib codes are not necessarily fully equivalent, as over time minor variations
+have crept in. We are also fairly certain that the ideas of Algorithm 18 are NOT
+the best for performance. They were written initially for the Data General NOVA
+which had very poor quality floating point (24 bit mantissa, likely no guard
+digit, no double precision), and with very limited storage. Thus the programming 
+goal was reliability rather than efficiency.
 
-
+```{r a18ex, echo=TRUE}
+ cubfn <- function(x) { x*(x*x-2)-5}
+## curve(cubfn, from=-2, to=2)
+cat("The first attempt fails -- see the plot of the function above.\n")
+ res <- try(uniroot(f=cubfn, lower=0, upper=1))
+ res <- try(uniroot(f=cubfn, lower=-3, upper=3))
+ cat("Root proposed is f(",res$root,")=",res$f.root,"\n")
+ cat("Tighter tolerance?\n")
+ res <- try(uniroot(f=cubfn, lower=-3, upper=3, tol=1e-10))
+ cat("Root proposed is f(",res$root,")=",res$f.root,"\n")
+```
 ## Fortran
 
 ### Listing
@@ -1045,9 +1070,76 @@ mv ./a.out ../fortran/dr18f.run
 ../fortran/dr18f.run < ../fortran/dr18f.in
 ```
 
-<!-- ## BASIC -->
+## BASIC
 
-<!-- ## Pascal -->
+The code used here was edited from one dated August 30, 1976. Changes were needed
+to adapt to the changed syntax of the `PRINT` statement and to allow us to run 
+the program inside a scripted environment, but the logic is unchanged. For example,
+we have artificially inserted a working set of values to start the Bisection / False
+Position rootfinder after the grid search. The original program was designed to 
+present the grid search so that the user could interactively choose an interval
+for which the endpoints had different function values to start the rootfinder.
+
+### Listing
+
+```{r code=xfun::read_utf8('../BASIC/a18roo.bas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run18b}
+bwbasic ../BASIC/a18roo.bas
+```
+
+## Pascal
+
+### Listing
+
+Note that in this routine, we use bisection every 5 function evaluations. That is,
+we fix the `nbis` variable at 5. This could easily be changed to make it an input
+quantity. 
+
+?? Do we want to discuss why this may be useful?
+
+```{r code=xfun::read_utf8('../Pascal2021/alg18.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+First we compile the codes.
+
+```{bash script18pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr1618.pas
+# copy to run file
+mv ../Pascal2021/dr1618 ../Pascal2021/dr1618p.run
+```
+
+Then we run the grid search (Algorithm 16) followed by the Bisection / False position routine
+(Algorithm 18).
+
+```{bash script1618aprun, eval=TRUE, echo=TRUE}
+../Pascal2021/dr1618p.run <../Pascal2021/dr1618a.in >../Pascal2021/dr1618a.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr1618a.out'), echo=TRUE, eval=FALSE}
+```
+
+Let us try WITHOUT grid search first. 
+
+```{bash script1616bprun, eval=TRUE, echo=TRUE}
+../Pascal2021/dr1618p.run <../Pascal2021/dr1618b.in >../Pascal2021/dr1618b.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr1618b.out'), echo=TRUE, eval=FALSE}
+```
+
+But we can run just the minimizer. Note that above we use only 13 function evaluations
+in the minimizer, but now use 17 (for the input used in this example). However, the
+grid search used 11 function evaluations prior to the call to the minimizer for a 
+total of 24.
+
 
 <!-- ## Python -->
 
