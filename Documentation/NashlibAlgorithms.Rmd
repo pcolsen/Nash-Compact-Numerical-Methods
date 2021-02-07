@@ -1393,15 +1393,15 @@ cd ../fortran/
 echo `pwd`
 rm  *.o
 rm  *.run
-# rm *.out
+rm *.out
 cd ../Pascal2021/
 echo `pwd`
 rm  *.o
 rm  *.run
-# rm *.out
+rm *.out
 cd ../BASIC
 echo `pwd`
-# rm *.out
+rm *.out
 cd ../Documentation
 ## ?? others
 ```

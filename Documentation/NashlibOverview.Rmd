@@ -276,8 +276,6 @@ bwbasic ../BASIC/printbas.bas
 echo "done"
 ```
 
-
-
 ## Pascal
 
 Pascal is another programming language that suffers from many dialects. In this case,
