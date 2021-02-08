@@ -876,7 +876,7 @@ mv ./a.out ../fortran/dr1415.run
 
 ### Listing
 
-```{r code=xfun::read_utf8('../Pascal2021/alg14.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg15.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
@@ -901,26 +901,44 @@ mv ../Pascal2021/dr15x ../Pascal2021/dr15x.run
 
 # Algorithm 16 -- Grid search
 
+Grid search -- establishing a regular pattern of parameter values for one or
+more arguments of a function and then evaluating that function on the "grid" --
+is a brute force approach to finding roots, minima, maxima and other features of a 
+function surface. While it cannot be recommended as an efficient method for
+finding roots or minima, it offers a way to generate data for plotting the function
+surface and for localizing roots or minima when these are not unique. Furthermore,
+it is readily understood, and offers a useful starting point in presenting and
+understanding a problem.
+
 ## Fortran
 
 ### Listing
 
-```{r code=xfun::read_utf8('../fortran/a16.f'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../fortran/alg16.f'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
 
 ```{bash run16}
-gfortran ../fortran/a16.f
-mv ./a.out ../fortran/a16.run
-../fortran/a16.run < ../fortran/a16f.in
+gfortran ../fortran/dr16.f
+mv ./a.out ../fortran/dr16f.run
+../fortran/dr16f.run < ../fortran/dr16f.in
 ```
 
-<!-- ## Fortran -->
-
 <!-- ## BASIC -->
 
-<!-- ## Pascal -->
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/alg16.pas'), echo=TRUE, eval=FALSE}
+```
+
+
+### Example output
+
+The driver for presenting the example of the Pascal version of Algorithm 16 is
+combined with that of Algorithm 17 below.
 
 <!-- ## Python -->
 
@@ -928,13 +946,78 @@ mv ./a.out ../fortran/a16.run
 
 <!-- ## Others -->
 
-<!-- # Algorithm 17 -- ?? -->
+# Algorithm 17 -- Minimize a function of one parameter
 
-<!-- ## Fortran -->
+It is helpful to be able to visualize a one-parameter function before
+trying to find a minimum. R provides a nice way to do this, and also
+provides (via the `Brent` method of `optim()`) a way to seek a local
+minimum, though we need to provide lower and upper bounds. The original
+Algorithm 17 from Nashlib uses a starting guess and a starting stepsize, which
+leads to a different approach to finding a minimum. However, the upper and
+lower bound approach was used in the 1990 Second Edition and its Turbo Pascal
+variant of the code. 
+
+```{r a17ex, echo=TRUE}
+ cubfn <- function(x) { x*(x*x-2)-5}
+ curve(cubfn, from=-2, to=2)
+ res <- optim(par=0.0, fn=cubfn, method="Brent", lower=c(0), upper=c(1))
+ cat("Minimum proposed is f(",res$par,")=",res$value,"\n")
+```
+
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/alg17.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run17f}
+gfortran ../fortran/dr17.f
+mv ./a.out ../fortran/dr17f.run
+../fortran/dr17f.run < ../fortran/dr17f.in
+```
 
 <!-- ## BASIC -->
 
-<!-- ## Pascal -->
+## Pascal
+
+
+### Example output
+
+First we compile the codes.
+
+```{bash script1617cpas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr1617.pas
+# copy to run file
+mv ../Pascal2021/dr1617 ../Pascal2021/dr1617p.run
+```
+
+Then we run the grid search (Algorithm 16) followed by the line search routine
+(Algorithm 18).
+
+```{bash script1617prun, eval=TRUE, echo=TRUE}
+../Pascal2021/dr1617p.run <../Pascal2021/dr1617p.in >../Pascal2021/dr1617p.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr1617p.out'), echo=TRUE, eval=FALSE}
+```
+
+But we can run just the minimizer. Note that above we use only 13 function evaluations
+in the minimizer, but now use 17 (for the input used in this example). However, the
+grid search used 11 function evaluations prior to the call to the minimizer for a 
+total of 24.
+
+```{bash script17prun, eval=TRUE, echo=TRUE}
+../Pascal2021/dr1617p.run <../Pascal2021/dr17p.in >../Pascal2021/dr17p.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr17p.out'), echo=TRUE, eval=FALSE}
+```
+
 
 <!-- ## Python -->
 
@@ -942,13 +1025,121 @@ mv ./a.out ../fortran/a16.run
 
 <!-- ## Others -->
 
-<!-- # Algorithm 18 -- ?? -->
+# Algorithm 18 -- Roots of a function of one parameter
 
-<!-- ## Fortran -->
+We use the same cubic polynomial for our rootfinding test as for the 1D minimizer
+(Algorithm 17). R has a built-in 1D rootfinder, `uniroot`. This uses ideas in 
+@brent73. As of UseR!2011 in Warwick, the R multiple-precision
+package `Rmpfr` (@Rmpfr) did not have a rootfinder because it needed to have
+a pure-R code to extend the precision. During a quite period of the conference, 
+the author (JN) translated the C code of `uniroot` to plain R, and it is now
+the `unirootR` function of `Rmpfr`. The code is in the `rootoned` package at
+http://download.r-forge.r-project.org/src/contrib/rootoned_2018-8.28.tar.gz.
 
-<!-- ## BASIC -->
+Note that this is a different algorithm to that in Nashlib. Moreover, even the
+Nashlib codes are not necessarily fully equivalent, as over time minor variations
+have crept in. We are also fairly certain that the ideas of Algorithm 18 are NOT
+the best for performance. They were written initially for the Data General NOVA
+which had very poor quality floating point (24 bit mantissa, likely no guard
+digit, no double precision), and with very limited storage. Thus the programming 
+goal was reliability rather than efficiency.
 
-<!-- ## Pascal -->
+```{r a18ex, echo=TRUE}
+ cubfn <- function(x) { x*(x*x-2)-5}
+## curve(cubfn, from=-2, to=2)
+cat("The first attempt fails -- see the plot of the function above.\n")
+ res <- try(uniroot(f=cubfn, lower=0, upper=1))
+ res <- try(uniroot(f=cubfn, lower=-3, upper=3))
+ cat("Root proposed is f(",res$root,")=",res$f.root,"\n")
+ cat("Tighter tolerance?\n")
+ res <- try(uniroot(f=cubfn, lower=-3, upper=3, tol=1e-10))
+ cat("Root proposed is f(",res$root,")=",res$f.root,"\n")
+```
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/alg17.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run18f}
+gfortran ../fortran/dr18.f
+mv ./a.out ../fortran/dr18f.run
+../fortran/dr18f.run < ../fortran/dr18f.in
+```
+
+## BASIC
+
+The code used here was edited from one dated August 30, 1976. Changes were needed
+to adapt to the changed syntax of the `PRINT` statement and to allow us to run 
+the program inside a scripted environment, but the logic is unchanged. For example,
+we have artificially inserted a working set of values to start the Bisection / False
+Position rootfinder after the grid search. The original program was designed to 
+present the grid search so that the user could interactively choose an interval
+for which the endpoints had different function values to start the rootfinder.
+
+### Listing
+
+```{r code=xfun::read_utf8('../BASIC/a18roo.bas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run18b}
+bwbasic ../BASIC/a18roo.bas
+```
+
+## Pascal
+
+### Listing
+
+Note that in this routine, we use bisection every 5 function evaluations. That is,
+we fix the `nbis` variable at 5. This could easily be changed to make it an input
+quantity. 
+
+?? Do we want to discuss why this may be useful?
+
+```{r code=xfun::read_utf8('../Pascal2021/alg18.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+First we compile the codes.
+
+```{bash script18pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr1618.pas
+# copy to run file
+mv ../Pascal2021/dr1618 ../Pascal2021/dr1618p.run
+```
+
+Then we run the grid search (Algorithm 16) followed by the Bisection / False position routine
+(Algorithm 18).
+
+```{bash script1618aprun, eval=TRUE, echo=TRUE}
+../Pascal2021/dr1618p.run <../Pascal2021/dr1618a.in >../Pascal2021/dr1618a.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr1618a.out'), echo=TRUE, eval=FALSE}
+```
+
+Let us try WITHOUT grid search first. 
+
+```{bash script1616bprun, eval=TRUE, echo=TRUE}
+../Pascal2021/dr1618p.run <../Pascal2021/dr1618b.in >../Pascal2021/dr1618b.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr1618b.out'), echo=TRUE, eval=FALSE}
+```
+
+But we can run just the minimizer. Note that above we use only 13 function evaluations
+in the minimizer, but now use 17 (for the input used in this example). However, the
+grid search used 11 function evaluations prior to the call to the minimizer for a 
+total of 24.
+
 
 <!-- ## Python -->
 
@@ -1013,9 +1204,58 @@ mv ./a.out ../fortran/a16.run
 
 <!-- ## Others -->
 
-<!-- # Algorithm 24 -- ?? -->
+# Algorithm 24 -- conjugate gradients for linear equations and least squares
 
-<!-- ## Fortran -->
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/a24.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We solve the linear equations problem 
+
+$$ A x = b$$
+for $A$ being the Frank matrix and $b$ the vector that is all $A 1$, that is, $A$
+times a vector of ones. Different orders
+of problem are tried. This problem has an obvious solution, which is that
+
+$$ x_i = 1 $$
+and the elements of $A$ are integers, so we can compute the error in the solution
+as well as the residual 
+
+$$ b - A x $$
+
+
+```{r chkfrankle}
+A <- matrix(0, nrow=5, ncol=5)
+b <- rep(1,5)
+
+for (i in 1:5) {
+   for (j in 1:5){
+       A[i,j]=min(i,j)
+   }
+}
+print(A)
+C <- A %*% b
+print(C)
+```
+
+
+
+Note that the program, as given, is single precision, so some
+of the results are not terribly accurate. Also the control `IMULT` is an upper 
+limit on the number of matrix multiplications before the process is artificially
+halted. We still get an approximate solution at this stage, and the result
+accuracy in terms of residuals and error.
+
+```{bash run24le}
+gfortran ../fortran/dr24.f
+mv ./a.out ../fortran/dr24le.run
+../fortran/dr24le.run < ../fortran/a24f.in
+```
 
 <!-- ## BASIC -->
 
@@ -1054,22 +1294,27 @@ mv ./a.out ../fortran/a25.run
 
 ### Listing
 
-```{r code=xfun::read_utf8('../Pascal2021/dr25.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg25.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
 
-?? not yet working
+We use the same example as for Algorithm 15, with $A$ the unit matrix and $B$ the
+Frank matrix, here of order 5.
 
-<!-- ```{bash script25pas, eval=TRUE, echo=TRUE} -->
-<!-- fpc ../Pascal2021/dr25.pas -->
-<!-- # copy to run file -->
-<!-- mv ../Pascal2021/dr25 ../Pascal2021/dr25.run -->
-<!-- ../Pascal2021/dr25.run <../Pascal2021/dr25p.in >../Pascal2021/dr25p.out -->
-<!-- ``` -->
+Note that we could modify the program to work with $-A$ to get the negative of the
+largest eigenvalue. Various shifting strategies might be used to get other solutions,
+but they are rather inconvenient and not recommended.
 
-<!-- ```{r code=xfun::read_utf8('../Pascal2021/dr25p.out'), echo=TRUE, eval=FALSE} -->
-<!-- ``` -->
+```{bash script25pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr25.pas
+# copy to run file
+mv ../Pascal2021/dr25 ../Pascal2021/dr25.run
+../Pascal2021/dr25.run <../Pascal2021/dr25p.in >../Pascal2021/dr25p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr25p.out'), echo=TRUE, eval=FALSE}
+```
 
 
 <!-- ## Python -->
@@ -1202,15 +1447,15 @@ cd ../fortran/
 echo `pwd`
 rm  *.o
 rm  *.run
-# rm *.out
+rm *.out
 cd ../Pascal2021/
 echo `pwd`
 rm  *.o
 rm  *.run
-# rm *.out
+rm *.out
 cd ../BASIC
 echo `pwd`
-# rm *.out
+rm *.out
 cd ../Documentation
 ## ?? others
 ```

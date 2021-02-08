@@ -10,11 +10,12 @@ use File::Basename; # module that parses filenames into path, name, extension et
 use File::Copy;
 # use File::HomeDir; # Need to install libfile-homedir-perl
 
-my ($ii, $jj, $ofn, $tmp, $oldpn);
-my ($outpath, $fextn, $fnroot);
+my ($ii, $jj, $kk, $ifn, $tmp, $tfname, $oldpn);
+my ($inpath, $fextn, $fnroot);
 my ($tfnam, $numfiles, $pname);
-my (@imfiles, @persname, $d8, @ymd, @tfiles);
+my (@lyns, @persname, $d8, @ymd, @tfile);
 my ($trln, $titl, $ccwd, $cmd, $nfn, $pfn);
+my  $inkstr="\{\$I ";
 
 print "mergepas.pl -- (C) J C Nash 2021\n";
 print "\n";
@@ -35,7 +36,7 @@ if ($numclargs==0) { #if no command line parameters, then display a message abou
 }
 
 chomp $ifn;
-print "working with input filename = $ofn\n";
+print "working with input filename = $ifn\n";
 $ifn=realpath($ifn); # expand to full path 
 ($fnroot,$inpath,$fextn) = fileparse($ifn);
 
@@ -44,111 +45,42 @@ print "full input filename = $ifn\n";
 #print "filename extension is $fextn\n";
 print "path is $inpath\n";
 
-# Now get file names of image files -- jpg only (lower case only)!
-print "Image files\n";
-@imfiles=();
-@tfiles=glob("*.jpg");
-$numfiles=@tfiles;
-print "$numfiles of type .jpg\n";
-@imfiles=(@imfiles,@tfiles);
-$numfiles=@imfiles;
-print "$numfiles total jpg image files\n";	
+open (INF, $ifn) or die("could not open $ifn for read");
+@lyns = <INF>; # get the data
+close INF;
 
-# sort the files
+# print @lyns;
 
-@tfiles = sort @imfiles;
-@imfiles = @tfiles; 
-# Now parse out the filenames to build tex file
- 
-# loop over files
-
-# copy tex preamble into outfile
-my $preamblefile = glob('~/bin/FrohnTexPreamble.txt');
-copy($preamblefile, $ofn) or die "Tex preamble copy failed: $!";
-
-# ?? should arrange that page numbers start AFTER preamble
-
-# Note: preamble ASSUMED to end with newpage!
-
-## Now use the title 
-
-if (-f "\@TITLE\@.TXT") { # there is a title -- use it
-   open (TFILE, "\@TITLE\@.TXT");
-   $titl = <TFILE>;
-   print "Title: $titl\n";
-   close TFILE;
- } else {
-   print "No title file";
-   $titl = "   ";
- }
-
-# open file for output
-open (OFILE, ">>", $ofn);
-print "File $ofn is open\n";
-
-##$tmp = <STDIN>;
-
-$ii = 0; 
-print OFILE "\n\n\n";
-print OFILE "\\chapter*{$titl}\n\n";
-
-foreach $tfnam (@tfiles) {
-      print OFILE "\\begin{figure}[H]\n";
-      print OFILE "\\flushleft\n";
-      print OFILE "File: $tfnam\\\\\n";
-      $trln = `rdjpgcom $tfnam`;
-      ## 190713 -- try to fix double \\
-      $trln =~ s/\\\\/\\/g; # replace \\ with \ in comments
-      $trln =~ s/\\000//g; # get rid of \000 in comments
-      print OFILE "\\fbox{\\includegraphics[width=0.45\\textwidth,left]{$tfnam}} \n";
-
-      print OFILE "\\end{figure}\n";
-      print OFILE "\n\\vspace{2.5mm}\n";
-
-      print OFILE "$trln\n\n";
-      print OFILE "\\vspace{3mm}\n";
-#      print OFILE "\\centering\n";
-# Need to do stuff for dots and spaces, hence grffile etc. ??
-      print OFILE "\n\n";
-}
-
-#  $tmp = <STDIN>;
-
-# copy file end to outfile
-print OFILE "\n\n\n\\end{document}\n";
-close OFILE;
-
-print "rename out.tex to ?";
-
-$nfn = <STDIN>;
-chomp($nfn);
-
-if (length($nfn) == 0) { $nfn=$fnroot };
-move($fnroot, $nfn) or die("Rename failed"); 
-
-## print "Now process to pdf ";
-## $tmp = <STDIN>;
-$cmd = "pdflatex ./".$nfn;
-print "Command:".$cmd."\n";
-## $tmp = <STDIN>;
-
-system($cmd);
-
-$ii=index($nfn, ".");
-$pfn = substr($nfn, 0, $ii).".pdf";
-print "\n\n";
-print "PDF file=",$pfn,"\n";
-## $tmp = <STDIN>;
+open (OUTF, ">./out.pas") or die("Outfile failure");
+# now loop over lines
+  print "Search for $inkstr \n";
+  foreach $tfname (@lyns) {
+    $tfname=ltrim($tfname); # remove left white space
+    $kk=index($tfname, $inkstr);
+#    print $kk," ";
+    if ( $kk == 0) {
+        print "****Include found: ",$tfname;
+        $tfname = substr($tfname, 3); 
+#        chomp $tfname;
+        $tfname=ltrim($tfname);
+        $ii=index($tfname, "\}");
+        $tfname=substr($tfname, 0, $ii);
+        print "Including:$tfname\n";
+        open (INF, $tfname);
+        @tfile = <INF>;
+        close INF;
+        foreach $tmp (@tfile){
+           print OUTF $tmp;
+        }
+    } 
+    else {
+       print OUTF $tfname;
+    }
 
 
-$cmd="evince ./".$pfn;
-system($cmd);
 
-print "Upload?\n";
- $tmp = <STDIN>;
-
-$cmd = "scp ".$pfn.' mnash@nashinfo.com:/home/mnash/public_html/FrohnAds/';
-system($cmd);
+  }
+close(OUTF);
 
 die("Done");
 

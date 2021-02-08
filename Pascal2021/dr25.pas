@@ -87,9 +87,6 @@ begin {calculate machine epsilon}
   calceps:=e0;
 end; {calceps}
 
-{$I matrixin.pas}
-{$I vectorin.pas}
-
 procedure matmul(nn : integer; {order of matrix}
             matrix: rmatrix;{the matrix or order nn}
             vectorin: rvector;{vector which is multiplied}
@@ -109,131 +106,36 @@ begin
 end; {matmul.pas}
 
 
-procedure rqmcg( n : integer;
-            A, B : rmatrix;
-          var X : rvector;
-          var ipr : integer;
-          var rq : real);
-
+Procedure unitm(var n: integer; var A: rmatrix);
 var
-  count, i, itn, itlimit : integer;
-  avec, bvec, yvec, zvec, g, t : rvector;
-  beta, d, eps, g2, gg, oldg2, pa, pn, s2, step : real;
-  t2, ta, tabt, tat, tb, tbt, tol, u, v, w, xat, xax, xbt, xbx : real;
-  conv, fail : boolean;
-
-begin
-  writeln('alg25.pas -- Rayleigh quotient minimisation');
-  itlimit := ipr;
-  fail := false;
-  conv := false;
-  ipr := 0;
-  eps := calceps;
-  tol := n*n*eps*eps;
-
-  pa := big;
-  while (ipr<=itlimit) and (not conv) do
+  i, j: integer;
+begin {Unit}
+  for i:=1 to n do
   begin
-    matmul(n, A, X, avec);
-    matmul(n, B, X, bvec);
-    ipr := ipr+1;
-
-    xax := 0.0; xbx := 0.0;
-    for i := 1 to n do
-    begin
-      xax := xax+X[i]*avec[i]; xbx := xbx+X[i]*bvec[i];
-    end;
-    if xbx<=tol then halt;
-    rq := xax/xbx;
-    write(ipr,' products -- ev approx. =',rq:18);
-    if rq<pa then
-    begin
-      pa := rq;
-      gg := 0.0;
-      for i := 1 to n do
-      begin
-        g[i] := 2.0*(avec[i]-rq*bvec[i])/xbx; gg := gg+g[i]*g[i];
-      end;
-      writeln(' squared gradient norm =',gg:8);
-      if gg>tol then
-
-      begin
-
-        for i := 1 to n do t[i] := -g[i];
-        itn := 0;
-        repeat
-          itn := itn+1;
-          matmul(n, A, t, yvec);
-          matmul(n, B, t, zvec); ipr := ipr+1;
-          tat := 0.0; tbt := 0.0; xat := 0.0; xbt := 0.0;
-          for i := 1 to n do
-          begin
-            xat := xat+X[i]*yvec[i]; tat := tat+t[i]*yvec[i];
-            xbt := xbt+X[i]*zvec[i]; tbt := tbt+t[i]*zvec[i];
-          end;
-
-          u := tat*xbt-xat*tbt; v := tat*xbx-xax*tbt;
-          w := xat*xbx-xax*xbt; d := v*v-4.0*u*w;
-          if d<0.0 then halt;
-
-          d := sqrt(d);
-          if v>0.0 then step := -2.0*w/(v+d) else step := 0.5*(d-v)/u;
-
-          count := 0;
-          xax := 0.0; xbx := 0.0;
-          for i := 1 to n do
-          begin
-            avec[i] := avec[i]+step*yvec[i];
-            bvec[i] := bvec[i]+step*zvec[i];
-            w := X[i]; X[i] := w+step*t[i];
-            if (reltest+w)=(reltest+X[i]) then count := count+1;
-            xax := xax+X[i]*avec[i]; xbx := xbx+X[i]*bvec[i];
-          end;
-          if xbx<=tol then halt
-                  else pn := xax/xbx;
-          if (count<n) and (pn<rq) then
-          begin
-            rq := pn; gg := 0.0;
-            for i := 1 to n do
-            begin
-              g[i] := 2.0*(avec[i]-pn*bvec[i])/xbx; gg := gg+g[i]*g[i];
-            end;
-            if gg>tol then
-            begin
-              xbt := 0.0; for i := 1 to n do xbt := xbt+X[i]*zvec[i];
-
-              tabt := 0.0; beta := 0.0;
-              for i := 1 to n do
-              begin
-                w := yvec[i]-pn*zvec[i]; tabt := tabt+t[i]*w;
-                beta := beta+g[i]*(w-g[i]*xbt);
-              end;
-              beta := beta/tabt;
-
-              for i := 1 to n do t[i] := beta*t[i]-g[i];
-            end;
-          end
-
-          else
-          begin
-            if itn=1 then conv := true;
-            itn := n+1;
-          end;
-        until (itn>=n) or (count=n) or (gg<=tol) or conv;
-      end
-      else conv := true;
-    end
-    else
-    begin
-      conv := true;
-    end;
-    ta := 0.0;
-    for i := 1 to n do ta := ta+sqr(X[i]); ta := 1.0/sqrt(ta);
-    for i := 1 to n do X[i] := ta*X[i];
+     for j:=1 to i do
+     begin
+          A[i,j]:=0.0;
+          A[j,i]:=0.0;
+     end;
+     A[i,i]:=1.0;
   end;
-  if ipr>itlimit then ipr := -ipr;
-  writeln;
-end;
+end; {unitm}
+
+Procedure frankm(var n: integer; var A: rmatrix);
+var
+  i, j: integer;
+begin {Frank symmetric}
+  for i:=1 to n do
+  begin
+     for j:=1 to i do
+     begin
+       A[i,j]:=j;
+       A[j,i]:=j;
+     end;
+  end;
+end; {frankm}
+
+{$I alg25.pas}
 
 function resids(nRow, nCol: integer; A : rmatrix;
           Y: rvector; Bvec : rvector; print : boolean):real;
@@ -276,39 +178,33 @@ end; {resids.pas == residual calculation for linear least squares}
 
 
 var
-  A, B : rmatrix;
+  A, B, Acopy : rmatrix;
   X : rvector; {eigenvector}
   Y : rvector; {for residuals}
   avec : smatvec; {for matrixin only}
-  sym : boolean; {to tell if matrix symmetric}
-  ch : char;
   i, j, n, itcount : integer;
-  ev, t, s : real;
+  ev, t, s: real;
 
 begin
   banner:='dr25.pas -- minimise Rayleigh quotient';
   write('Order of problem =');
   readln(n); writeln(n); 
-  writeln('Matrix A');
-??
-  matrixin(n, n, A, avec, sym);
-  if not sym then
+  writeln('Matrix A (unit)');
+  unitm(n, A);
+  writeln('Metric matrix B (frank)');
+  frankm(n, B);
+  for i:=1 to n do 
   begin
-    writeln('Matrix not symmetric -- halting');
-    halt;
+     for j:=1 to n do 
+     begin
+{        A[i,j]:=-A[i,j]; }
+{  Uncomment line above to get the negative of the largest eigenvalue.}
+        Acopy[i,j]:=A[i,j];
+     end;
   end;
-??
-  writeln('Metric matrix B');
-  matrixin(n, n, B, avec, sym);
-??  if not sym then
-  begin
-    writeln('Matrix not symmetric -- halting');
-    writeln(confile,'Matrix not symmetric -- halting');
-    halt;
-  end;
-??
-  writeln('Initial eigenvector approximation');
-??  vectorin(n, X);
+  writeln('Initial eigenvector approximation is all 1s');
+  for i:=1 to n do X[i]:=1.0;
+
   itcount:=100*n; {safety setting}
   rqmcg( n, A, B, X, itcount, ev);
   writeln('Solution after ',itcount,' products. Est. eigenvalue =',ev);
@@ -321,6 +217,6 @@ begin
     Y[i]:=ev*t; {to save eigenvalue * matrix-vector product for residuals}
   end;
   writeln;
-  s := resids(n, n, A, Y, X, true);
+  s := resids(n, n, Acopy, Y, X, true);
 end. {dr25.pas}
 

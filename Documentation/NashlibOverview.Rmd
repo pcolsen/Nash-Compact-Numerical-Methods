@@ -231,6 +231,14 @@ stored in memory in column order, top to bottom. This was important in early
 programs, where a number of tricks were used to exploit the indexing and
 storage for speed or code size. 
 
+### Minor Fortran issues
+
+- `gfortran` does not now accept `DO` loops terminating on an executable statement,
+so a `CONTINUE` must be provided. Moreover, each loop must have a separate `CONTINUE`
+statement.
+
+- The "0" format control seems to be ignored, so we have substituted a blank.
+
 ## BASIC
 
 BASIC was developed in 1964 for the Dartmouth College Time Sharing System by John Kemeny
@@ -252,6 +260,29 @@ BASIC) is close enough to the GWBAIC dialect to be usable, and is, moreover, usa
 under `knitr` as illustrated below and elsewhare in this repository.
 
 Typically BASIC indexes arrays from 1, but we make no comment on storage layout.
+
+### Dialect details
+
+There are a number of ways in which BASIC dialects differ. Here we list SOME of these.
+There are too many dialects and details for this list to be exhaustive.
+
+North Star BASIC, which was important for JN for the years 1978-1988 used `SQRT` 
+for the square root, whereas many BASICs use `SQR`.
+
+Many BASICs will suppress a line feed if the `PRINT` line ends with a comma (`,`),
+while others (including `bwbasic`) use a semi-colon (`;`). The comma may or may not
+cause other effects. In `bwbasic` it appears to add 9 spaces when between fields,
+but insert a line feed if at the end of the line. For example, if we run
+
+```{r code=xfun::read_utf8('../BASIC/printbas.bas'), echo=TRUE, eval=FALSE}
+```
+we see
+
+```{bash printbas}
+#!/bin/bash
+bwbasic ../BASIC/printbas.bas
+echo "done"
+```
 
 ## Pascal
 
@@ -350,7 +381,7 @@ gfortran ../fortran/knitrExample.f
 
 Our example code is similar to that for Fortran.
 
-```{r code=xfun::read_utf8('../BASIC/knitrExample.BAS'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../BASIC/knitrExample.bas'), echo=TRUE, eval=FALSE}
 ```
 
 And we run it with **bash**.  Note that our example above includes a line
@@ -359,7 +390,7 @@ interpreter chosen for Linux Mint 20 by the authors.
 
 ```{bash scriptbas}
 #!/bin/bash
-bwbasic ../BASIC/knitrExample.BAS
+bwbasic ../BASIC/knitrExample.bas
 echo "done"
 ```
 
