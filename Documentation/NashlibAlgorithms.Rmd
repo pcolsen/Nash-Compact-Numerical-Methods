@@ -1259,7 +1259,12 @@ mv ./a.out ../fortran/dr24le.run
 
 <!-- ## BASIC -->
 
-<!-- ## Pascal -->
+## Pascal
+
+The 1990 edition of Compact Numerical Methods included three different examples
+of use of conjugate gradients for linear algebraic problems:
+
+- linear equations 
 
 <!-- ## Python -->
 
