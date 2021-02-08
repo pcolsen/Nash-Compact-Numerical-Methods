@@ -1204,9 +1204,58 @@ total of 24.
 
 <!-- ## Others -->
 
-<!-- # Algorithm 24 -- ?? -->
+# Algorithm 24 -- conjugate gradients for linear equations and least squares
 
-<!-- ## Fortran -->
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/a24.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We solve the linear equations problem 
+
+$$ A x = b$$
+for $A$ being the Frank matrix and $b$ the vector that is all $A 1$, that is, $A$
+times a vector of ones. Different orders
+of problem are tried. This problem has an obvious solution, which is that
+
+$$ x_i = 1 $$
+and the elements of $A$ are integers, so we can compute the error in the solution
+as well as the residual 
+
+$$ b - A x $$
+
+
+```{r chkfrankle}
+A <- matrix(0, nrow=5, ncol=5)
+b <- rep(1,5)
+
+for (i in 1:5) {
+   for (j in 1:5){
+       A[i,j]=min(i,j)
+   }
+}
+print(A)
+C <- A %*% b
+print(C)
+```
+
+
+
+Note that the program, as given, is single precision, so some
+of the results are not terribly accurate. Also the control `IMULT` is an upper 
+limit on the number of matrix multiplications before the process is artificially
+halted. We still get an approximate solution at this stage, and the result
+accuracy in terms of residuals and error.
+
+```{bash run24le}
+gfortran ../fortran/dr24.f
+mv ./a.out ../fortran/dr24le.run
+../fortran/dr24le.run < ../fortran/a24f.in
+```
 
 <!-- ## BASIC -->
 
@@ -1245,22 +1294,27 @@ mv ./a.out ../fortran/a25.run
 
 ### Listing
 
-```{r code=xfun::read_utf8('../Pascal2021/dr25.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg25.pas'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
 
-?? not yet working
+We use the same example as for Algorithm 15, with $A$ the unit matrix and $B$ the
+Frank matrix, here of order 5.
 
-<!-- ```{bash script25pas, eval=TRUE, echo=TRUE} -->
-<!-- fpc ../Pascal2021/dr25.pas -->
-<!-- # copy to run file -->
-<!-- mv ../Pascal2021/dr25 ../Pascal2021/dr25.run -->
-<!-- ../Pascal2021/dr25.run <../Pascal2021/dr25p.in >../Pascal2021/dr25p.out -->
-<!-- ``` -->
+Note that we could modify the program to work with $-A$ to get the negative of the
+largest eigenvalue. Various shifting strategies might be used to get other solutions,
+but they are rather inconvenient and not recommended.
 
-<!-- ```{r code=xfun::read_utf8('../Pascal2021/dr25p.out'), echo=TRUE, eval=FALSE} -->
-<!-- ``` -->
+```{bash script25pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr25.pas
+# copy to run file
+mv ../Pascal2021/dr25 ../Pascal2021/dr25.run
+../Pascal2021/dr25.run <../Pascal2021/dr25p.in >../Pascal2021/dr25p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr25p.out'), echo=TRUE, eval=FALSE}
+```
 
 
 <!-- ## Python -->

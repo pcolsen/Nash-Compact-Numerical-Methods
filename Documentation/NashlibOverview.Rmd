@@ -231,6 +231,14 @@ stored in memory in column order, top to bottom. This was important in early
 programs, where a number of tricks were used to exploit the indexing and
 storage for speed or code size. 
 
+### Minor Fortran issues
+
+- `gfortran` does not now accept `DO` loops terminating on an executable statement,
+so a `CONTINUE` must be provided. Moreover, each loop must have a separate `CONTINUE`
+statement.
+
+- The "0" format control seems to be ignored, so we have substituted a blank.
+
 ## BASIC
 
 BASIC was developed in 1964 for the Dartmouth College Time Sharing System by John Kemeny
