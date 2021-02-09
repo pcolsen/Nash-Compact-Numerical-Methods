@@ -54,11 +54,10 @@ implementations are given in the Overview document.
 
 # Algorithm 9 -- Bauer-Reinsch matrix inversion
 
+# File: NashlibAlgorithms-2 -- symmetric matrix eigenproblems
 
 # Algorithm 10 -- Inverse iteration via Gaussian elimination
 
-
-# Algorithms 11 and 12 -- standardization and residuals for a complex eigensolution
 
 # Algorithm 13 -- Eigensolutions of a symmetric matrix via SVD
 
@@ -68,6 +67,7 @@ implementations are given in the Overview document.
 
 # Algorithm 15 - Generalized symmetric eigenproblem
 
+# File: NashlibAlgorithms-3 -- rootfinding and function minimisation
 
 # Algorithm 16 -- Grid search
 
@@ -85,15 +85,26 @@ implementations are given in the Overview document.
 
 # Algorithm 23 -- Marquardt nonlinear least squares procedure
 
+# Algorithm 27 -- Hooke and Jeeves pattern search minimization
+
+Algorithm 26 was added in @nlacatvn1060620.
+
+# File: NashlibAlgorithms-4 -- iterative methods for linear algebra
+
 # Algorithm 24 -- conjugate gradients for linear equations and least squares
 
 # Algorithm 25 -- Rayleight quotient minimization
 
 # Algorithms added in the 2nd Edition, 1990.
 
+# File: NashlibAlgorithms-5 -- complex matrices
+
 # Algorithm 26 -- Complex matrix eigensolutions
 
-# Algorithm 27 -- Hooke and Jeeves pattern search minimization
+Algorithm 26 was added in @nlacatvn1060620.
+
+# Algorithms 11 and 12 -- standardization and residuals for a complex eigensolution
+
 
 
 
