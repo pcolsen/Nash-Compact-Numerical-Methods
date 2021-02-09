@@ -354,8 +354,10 @@ total of 24.
 
 ### Listing
 
-```{r code=xfun::read_utf8('../Pascal2021/dr27.pas'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../Pascal2021/alg27.pas'), echo=TRUE, eval=FALSE}
 ```
+
+### Example output
 
 ### Example output
 
@@ -371,10 +373,33 @@ mv ../Pascal2021/dr27 ../Pascal2021/dr27.run
 ```{r code=xfun::read_utf8('../Pascal2021/dr27p.out'), echo=TRUE, eval=FALSE}
 ```
 
-
 <!-- ## Python -->
 
-<!-- ## R -->
+## R
+
+### Listing
+
+```{r code=xfun::read_utf8('../R/hjn.R'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We use the Rosenbrock banana-shaped valley problem in 2 dimensions.
+
+
+```{r script27R, eval=TRUE, echo=TRUE}
+source("../R/hjn.R")
+fminfn <-function(x){ 
+    val<-((x[2]-x[1]^2)^2)*100.0+(1.0-x[1])^2
+    val
+}
+x0<-c(-1.2,1)
+cat("Check fn at c(-1.2,1)=",fminfn(x0),"\n")
+rslt <- hjn(par=x0, fn=fminfn, control=list(trace=0))
+print(rslt)
+```
+
+
 
 <!-- ## Others -->
 
