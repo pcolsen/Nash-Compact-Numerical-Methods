@@ -1,5 +1,5 @@
 ---
-title: "Algorithms in the Nashlib set in various programming languages -- Part 1"
+title: "Algorithms in the Nashlib set in various programming languages -- Part 2"
 author: 
    - John C Nash, retired professor, University of Ottawa
    - Peter Olsen, retired ??
@@ -18,8 +18,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Abstract
 
-Algorithms 1-9 from the book @jncnm79 are implemented in a variety of programming
+Algorithms 10 and 13-15 from the book @jncnm79 are implemented in a variety of programming
 languages including Fortran, BASIC, Pascal, Python and R. 
+These concern the eigensolutions of a real, symmetric
+matrix and its generalization to include a symmetric
+positive-definite metric.
 
 \pagebreak
 # Overview of this document
