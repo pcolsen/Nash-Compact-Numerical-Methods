@@ -388,7 +388,7 @@ We use the Rosenbrock banana-shaped valley problem in 2 dimensions.
 
 
 ```{r script27R, eval=TRUE, echo=TRUE}
-source("../R/hjn.R")
+source("../R/hjn.R") # bring the Hooke and Jeeves minimizer code into workspace
 fminfn <-function(x){ 
     val<-((x[2]-x[1]^2)^2)*100.0+(1.0-x[1])^2
     val
