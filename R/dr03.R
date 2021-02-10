@@ -50,10 +50,8 @@ a3gr <- function(A){
     sol 
 }
 ## C  TEST ALGORITHM 3
-# m <- as.numeric(readline("no. of rows="))
-# n <- as.numeric(readline("no of columns="))
-m<-5
-n<-3
+m <- as.numeric(readline("no. of rows="))
+n <- as.numeric(readline("no of columns="))
 # build frank matrix
 cat("Frank matrix A ",m," by ",n,"\n")
 A <- matrix(0.0, nrow=m, ncol=n)
