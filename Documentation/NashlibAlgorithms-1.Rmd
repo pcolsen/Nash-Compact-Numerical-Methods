@@ -338,6 +338,30 @@ mv ../Pascal2021/dr03 ../Pascal2021/dr03.run
 
 ### Example output
 
+Below is a first try that uses explicit loops that are known to be
+inefficient in R. In this version, we work across the columns in
+the outer loop. For simplicity in running the code within `knitr`,
+the input of matrix dimensions has been replaced with simple 
+assignments.
+
+```{r code=xfun::read_utf8('../R/dr03.R'), echo=TRUE, eval=TRUE}
+```
+
+We can simplify the loops for steps 7 and 8 as follows without change
+in the results.
+
+```{r alg3Rimploop, echo=TRUE, eval=FALSE}
+#    C  STEP 7
+         Pv <- A[j,]
+         A[j,] <- C*Pv+S*A[k,]
+         A[k,] <- -S*Pv+C*A[k,]
+# C  STEP 8
+         Pv <- Q[,j]
+         Q[,j] <- C*Pv+S*Q[,k]
+         Q[,k] <- -S*Pv+C*Q[,k]
+```
+
+
 
 
 
@@ -579,8 +603,11 @@ python3 ../python/A9.py
 
 ### Listing and Example output
 
+
 ```{r code=xfun::read_utf8('../R/dr09.R'), echo=TRUE, eval=TRUE}
 ```
+
+
 
 ## Others
 

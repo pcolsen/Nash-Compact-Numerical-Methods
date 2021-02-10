@@ -31,17 +31,13 @@ a3gr <- function(A){
 #    C  STEP 6
          C <- C/P
 #    C  STEP 7
-         for (i in 1:n){
-            P <- A[j,i]
-            A[j,i] <- C*P+S*A[k,i]
-            A[k,i] <- -S*P+C*A[k,i]
-         } #  75      CONTINUE
+         Pv <- A[j,]
+         A[j,] <- C*Pv+S*A[k,]
+         A[k,] <- -S*Pv+C*A[k,]
 # C  STEP 8
-         for (i in 1:m){
-            P <- Q[i,j]
-            Q[i,j] <- C*P+S*Q[i,k]
-            Q[i,k] <- -S*P+C*Q[i,k]
-         }
+         Pv <- Q[,j]
+         Q[,j] <- C*Pv+S*Q[,k]
+         Q[,k] <- -S*Pv+C*Q[,k]
 # C  STEP 9   90    CONTINUE
       }
 # C  STEP 10   100  CONTINUE
@@ -50,6 +46,7 @@ a3gr <- function(A){
     sol 
 }
 ## C  TEST ALGORITHM 3
+# dro3ca.R -- attempt to use implicit looping
 # m <- as.numeric(readline("no. of rows="))
 # n <- as.numeric(readline("no of columns="))
 m<-5
