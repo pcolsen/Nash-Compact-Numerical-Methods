@@ -188,7 +188,7 @@ mv ../Pascal2021/dr13 ../Pascal2021/dr13.run
 
 ### Example output
 
-We use a Moler matrix of order 5 for our example.
+We use a Frank matrix of order 4 for our example.
 
 ```{bash run14f}
 ## #!/bin/bash

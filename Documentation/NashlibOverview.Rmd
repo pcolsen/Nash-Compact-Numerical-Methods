@@ -284,6 +284,41 @@ bwbasic ../BASIC/printbas.bas
 echo "done"
 ```
 
+A particular nuisance of `bwbasic` is that it does NOT print large or small numbers
+in scientific notation, and seems to ignore the "PRINT USING" language structure.
+This is, we believe, an
+extension to the 1984 ISO Minimal BASIC standard (which appears to have been withdrawn),
+underlining some of the issues with BASIC for use in modern computing.
+
+### Machine precison for BASIC
+
+We can compute the machine precision using the `calceps.bas` program derived from
+??ref and Kahan's PARANOIA ??ref.
+
+```{r code=xfun::read_utf8('../BASIC/calceps.bas'), echo=TRUE, eval=FALSE}
+```
+
+Running this in `bwbasic` gives the output below.
+
+```{bash bwcalceps, eval=TRUE, echo=FALSE}
+bwbasic ../BASIC/calceps.bas >../BASIC/bwcalceps.out
+```
+
+```{r code=xfun::read_utf8('../BASIC/bwcalceps.out'), echo=TRUE, eval=FALSE}
+```
+
+A slight modification of the program is needed to run under the `bas` interpreter (??ref):
+
+```{r code=xfun::read_utf8('../BASIC/calceps.bas'), echo=TRUE, eval=FALSE}
+```
+
+Running this in `bas` gives the output below.
+
+```{bash bascalceps, eval=TRUE, echo=TRUE}
+bas ../BASIC/calcepsbas.bas <../BASIC/yes.in
+```
+
+
 ## Pascal
 
 Pascal is another programming language that suffers from many dialects. In this case,
@@ -400,6 +435,10 @@ and (at 2021-1-31) version 2.6 as \url{http://www.moria.de/~michael/bas/bas-2.6.
 which fixes a few bugs. Changing `QUIT` to `STOP` allows the use of lines like
 
 `bas program4bas.bas`
+
+We can also use the `SYSTEM` command to exit a program running under `bas` but
+need to answer `y` from the keyboard or else from a file. See "Machine precision
+for BASIC" for an example.
 
 Note that the tarball of `bas` must be extracted, then the program built with the
 commands
