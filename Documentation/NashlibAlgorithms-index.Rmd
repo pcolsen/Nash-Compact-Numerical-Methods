@@ -1,0 +1,113 @@
+---
+title: "Algorithms in the Nashlib set in various programming languages -- Index"
+author: 
+   - John C Nash, retired professor, University of Ottawa
+   - Peter Olsen, retired ??
+date: "11/01/2021"
+output: 
+  pdf_document:
+    keep_tex: false
+    toc: true
+bibliography: nashlib.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+## ??require(bookdown) # language engine to display text??
+```
+
+# Abstract
+
+This is an index to the other documents in this 
+collection.
+
+
+# Overview of this document
+
+This section is repeated for each of the parts of
+Nashlib documentation.
+
+A companion document **Overview of Nashlib and its Implementations** describes the
+process and computing environments for the implementation of Nashlib algorithms.
+This document gives comments and/or details relating to implementations of
+the algorithms themselves.
+
+Note that some discussion of the reasoning behind certain choices in algorithms or
+implementations are given in the Overview document.
+
+# File: NashlibAlgorithms-1
+
+## Algorithms 1 and 2 -- one-sided SVD and least squares solution
+
+## Algorithm 3 -- Givens' decomposition
+
+
+# Algorithm 4 -- Row-oriented SVD and least squares solution
+
+
+
+# Algorithms 5 and 6 -- Gaussian elimination and back-solution
+
+
+# Algorithms 7 and 8 -- Choleski decomposition and back-solution
+
+
+# Algorithm 9 -- Bauer-Reinsch matrix inversion
+
+# File: NashlibAlgorithms-2 -- symmetric matrix eigenproblems
+
+# Algorithm 10 -- Inverse iteration via Gaussian elimination
+
+
+# Algorithm 13 -- Eigensolutions of a symmetric matrix via SVD
+
+
+# Algorithm 14 -- Jacobi symmetric matrix eigensolutions
+
+
+# Algorithm 15 - Generalized symmetric eigenproblem
+
+# File: NashlibAlgorithms-3 -- rootfinding and function minimisation
+
+# Algorithm 16 -- Grid search
+
+
+# Algorithm 17 -- Minimize a function of one parameter
+
+
+# Algorithm 18 -- Roots of a function of one parameter
+
+# Algorithm 19 and 20 -- Nelder-Mead search and Axial search check
+
+# Algorithm 21 -- Variable metric function minimization
+
+# Algorithm 22 -- Conjugate gradients function minimization
+
+# Algorithm 23 -- Marquardt nonlinear least squares procedure
+
+# Algorithm 27 -- Hooke and Jeeves pattern search minimization
+
+Algorithm 26 was added in @nlacatvn1060620.
+
+# File: NashlibAlgorithms-4 -- iterative methods for linear algebra
+
+# Algorithm 24 -- conjugate gradients for linear equations and least squares
+
+# Algorithm 25 -- Rayleight quotient minimization
+
+# Algorithms added in the 2nd Edition, 1990.
+
+# File: NashlibAlgorithms-5 -- complex matrices
+
+# Algorithm 26 -- Complex matrix eigensolutions
+
+Algorithm 26 was added in @nlacatvn1060620.
+
+# Algorithms 11 and 12 -- standardization and residuals for a complex eigensolution
+
+
+
+
+# Cleanup of working files and other utilities
+
+# References

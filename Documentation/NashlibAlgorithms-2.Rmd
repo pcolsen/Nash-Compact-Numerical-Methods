@@ -1,0 +1,326 @@
+---
+title: "Algorithms in the Nashlib set in various programming languages -- Part 2"
+author: 
+   - John C Nash, retired professor, University of Ottawa
+   - Peter Olsen, retired ??
+date: "11/01/2021"
+output: 
+  pdf_document:
+    keep_tex: false
+    toc: true
+bibliography: nashlib.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+## ??require(bookdown) # language engine to display text??
+```
+
+# Abstract
+
+Algorithms 10 and 13-15 from the book @jncnm79 are implemented in a variety of programming
+languages including Fortran, BASIC, Pascal, Python and R. 
+These concern the eigensolutions of a real, symmetric
+matrix and its generalization to include a symmetric
+positive-definite metric.
+
+\pagebreak
+# Overview of this document
+
+This section is repeated for each of the parts of
+Nashlib documentation.
+
+A companion document **Overview of Nashlib and its Implementations** describes the
+process and computing environments for the implementation of Nashlib algorithms.
+This document gives comments and/or details relating to implementations of
+the algorithms themselves.
+
+Note that some discussion of the reasoning behind certain choices in algorithms or
+implementations are given in the Overview document.
+
+\pagebreak
+# Algorithm 10 -- Inverse iteration via Gaussian elimination
+
+The purpose of this algorithm is to find a single eigensolution of
+a matrix $A$ via inverse iteration. That is, we want solutions ($e$,$x$)
+of 
+
+$$  A x = e x$$
+The programs do not require a symmetric matrix, which leaves open the possibility
+that a solution may not exist in the unsymmetric case.
+
+## Fortran
+
+The Algorithm 10 code:
+
+```{r code=xfun::read_utf8('../fortran/alg10.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We illustrate by finding a single eigensolution of the Hilbert segments of
+order 5 and 10. ?? Do we want to swap in the Frank matrix (the computations
+are generally easier)?
+
+```{bash run10}
+## #!/bin/bash
+gfortran ../fortran/d10.f
+mv ./a.out ../fortran/d10.run
+../fortran/d10.run
+```
+## BASIC
+
+### Listing
+
+```{r code=xfun::read_utf8('../BASIC/a10.bas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+In this case we use the Frank matrix for our test.
+
+```{bash a10bas}
+bwbasic ../BASIC/a10.bas >../BASIC/a10.out
+# echo "done"
+```
+
+```{r code=xfun::read_utf8('../BASIC/a10.out'), echo=TRUE, eval=FALSE}
+```
+
+
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/alg10.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script10pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr10.pas
+# copy to run file
+mv ../Pascal2021/dr10 ../Pascal2021/dr10.run
+../Pascal2021/dr10.run <../Pascal2021/dr10p.in >../Pascal2021/dr10p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr10p.out'), echo=TRUE, eval=FALSE}
+```
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+\pagebreak
+# Algorithm 13
+
+## Fortran
+
+### Listing - Algorithim 13
+
+```{r code=xfun::read_utf8('../fortran/alg13.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run13}
+## #!/bin/bash
+gfortran ../fortran/dr13.f
+mv ./a.out ../fortran/dr13.run
+../fortran/dr13.run < ../fortran/dr13.in
+```
+
+## BASIC
+
+### Listing
+
+```{r code=xfun::read_utf8('../BASIC/a13.bas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash a13bas}
+bwbasic ../BASIC/a13.bas  >../BASIC/a13.out
+# echo "done"
+```
+
+```{r code=xfun::read_utf8('../BASIC/a13.out'), echo=TRUE, eval=FALSE}
+```
+
+## Pascal
+
+### Listing -- Algorithm 13
+
+```{r code=xfun::read_utf8('../Pascal2021/alg13.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script13pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr13.pas
+# copy to run file
+mv ../Pascal2021/dr13 ../Pascal2021/dr13.run
+../Pascal2021/dr13.run <../Pascal2021/dr13p.in >../Pascal2021/dr13p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr13p.out'), echo=TRUE, eval=FALSE}
+```
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+\pagebreak
+# Algorithm 14 -- Jacobi symmetric matrix eigensolutions
+
+## Fortran
+
+### Listing -- Algorithm 14
+
+```{r code=xfun::read_utf8('../fortran/alg14.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We use a Moler matrix of order 5 for our example.
+
+```{bash run14f}
+## #!/bin/bash
+gfortran ../fortran/dr14x.f
+mv ./a.out ../fortran/dr14x.run
+../fortran/dr14x.run < ../fortran/dr14xf.in
+```
+
+<!-- ## BASIC -->
+
+<!-- ### Listing -->
+
+<!-- ```{r code=xfun::read_utf8('../BASIC/a13.bas'), echo=TRUE, eval=FALSE} -->
+<!-- ``` -->
+
+<!-- ### Example output -->
+
+<!-- ```{bash a13bas} -->
+<!-- bwbasic ../BASIC/a13.bas  >../BASIC/a13.out -->
+<!-- # echo "done" -->
+<!-- ``` -->
+
+<!-- ```{r code=xfun::read_utf8('../BASIC/a13.out'), echo=TRUE, eval=FALSE} -->
+<!-- ``` -->
+
+
+## Pascal
+
+### Listing -- Algorithm 14
+
+```{r code=xfun::read_utf8('../Pascal2021/alg14.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script14pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr14x.pas
+# copy to run file
+mv ../Pascal2021/dr14x ../Pascal2021/dr14x.run
+../Pascal2021/dr14x.run <../Pascal2021/dr14xp.in >../Pascal2021/dr14xp.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr14xp.out'), echo=TRUE, eval=FALSE}
+```
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+# Algorithm 15 - Generalized symmetric eigenproblem
+
+We aim to solve the generalized symmetric eigenproblem
+
+$$ A x = e B x$$
+
+for $x$ and $e$, where symmetric matrices $A$ and $B$
+and $B$ is positive definite.
+
+
+## Fortran
+
+### Listing -- Algorithm 15
+
+```{r code=xfun::read_utf8('../fortran/alg15.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+This example uses the Frank matrix as $B$ and a Unit matrix as matrix $A$.
+Essentially we get the eigensolutions of the inverse of the Frank matrix.
+
+
+```{bash run1415}
+## #!/bin/bash
+gfortran ../fortran/dr1415.f
+mv ./a.out ../fortran/dr1415.run
+../fortran/dr1415.run < ../fortran/dr1415f.in
+```
+
+<!-- ## BASIC -->
+
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/alg15.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script15pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr15x.pas
+# copy to run file
+mv ../Pascal2021/dr15x ../Pascal2021/dr15x.run
+../Pascal2021/dr15x.run <../Pascal2021/dr15xp.in >../Pascal2021/dr15xp.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr15xp.out'), echo=TRUE, eval=FALSE}
+```
+
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+
+# Cleanup of working files
+
+The following script is included to remove files created during compilation or
+execution of the examples.
+
+```{bash cleanup, echo=TRUE}
+## remove object and run files
+cd ../fortran/
+echo `pwd`
+rm  *.o
+rm  *.run
+rm *.out
+cd ../Pascal2021/
+echo `pwd`
+rm  *.o
+rm  *.run
+rm *.out
+cd ../BASIC
+echo `pwd`
+rm *.out
+cd ../Documentation
+## ?? others
+```
+
+
+# References

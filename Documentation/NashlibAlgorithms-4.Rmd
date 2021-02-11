@@ -1,0 +1,195 @@
+---
+title: "Algorithms in the Nashlib set in various programming languages -- Part 4"
+author: 
+   - John C Nash, retired professor, University of Ottawa
+   - Peter Olsen, retired ??
+date: "11/01/2021"
+output: 
+  pdf_document:
+    keep_tex: false
+    toc: true
+bibliography: nashlib.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+## ??require(bookdown) # language engine to display text??
+```
+
+# Abstract
+
+Algorithms 24 and 25 from the book @jncnm79 are implemented in a variety of programming
+languages including Fortran, BASIC, Pascal, Python and R. These routines concern the 
+use of iterative methods, in particular conjugate gradients, to solve linear algebra
+problems. 
+
+\pagebreak
+# Overview of this document
+
+This section is repeated for each of the parts of
+Nashlib documentation.
+
+A companion document **Overview of Nashlib and its Implementations** describes the
+process and computing environments for the implementation of Nashlib algorithms.
+This document gives comments and/or details relating to implementations of
+the algorithms themselves.
+
+Note that some discussion of the reasoning behind certain choices in algorithms or
+implementations are given in the Overview document.
+
+\pagebreak
+
+
+
+# Algorithm 24 -- conjugate gradients for linear equations and least squares
+
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/alg24.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We solve the linear equations problem 
+
+$$ A x = b$$
+for $A$ being the Frank matrix and $b$ the vector that is all $A 1$, that is, $A$
+times a vector of ones. Different orders
+of problem are tried. This problem has an obvious solution, which is that
+
+$$ x_i = 1 $$
+and the elements of $A$ are integers, so we can compute the error in the solution
+as well as the residual 
+
+$$ b - A x $$
+
+
+```{r chkfrankle}
+A <- matrix(0, nrow=5, ncol=5)
+b <- rep(1,5)
+
+for (i in 1:5) {
+   for (j in 1:5){
+       A[i,j]=min(i,j)
+   }
+}
+print(A)
+C <- A %*% b
+print(C)
+```
+
+
+
+Note that the program, as given, is single precision, so some
+of the results are not terribly accurate. Also the control `IMULT` is an upper 
+limit on the number of matrix multiplications before the process is artificially
+halted. We still get an approximate solution at this stage, and the result
+accuracy in terms of residuals and error.
+
+```{bash run24le}
+gfortran ../fortran/dr24.f
+mv ./a.out ../fortran/dr24le.run
+../fortran/dr24le.run < ../fortran/a24f.in
+```
+
+<!-- ## BASIC -->
+
+## Pascal
+
+The 1990 edition of Compact Numerical Methods included three different examples
+of use of conjugate gradients for linear algebraic problems:
+
+- linear equations 
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+\pagebreak
+# Algorithm 25 -- Rayleight quotient minimization
+
+## Fortran 
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/a25.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+?? explanation needed
+
+```{bash run25}
+gfortran ../fortran/a25.f
+mv ./a.out ../fortran/a25.run
+../fortran/a25.run < ../fortran/a25.in
+```
+
+
+<!-- ## BASIC -->
+
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/alg25.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We use the same example as for Algorithm 15, with $A$ the unit matrix and $B$ the
+Frank matrix, here of order 5.
+
+Note that we could modify the program to work with $-A$ to get the negative of the
+largest eigenvalue. Various shifting strategies might be used to get other solutions,
+but they are rather inconvenient and not recommended.
+
+```{bash script25pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr25.pas
+# copy to run file
+mv ../Pascal2021/dr25 ../Pascal2021/dr25.run
+../Pascal2021/dr25.run <../Pascal2021/dr25p.in >../Pascal2021/dr25p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr25p.out'), echo=TRUE, eval=FALSE}
+```
+
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+
+
+# Cleanup of working files
+
+The following script is included to remove files created during compilation or
+execution of the examples.
+
+```{bash cleanup, echo=TRUE}
+## remove object and run files
+cd ../fortran/
+echo `pwd`
+rm  *.o
+rm  *.run
+rm *.out
+cd ../Pascal2021/
+echo `pwd`
+rm  *.o
+rm  *.run
+rm *.out
+cd ../BASIC
+echo `pwd`
+rm *.out
+cd ../Documentation
+## ?? others
+```
+
+
+# References

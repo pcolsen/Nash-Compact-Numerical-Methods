@@ -1,0 +1,650 @@
+---
+title: "Algorithms in the Nashlib set in various programming languages -- Part 1"
+author: 
+   - John C Nash, retired professor, University of Ottawa
+   - Peter Olsen, retired ??
+date: "11/01/2021"
+output: 
+  pdf_document:
+    keep_tex: false
+    toc: true
+bibliography: nashlib.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+## ??require(bookdown) # language engine to display text??
+```
+
+# Abstract
+
+Algorithms from the book @jncnm79 are implemented in a variety of programming
+languages including Fortran, BASIC, Pascal, Python and R. 
+
+\pagebreak
+# Overview of this document
+
+A companion document **Overview of Nashlib and its Implementations** describes the
+process and computing environments for the implementation of Nashlib algorithms.
+This document gives comments and/or details relating to implementations of
+the algorithms themselves.
+
+Note that some discussion of the reasoning behind certain choices in algorithms or
+implementations are given in the Overview document.
+
+\pagebreak
+# Algorithms 1 and 2 -- one-sided SVD and least squares solution
+
+These were two of the first algorithms to interest the first author in compact codes.
+At the time (1973-1978) he was working at Agriculture Canada in support of econometric
+modeling. More or less "regular" computers required accounts linked to official projects,
+but there was a time-shared Data General NOVA that offered 4K to 7K byte working spaces
+for data and programs in interpreted BASIC. BASIC of a very similar dialect was available
+also on an HP 9830 calculator. On these machines, availability of a terminal or the
+calculator was the only limitation to experimentation with recent innovations in
+algorithms. In particular, a lot of modeling was done with linear least squares
+regression, mostly using the traditional normal equations. The singular value decomposition
+and other methods such as the Householder, Givens or Gram-Schmidt 
+approaches to the QR matrix decomposition were relatively recent innovations. However,
+the code for the Golub-Kahan SVD was rather long for both the hardware and the 
+BASIC language. Instead, a one-sided Jacobi method was developed from ideas of @Hestenes58
+and @Chartres62. Some work by @Kaiser72 was also observed. Later workers have generally credited 
+Hestenes with this approach, and
+he certainly wrote about it, but we (JN) suspect strongly that he never actually
+attempted an implementation. In a conversation at a conference, Chartres said that some 
+experiments were tried, but that he believed no production usage occurred. We must
+remember that access to computers until the 1970s was quite difficult. 
+
+The method published in @jn75cj and later revised in @jnss87 ignored some advice that Jacobi
+rotations should not use angles greater than $\pi/4$ (see @ForsytheHenrici1960). This allowed of a cyclic process that
+not only developed a form of the decomposition, but also sorted it to effectively present
+the singular values in descending order of size. This avoided extra program code of about
+half the length of the svd routine.
+
+About 2 decades after @jn75cj, there was renewed interest in one-sided Jacobi methods, but 
+rather little acknowledgment of the earlier development, and much more complicated codes.
+?? How far to reference more recent developments??
+
+
+## Fortran
+
+Note that these are single precision codes. Very few modern calculations are carried out at
+this precision. Moreover, the dialect of Fortran (Fortran 77) is now decidedly old-fashioned, 
+though it compiles and executes just fine.
+
+
+### Listing -- Algorithm 1
+
+```{r code=xfun::read_utf8('../fortran/alg01.f'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 2
+
+```{r code=xfun::read_utf8('../fortran/alg02.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run0102}
+gfortran ../fortran/dr0102.f
+mv ./a.out ../fortran/dr0102.run
+../fortran/dr0102.run < ../fortran/dr0102.in
+```
+
+
+### Special implementations
+
+Most singular value decomposition codes are much, much more complicated than
+Algorithm 1 of the Nashlib collection. For some work on the magnetic field of
+Jupiter for NASA, Sidey Timmins has used an extended (quad) precision version
+of the method. One of us (JN) has converted an updated algorithm (@jnss87) to
+the Fortran 95 dialect so the multiple precision FM Fortran tools of David M. Smith
+(see \url{http://dmsmith.lmu.build/}).
+
+?? include this code and example in the repo??
+
+
+## BASIC
+
+### Listing
+
+```{r code=xfun::read_utf8('../BASIC/dr0102.bas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash scriptbas}
+bwbasic ../BASIC/dr0102.bas
+echo "done"
+```
+
+
+## Pascal
+
+### Listing -- Algorithm 1
+
+```{r code=xfun::read_utf8('../Pascal2021/alg01.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 2
+
+```{r code=xfun::read_utf8('../Pascal2021/alg02.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+For some reason not yet understood, running the compiled Pascal program does not transfer the output
+to our Rmarkdown output, so we resort to saving the output and then listing it as we do program code.
+
+```{bash scriptpas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr0102.pas
+mv ../Pascal2021/dr0102 ../Pascal2021/dr0102.run
+# now execute it
+../Pascal2021/dr0102.run > ../Pascal2021/dr0102.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr0102.out'), echo=TRUE, eval=FALSE}
+```
+For some reason, we get extra line-feed characters in the output file. They are easily removed
+with a text editor from the output file, but their origin is unclear. JN 2021-1-20 ??
+
+## Python
+
+Pending ...
+
+## R
+
+### Listing
+
+While based on @jnss87, the following code shows that R can be used quite easily
+to implement Algorithm 1. The least squares solution (Algorithm 2) is embedded
+in the example output.
+
+```{r code=xfun::read_utf8('../R/Nashsvd.R'), echo=TRUE, eval=FALSE}
+```
+
+
+### Example output
+
+```{r exa1R, eval=TRUE, echo=TRUE}
+# test taken from dr0102.pas
+A<-matrix(0, 4,3)
+A[1,]<-c(5, 1e-6, 1)
+A[2,]<-c(6, 0.999999, 1)
+A[3,]<-c(7, 2.00001, 1)
+A[4,]<-c(8, 2.9999, 1)
+print(A)
+b<-c(1,2,3,4)
+print(b)
+# try the R-base svd 
+sA <- svd(A)
+sA
+yy <- t(sA$u) %*% as.matrix(b)
+xx <- sA$v %*% diag(1/sA$d) %*% yy
+xx
+# Now the Nashsvd code (this is likely NOT true to 1979 code)
+source("../R/Nashsvd.R")
+nsvd <- Nashsvd(A)
+print(nsvd)
+# Note least squares solution can be done by matrix multiplication
+U <- nsvd$u
+V <- nsvd$v
+d <- nsvd$d
+di <- 1/d
+di <- diag(di) # convert to full matrix -- note entry sizes
+print(di)
+lsol <- t(U) %*% b
+lsol <- di %*% lsol
+lsol <- V %*% lsol
+print(lsol)
+res <- b - A %*% lsol
+print(res)
+cat("sumsquares = ", as.numeric(crossprod(res)))
+# now set smallest singular value to 0 and in pseudo-inverse
+dix <- di
+dix[3,3] <- 0
+lsolx <- V %*% dix %*% t(U) %*% b
+# this gives a very different least squares solution
+print(lsolx)
+# but the residuals (in this case) are nearly 0 too
+resx <- b - A %*% lsolx
+cat("sumsquares = ", as.numeric(crossprod(resx)))
+
+```
+
+## Others
+
+Pending ...
+
+?? Could we f2c the Fortran and manually tweak to get a C code?
+
+There is also a C version in 
+
+\url{https://github.com/LuaDist/gsl/blob/master/linalg/svd.c}
+
+===========================================================================
+
+\pagebreak
+# Algorithm 3 -- Givens' decomposition
+
+The Givens and Householder decompositions of a rectangular $m$ by $n$ matrix $A$
+($m  >= n$) both give an $m$ by $m$ orthogonal matrix $Q$ and an upper-triangular
+$n$ by $n$ matrix $R$ whose product $QR$ is a close approximation of $A$. At the time
+@jncnm79 was being prepared, the Givens approach seemed to give a more compact program
+code, though neither approach is large.
+
+In practice, if one is trying to solve linear equations 
+
+$$    A  x  =  b $$
+
+or linear least squares problems of the form
+
+$$    A  x  ~=  b  $$
+
+then the right hand side (RHS)  $b$ can be appended to the matrix A so that the
+resulting working matrix
+
+$$  W  =  [A | b]  $$
+is transformed during the formation of the $Q$ matrix into 
+
+$$   W_{trans}  = [ R | Q' b]  $$
+This saves us the effort of multiplying $b$ by the transpose of $Q$ before we 
+back-solve for x. 
+
+In fact, $m$ does not have to be greater than or equal to $n$. However, underdetermined
+systems of equations do raise some issues that we will not address here.
+
+
+It is therefore unnecessary to store $Q$, which when @jncnm79 was being prepared was a
+potentially large matrix. There are alternative designs of the code which could save
+information on the plane rotations that make up $Q$. Such codes can then apply the 
+rotations to a unit matrix of the right size to reconstruct $Q$ as needed. However,
+these details have largely become irrelevant in an age of cheap memory chips.
+
+
+## Fortran
+
+### Listing -- Algorithm 3
+
+```{r code=xfun::read_utf8('../fortran/alg03.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+The following output presents an example using the Frank matrix as a test. 
+As a precaution, we use a 1 by 1 matrix as our first test. We have seen situations 
+where otherwise reliable programs have failed on such trivial cases.
+
+```{bash run3}
+gfortran ../fortran/a3.f
+mv ./a.out ../fortran/a3.run
+../fortran/a3.run < ../fortran/a3data.in > ../fortran/a3out.txt
+```
+
+```{r code=xfun::read_utf8('../fortran/a3out.txt'), echo=TRUE, eval=FALSE}
+```
+
+
+## BASIC
+
+### Listing
+
+The following listing also uses the Frank matrix as a test. The code has been 
+adjusted for fixed input to allow it to be run within the `knitr` processor for
+`Rmarkdown`.
+
+```{r code=xfun::read_utf8('../BASIC/a3.bas'), echo=TRUE, eval=FALSE}
+```
+
+
+### Example output
+
+As a precaution, we use a 1 by 1 matrix as our first test. We have seen situations 
+where otherwise reliable programs have failed on such trivial cases.
+
+```{bash run3bas}
+bwbasic ../BASIC/a3.bas
+```
+
+
+## Pascal
+
+### Listing -- Algorithm 3, column-wise approach
+
+```{r code=xfun::read_utf8('../Pascal2021/alg03.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output -- column-wise approach
+
+```{bash script56pas, eval=TRUE}
+fpc ../Pascal2021/dr03.pas
+mv ../Pascal2021/dr03 ../Pascal2021/dr03.run
+../Pascal2021/dr03.run >../Pascal2021/dr03.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr03.out'), echo=TRUE, eval=FALSE}
+```
+
+
+<!-- ## Python -->
+
+## R
+
+### Listing -- Algorithm 3, column-wise approach
+
+```{r code=xfun::read_utf8('../R/dr03.R'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+Below is a first try that uses explicit loops that are known to be
+inefficient in R. In this version, we work across the columns in
+the outer loop. For simplicity in running the code within `knitr`,
+the input of matrix dimensions has been replaced with simple 
+assignments.
+
+```{r code=xfun::read_utf8('../R/dr03.R'), echo=TRUE, eval=TRUE}
+```
+
+We can simplify the loops for steps 7 and 8 as follows without change
+in the results.
+
+```{r alg3Rimploop, echo=TRUE, eval=FALSE}
+#    C  STEP 7
+         Pv <- A[j,]
+         A[j,] <- C*Pv+S*A[k,]
+         A[k,] <- -S*Pv+C*A[k,]
+# C  STEP 8
+         Pv <- Q[,j]
+         Q[,j] <- C*Pv+S*Q[,k]
+         Q[,k] <- -S*Pv+C*Q[,k]
+```
+
+
+
+
+
+<!-- ## Others -->
+
+# Algorithm 4 -- Row-oriented SVD and least squares solution
+
+## Fortran
+
+### Listing -- SVD and least squares solution
+
+We include the plane-rotation sub-program.
+
+```{r code=xfun::read_utf8('../fortran/alg04.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+\pagebreak
+# Algorithms 5 and 6 -- Gaussian elimination and back-solution
+
+## Fortran
+
+### Listing -- Algorithm 5 Gaussian elimination
+
+```{r code=xfun::read_utf8('../fortran/alg05.f'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 6 Back-solution of upper triangular equation systems
+
+```{r code=xfun::read_utf8('../fortran/alg06.f'), echo=TRUE, eval=FALSE}
+```
+
+
+### Example output
+
+```{bash run56}
+gfortran ../fortran/dr0506.f
+mv ./a.out ../fortran/dr0506.run
+../fortran/dr0506.run > ../fortran/dr0506out.txt
+```
+
+```{r code=xfun::read_utf8('../fortran/dr0506out.txt'), echo=TRUE, eval=FALSE}
+```
+
+
+<!-- ## BASIC -->
+
+## Pascal
+
+### Listing -- Algorithm 5, column-wise approach
+
+```{r code=xfun::read_utf8('../Pascal2021/alg05.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 6, back-solution of upper triangular equations
+
+```{r code=xfun::read_utf8('../Pascal2021/alg06.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output -- column-wise approach
+
+```{bash script3pas, eval=TRUE}
+fpc ../Pascal2021/dr0506.pas
+mv ../Pascal2021/dr0506 ../Pascal2021/dr0506.run
+../Pascal2021/dr0506.run >../Pascal2021/dr0506.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr0506.out'), echo=TRUE, eval=FALSE}
+```
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+# Algorithms 7 and 8 -- Choleski decomposition and back-solution
+
+## Fortran
+
+### Listing -- Algorithm 7 Choleski decomposition
+
+```{r code=xfun::read_utf8('../fortran/alg07.f'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 8 Choleski Back-solution
+
+```{r code=xfun::read_utf8('../fortran/alg08.f'), echo=TRUE, eval=FALSE}
+```
+
+
+
+<!-- ## BASIC -->
+
+
+## Pascal
+
+### Listing -- Algorithm 7 Choleski decomposition
+
+```{r code=xfun::read_utf8('../Pascal2021/alg07.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 8 Choleski Back-solution
+
+```{r code=xfun::read_utf8('../Pascal2021/alg08.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script78pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr0708.pas
+# copy to run file
+mv ../Pascal2021/dr0708 ../Pascal2021/dr0708.run
+../Pascal2021/dr0708.run <../Pascal2021/dr0708p.in >../Pascal2021/dr0708p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr0708p.out'), echo=TRUE, eval=FALSE}
+```
+
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+\pagebreak
+# Algorithm 9 -- Bauer-Reinsch matrix inversion
+
+@wilkinson1971linear, pages 45-49, is a contribution entitled **Inversion of Positive
+Definite Matrices by the Gauss-Jordan Method**. It hardly mentions, but appears to
+assume, that the matrix to be inverted is symmetric. Two Algol procedures are provided,
+one for a matrix stored as a square array, the other for the a matrix where only the
+lower triangle is stored as a single vector in row-wise order. That is, if A is
+of order n=3 and has values
+
+```
+  1  2  4
+  2  3  5
+  4  5  6
+```
+
+Then the corresponding vector of 6 = n*(n+1)/2 values is 
+
+```
+   1  2  3  4  5  6
+```
+
+By some exceedingly clever coding and matrix manipulation, Bauer and Reinsch developed
+tiny codes that invert a positive-definite matrix *in situ* using only one extra vector
+of length n. Thus, besides the memory to store a very small code, we need only 
+n*(n+3)/2 floating point numbers and a few integers to index arrays.
+
+Truthfully, we rarely need an explicit matrix inverse, and the most common positive-definite
+symmetric matrix that arises in scientific computations is the sum of squares and cross-products
+(SSCP) in the normal equations used for linear (or also nonlinear) least squares problems. However,
+the formation of this SSCP matrix is rarely the best approach to solving least squares problems.
+The SVD introduced in Algorithm 1 and the least squares solution in Algorithm 2 lead to better
+methods. (??mention A4, Choleski in A7, A8 etc.)
+
+Despite these caveats, the Bauer-Reinsch algorithm is interesting 
+as a historical curiosity,
+showing what can be done when resources are very limited.
+
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/alg09.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run09}
+## #!/bin/bash
+gfortran ../fortran/a9.f
+mv ./a.out ../fortran/a9.run
+../fortran/a9.run
+```
+
+## BASIC
+
+### Listing
+
+```{r code=xfun::read_utf8('../BASIC/a9.bas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash a9bas}
+bwbasic ../BASIC/a9.bas >../BASIC/a9.out
+# echo "done"
+```
+
+```{r code=xfun::read_utf8('../BASIC/a9.out'), echo=TRUE, eval=FALSE}
+```
+
+
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/alg09.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script9pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr09.pas
+# copy to run file
+mv ../Pascal2021/dr09 ../Pascal2021/dr09.run
+../Pascal2021/dr09.run >../Pascal2021/dr09p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr09p.out'), echo=TRUE, eval=FALSE}
+```
+
+## Python
+
+WARNING: interim test only!!!???
+
+### Listing
+
+The Algorithm 9 code:
+
+```{r code=xfun::read_utf8('../python/A9.py'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash trya9py}
+python3 ../python/A9.py
+```
+
+## R
+
+### Listing and Example output
+
+
+```{r code=xfun::read_utf8('../R/dr09.R'), echo=TRUE, eval=TRUE}
+```
+
+
+
+## Others
+
+
+
+# Cleanup of working files
+
+The following script is included to remove files created during compilation or
+execution of the examples.
+
+```{bash cleanup, echo=TRUE}
+## remove object and run files
+cd ../fortran/
+echo `pwd`
+rm  *.o
+rm  *.run
+rm *.out
+cd ../Pascal2021/
+echo `pwd`
+rm  *.o
+rm  *.run
+rm *.out
+cd ../BASIC
+echo `pwd`
+rm *.out
+cd ../Documentation
+## ?? others
+```
+
+
+# References

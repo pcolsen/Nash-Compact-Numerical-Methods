@@ -1,0 +1,214 @@
+---
+title: "Algorithms in the Nashlib set in various programming languages -- Part 5"
+author: 
+   - John C Nash, retired professor, University of Ottawa
+   - Peter Olsen, retired ??
+date: "11/01/2021"
+output: 
+  pdf_document:
+    keep_tex: false
+    toc: true
+bibliography: nashlib.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+## ??require(bookdown) # language engine to display text??
+```
+
+# Abstract
+
+Algorithms 11 and 12 and 26 from the book @jncnm79 are implemented in a variety of programming
+languages including Fortran, BASIC, Pascal, Python and R. 
+These concern the eigensolutions of a general complex
+square matrix and possible extensions.
+
+\pagebreak
+# Overview of this document
+
+This section is repeated for each of the parts of
+Nashlib documentation.
+
+A companion document **Overview of Nashlib and its Implementations** describes the
+process and computing environments for the implementation of Nashlib algorithms.
+This document gives comments and/or details relating to implementations of
+the algorithms themselves.
+
+Note that some discussion of the reasoning behind certain choices in algorithms or
+implementations are given in the Overview document.
+
+\pagebreak
+
+# Algorithm 26 -- Complex matrix eigensolutions
+
+## Fortran 
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/comeigd26.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+?? explanation needed. Note use of Pascal input file
+
+
+```{bash runf26}
+gfortran ../fortran/comeigd26.f
+mv ./a.out ../fortran/comeigd26.run
+../fortran/comeigd26.run < ../fortran/d26f.in
+```
+
+## BASIC
+
+### Listing
+
+```{r code=xfun::read_utf8('../BASIC/comeiga26.bas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash a26bas}
+bwbasic ../BASIC/comeiga26.bas  >../BASIC/a26.out
+# echo "done"
+```
+
+```{r code=xfun::read_utf8('../BASIC/a26.out'), echo=TRUE, eval=FALSE}
+```
+
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/dr26.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We create an order 5 complex matrix where the real part is a Frank matrix and the imaginary 
+part is a Moler matrix.
+
+```{bash script2pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr26.pas
+# copy to run file
+mv ../Pascal2021/dr26 ../Pascal2021/dr26.run
+../Pascal2021/dr26.run <../Pascal2021/dr26p.in >../Pascal2021/dr26p.out
+```
+
+<!-- Note how it appears fpc output seems to have too many linefeeds (\r characters).  -->
+<!-- We can use sed to strip them out. -->
+
+```{bash strip26, echo=FALSE}
+cd ../Pascal2021
+sed 's/\r//' dr26p.out >tmp.out
+mv tmp.out dr26p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr26p.out'), echo=TRUE, eval=FALSE}
+```
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+
+\pagebreak
+# Algorithms 11 and 12 -- standardization and residuals for a complex eigensolution
+
+These algorithms are probably among the least used of those included in Nashlib.
+Their intent was to allow proposed eigensolutions of complex matrices to be 
+standardized and tested. This seemed a potentially important task in the 1970s.
+?? include COMEIG (ref to Eberlein's work, others??)
+
+The purpose of standardization is to facilitate comparisons between eigenvectors
+that are supposedly equivalent. Any (preferably) unit-length multiple of an 
+eigenvector is also an eigenvector, so it is difficult to compare two proposed
+solutions for the same eigenvalue. Therefore we choose a multiplier so that the
+largest magnitude component of the eigenvector is set to $1 + 0 i$ where 
+
+$$ i = \sqrt{-1}$$
+## Fortran
+
+The Algorithm 11 code:
+
+```{r code=xfun::read_utf8('../fortran/alg11.f'), echo=TRUE, eval=FALSE}
+```
+
+The Algorithm 11 code:
+
+
+```{r code=xfun::read_utf8('../fortran/alg12.f'), echo=TRUE, eval=FALSE}
+```
+
+
+### Example output
+
+We illustrate by finding a single eigensolution of the Hilbert segments of
+order 5 and 10. ?? Do we want to swap in the Frank matrix (the computations
+are generally easier)?
+
+```{bash run1112}
+## #!/bin/bash
+gfortran ../fortran/a1112.f
+mv ./a.out ../fortran/a1112.run
+../fortran/a1112.run <../fortran/a1112.in
+```
+
+<!-- ## BASIC -->
+
+## Pascal
+
+Currently we do not seem to have a separate example driver for these two codes.
+However, they are used in conjunction with the example(s) for Algorithm 26 (Complex
+matrix eigensolutions).
+
+### Listing -- Algorithm 11
+
+```{r code=xfun::read_utf8('../Pascal2021/alg11.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Listing -- Algorithm 12
+
+```{r code=xfun::read_utf8('../Pascal2021/alg12.pas'), echo=TRUE, eval=FALSE}
+```
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+
+
+
+
+
+
+# Cleanup of working files
+
+The following script is included to remove files created during compilation or
+execution of the examples.
+
+```{bash cleanup, echo=TRUE}
+## remove object and run files
+cd ../fortran/
+echo `pwd`
+rm  *.o
+rm  *.run
+rm *.out
+cd ../Pascal2021/
+echo `pwd`
+rm  *.o
+rm  *.run
+rm *.out
+cd ../BASIC
+echo `pwd`
+rm *.out
+cd ../Documentation
+## ?? others
+```
+
+
+# References

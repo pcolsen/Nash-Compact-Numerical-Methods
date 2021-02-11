@@ -1,0 +1,434 @@
+---
+title: "Algorithms in the Nashlib set in various programming languages -- Part 3"
+author: 
+   - John C Nash, retired professor, University of Ottawa
+   - Peter Olsen, retired ??
+date: "11/01/2021"
+output: 
+  pdf_document:
+    keep_tex: false
+    toc: true
+bibliography: nashlib.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+## ??require(bookdown) # language engine to display text??
+```
+
+# Abstract
+
+Algorithms 16-23 from the book @jncnm79 are implemented in a variety of programming
+languages including Fortran, BASIC, Pascal, Python and R. 
+These concern rootfinding, function minimisation and
+nonlinear least squares.
+
+\pagebreak
+# Overview of this document
+
+This section is repeated for each of the parts of
+Nashlib documentation.
+
+A companion document **Overview of Nashlib and its Implementations** describes the
+process and computing environments for the implementation of Nashlib algorithms.
+This document gives comments and/or details relating to implementations of
+the algorithms themselves.
+
+Note that some discussion of the reasoning behind certain choices in algorithms or
+implementations are given in the Overview document.
+
+\pagebreak
+# Algorithm 16 -- Grid search
+
+Grid search -- establishing a regular pattern of parameter values for one or
+more arguments of a function and then evaluating that function on the "grid" --
+is a brute force approach to finding roots, minima, maxima and other features of a 
+function surface. While it cannot be recommended as an efficient method for
+finding roots or minima, it offers a way to generate data for plotting the function
+surface and for localizing roots or minima when these are not unique. Furthermore,
+it is readily understood, and offers a useful starting point in presenting and
+understanding a problem.
+
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/alg16.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run16}
+gfortran ../fortran/dr16.f
+mv ./a.out ../fortran/dr16f.run
+../fortran/dr16f.run < ../fortran/dr16f.in
+```
+
+<!-- ## BASIC -->
+
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/alg16.pas'), echo=TRUE, eval=FALSE}
+```
+
+
+### Example output
+
+The driver for presenting the example of the Pascal version of Algorithm 16 is
+combined with that of Algorithm 17 below.
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+# Algorithm 17 -- Minimize a function of one parameter
+
+It is helpful to be able to visualize a one-parameter function before
+trying to find a minimum. R provides a nice way to do this, and also
+provides (via the `Brent` method of `optim()`) a way to seek a local
+minimum, though we need to provide lower and upper bounds. The original
+Algorithm 17 from Nashlib uses a starting guess and a starting stepsize, which
+leads to a different approach to finding a minimum. However, the upper and
+lower bound approach was used in the 1990 Second Edition and its Turbo Pascal
+variant of the code. 
+
+```{r a17ex, echo=TRUE}
+ cubfn <- function(x) { x*(x*x-2)-5}
+ curve(cubfn, from=-2, to=2)
+ res <- optim(par=0.0, fn=cubfn, method="Brent", lower=c(0), upper=c(1))
+ cat("Minimum proposed is f(",res$par,")=",res$value,"\n")
+```
+
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/alg17.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run17f}
+gfortran ../fortran/dr17.f
+mv ./a.out ../fortran/dr17f.run
+../fortran/dr17f.run < ../fortran/dr17f.in
+```
+
+<!-- ## BASIC -->
+
+## Pascal
+
+
+### Example output
+
+First we compile the codes.
+
+```{bash script1617cpas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr1617.pas
+# copy to run file
+mv ../Pascal2021/dr1617 ../Pascal2021/dr1617p.run
+```
+
+Then we run the grid search (Algorithm 16) followed by the line search routine
+(Algorithm 18).
+
+```{bash script1617prun, eval=TRUE, echo=TRUE}
+../Pascal2021/dr1617p.run <../Pascal2021/dr1617p.in >../Pascal2021/dr1617p.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr1617p.out'), echo=TRUE, eval=FALSE}
+```
+
+But we can run just the minimizer. Note that above we use only 13 function evaluations
+in the minimizer, but now use 17 (for the input used in this example). However, the
+grid search used 11 function evaluations prior to the call to the minimizer for a 
+total of 24.
+
+```{bash script17prun, eval=TRUE, echo=TRUE}
+../Pascal2021/dr1617p.run <../Pascal2021/dr17p.in >../Pascal2021/dr17p.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr17p.out'), echo=TRUE, eval=FALSE}
+```
+
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+# Algorithm 18 -- Roots of a function of one parameter
+
+We use the same cubic polynomial for our rootfinding test as for the 1D minimizer
+(Algorithm 17). R has a built-in 1D rootfinder, `uniroot`. This uses ideas in 
+@brent73. As of UseR!2011 in Warwick, the R multiple-precision
+package `Rmpfr` (@Rmpfr) did not have a rootfinder because it needed to have
+a pure-R code to extend the precision. During a quite period of the conference, 
+the author (JN) translated the C code of `uniroot` to plain R, and it is now
+the `unirootR` function of `Rmpfr`. The code is in the `rootoned` package at
+http://download.r-forge.r-project.org/src/contrib/rootoned_2018-8.28.tar.gz.
+
+Note that this is a different algorithm to that in Nashlib. Moreover, even the
+Nashlib codes are not necessarily fully equivalent, as over time minor variations
+have crept in. We are also fairly certain that the ideas of Algorithm 18 are NOT
+the best for performance. They were written initially for the Data General NOVA
+which had very poor quality floating point (24 bit mantissa, likely no guard
+digit, no double precision), and with very limited storage. Thus the programming 
+goal was reliability rather than efficiency.
+
+```{r a18ex, echo=TRUE}
+ cubfn <- function(x) { x*(x*x-2)-5}
+## curve(cubfn, from=-2, to=2)
+cat("The first attempt fails -- see the plot of the function above.\n")
+ res <- try(uniroot(f=cubfn, lower=0, upper=1))
+ res <- try(uniroot(f=cubfn, lower=-3, upper=3))
+ cat("Root proposed is f(",res$root,")=",res$f.root,"\n")
+ cat("Tighter tolerance?\n")
+ res <- try(uniroot(f=cubfn, lower=-3, upper=3, tol=1e-10))
+ cat("Root proposed is f(",res$root,")=",res$f.root,"\n")
+```
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/alg17.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run18f}
+gfortran ../fortran/dr18.f
+mv ./a.out ../fortran/dr18f.run
+../fortran/dr18f.run < ../fortran/dr18f.in
+```
+
+## BASIC
+
+The code used here was edited from one dated August 30, 1976. Changes were needed
+to adapt to the changed syntax of the `PRINT` statement and to allow us to run 
+the program inside a scripted environment, but the logic is unchanged. For example,
+we have artificially inserted a working set of values to start the Bisection / False
+Position rootfinder after the grid search. The original program was designed to 
+present the grid search so that the user could interactively choose an interval
+for which the endpoints had different function values to start the rootfinder.
+
+### Listing
+
+```{r code=xfun::read_utf8('../BASIC/a18roo.bas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run18b}
+bwbasic ../BASIC/a18roo.bas
+```
+
+## Pascal
+
+### Listing
+
+Note that in this routine, we use bisection every 5 function evaluations. That is,
+we fix the `nbis` variable at 5. This could easily be changed to make it an input
+quantity. 
+
+?? Do we want to discuss why this may be useful?
+
+```{r code=xfun::read_utf8('../Pascal2021/alg18.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+First we compile the codes.
+
+```{bash script18pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr1618.pas
+# copy to run file
+mv ../Pascal2021/dr1618 ../Pascal2021/dr1618p.run
+```
+
+Then we run the grid search (Algorithm 16) followed by the Bisection / False position routine
+(Algorithm 18).
+
+```{bash script1618aprun, eval=TRUE, echo=TRUE}
+../Pascal2021/dr1618p.run <../Pascal2021/dr1618a.in >../Pascal2021/dr1618a.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr1618a.out'), echo=TRUE, eval=FALSE}
+```
+
+Let us try WITHOUT grid search first. 
+
+```{bash script1616bprun, eval=TRUE, echo=TRUE}
+../Pascal2021/dr1618p.run <../Pascal2021/dr1618b.in >../Pascal2021/dr1618b.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr1618b.out'), echo=TRUE, eval=FALSE}
+```
+
+But we can run just the minimizer. Note that above we use only 13 function evaluations
+in the minimizer, but now use 17 (for the input used in this example). However, the
+grid search used 11 function evaluations prior to the call to the minimizer for a 
+total of 24.
+
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+
+<!-- # Algorithm 19 and 20 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithm 21 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithm 22 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+<!-- # Algorithm 23 -- ?? -->
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+<!-- ## Pascal -->
+
+<!-- ## Python -->
+
+<!-- ## R -->
+
+<!-- ## Others -->
+
+\pagebreak
+# Algorithm 27 -- Hooke and Jeeves pattern search minimization
+
+<!-- ## Fortran -->
+
+<!-- ## BASIC -->
+
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/alg27.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+### Example output
+
+Use Rosenbrock banana-shaped valley problem in 2 dimensions.
+
+```{bash script27pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr27.pas
+# copy to run file
+mv ../Pascal2021/dr27 ../Pascal2021/dr27.run
+../Pascal2021/dr27.run  >../Pascal2021/dr27p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr27p.out'), echo=TRUE, eval=FALSE}
+```
+
+<!-- ## Python -->
+
+## R
+
+### Listing
+
+```{r code=xfun::read_utf8('../R/hjn.R'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We use the Rosenbrock banana-shaped valley problem in 2 dimensions.
+
+
+```{r script27R, eval=TRUE, echo=TRUE}
+source("../R/hjn.R") # bring the Hooke and Jeeves minimizer code into workspace
+fminfn <-function(x){ 
+    val<-((x[2]-x[1]^2)^2)*100.0+(1.0-x[1])^2
+    val
+}
+x0<-c(-1.2,1)
+cat("Check fn at c(-1.2,1)=",fminfn(x0),"\n")
+rslt <- hjn(par=x0, fn=fminfn, control=list(trace=0))
+print(rslt)
+```
+
+
+
+<!-- ## Others -->
+
+
+
+
+# Cleanup of working files
+
+The following script is included to remove files created during compilation or
+execution of the examples.
+
+```{bash cleanup, echo=TRUE}
+## remove object and run files
+cd ../fortran/
+echo `pwd`
+rm  *.o
+rm  *.run
+rm *.out
+cd ../Pascal2021/
+echo `pwd`
+rm  *.o
+rm  *.run
+rm *.out
+cd ../BASIC
+echo `pwd`
+rm *.out
+cd ../Documentation
+## ?? others
+```
+
+
+# References

@@ -451,6 +451,12 @@ data structures.
 
 #### Constants and type definitions
 
+Many of the lines of code which follow are NOT needed to run the Nashlib
+Pascal codes. They were included in the 1990 Turbo Pascal 5 collection 
+because it was difficult to keep a record or log of output from the running
+examples in the MS-DOS operating system. The particular lines of interest
+concern input (via `infile`) and output (via `confile`). 
+
 ```
 {constype.def ==
   This file contains various definitions and type statements which are
