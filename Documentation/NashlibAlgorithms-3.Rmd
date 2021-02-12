@@ -360,7 +360,7 @@ The Hooke and Jeeves code below is a modified version of that in @nash90NLEX.
 ### Example output
 
 ```{bash run27b}
-## bas ../BASIC/hj27.bas.bas
+bas ../BASIC/hj27.bas <../BASIC/yes.in
 ```
 
 
