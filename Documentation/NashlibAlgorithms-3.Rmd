@@ -353,7 +353,23 @@ mv ./a.out ../fortran/a23f.run
 ```
 
 
-<!-- ## BASIC -->
+## BASIC
+
+### Listing
+
+
+<!-- ```{r code=xfun::read_utf8('../BASIC/'), echo=TRUE, eval=FALSE} -->
+<!-- ``` -->
+
+### Example output
+
+<!-- ```{bash script23pas, eval=TRUE, echo=TRUE} -->
+<!-- fpc ../Pascal2021/dr23p.pas -->
+<!-- # copy to run file -->
+<!-- mv ../Pascal2021/dr23p ../Pascal2021/dr23p.run -->
+<!-- ../Pascal2021/dr23p.run  >../Pascal2021/dr23p.out -->
+<!-- ``` -->
+
 
 ## Pascal
 
