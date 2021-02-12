@@ -270,15 +270,15 @@ Let us try WITHOUT grid search first.
 ../Pascal2021/dr1618p.run <../Pascal2021/dr1618b.in >../Pascal2021/dr1618b.out
 ```
 
-
-```{r code=xfun::read_utf8('../Pascal2021/dr1618b.out'), echo=TRUE, eval=FALSE}
-```
-
 But we can run just the minimizer. Note that above we use only 13 function evaluations
 in the minimizer, but now use 17 (for the input used in this example). However, the
 grid search used 11 function evaluations prior to the call to the minimizer for a 
 total of 24.
 
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr1618b.out'), echo=TRUE, eval=FALSE}
+```
 
 <!-- ## Python -->
 
@@ -331,11 +331,49 @@ total of 24.
 
 # Algorithm 23 -- Marquardt method for nonlinear least squares
 
-;;<!-- ## Fortran -->
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/alg23.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We test the code with a rather nasty 4-parameter problem called WOOD4
+(@jnmws87, page 421) from different starting points. An example is 
+included with a function evaluation limit that forces early termination.
+Caution!!
+
+
+```{bash run23f}
+gfortran ../fortran/a23.f
+mv ./a.out ../fortran/a23f.run
+../fortran/a23f.run < ../fortran/dr23f.in
+```
+
 
 <!-- ## BASIC -->
 
-<!-- ## Pascal -->
+## Pascal
+
+### Listing
+
+
+```{r code=xfun::read_utf8('../Pascal2021/alg23.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script23pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr23p.pas
+# copy to run file
+mv ../Pascal2021/dr23p ../Pascal2021/dr23p.run
+../Pascal2021/dr23p.run  >../Pascal2021/dr23p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr23p.out'), echo=TRUE, eval=FALSE}
+```
 
 <!-- ## Python -->
 
@@ -420,12 +458,12 @@ print(rslt)
 
 
 
-# Cleanup of working files
+<!-- # Cleanup of working files -->
 
-The following script is included to remove files created during compilation or
-execution of the examples.
+<!-- The following script is included to remove files created during compilation or -->
+<!-- execution of the examples. -->
 
-```{bash cleanup, echo=TRUE}
+```{bash cleanup, echo=FALSE}
 ## remove object and run files
 cd ../fortran/
 echo `pwd`
