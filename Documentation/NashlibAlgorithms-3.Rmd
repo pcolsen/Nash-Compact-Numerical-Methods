@@ -329,9 +329,9 @@ total of 24.
 
 <!-- ## Others -->
 
-<!-- # Algorithm 23 -- ?? -->
+# Algorithm 23 -- Marquardt method for nonlinear least squares
 
-<!-- ## Fortran -->
+;;<!-- ## Fortran -->
 
 <!-- ## BASIC -->
 
@@ -348,7 +348,21 @@ total of 24.
 
 <!-- ## Fortran -->
 
-<!-- ## BASIC -->
+## BASIC
+
+The Hooke and Jeeves code below is a modified version of that in @nash90NLEX. 
+
+### Listing
+
+```{r code=xfun::read_utf8('../BASIC/hj27.bas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run27b}
+## bas ../BASIC/hj27.bas.bas
+```
+
 
 ## Pascal
 

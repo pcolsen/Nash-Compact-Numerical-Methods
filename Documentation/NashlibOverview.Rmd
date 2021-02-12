@@ -293,7 +293,8 @@ underlining some of the issues with BASIC for use in modern computing.
 ### Machine precison for BASIC
 
 We can compute the machine precision using the `calceps.bas` program derived from
-??ref and Kahan's PARANOIA ??ref.
+@Malcolm72 and Kahan's PARANOIA (@Karpinski85). (JN commissioned the latter article
+for Byte when he was Scientific Computing Editor.)
 
 ```{r code=xfun::read_utf8('../BASIC/calceps.bas'), echo=TRUE, eval=FALSE}
 ```
