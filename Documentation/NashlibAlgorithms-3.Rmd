@@ -324,7 +324,26 @@ mv ./a.out ../fortran/dr21f.run
 
 <!-- ## BASIC -->
 
-<!-- ## Pascal -->
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/alg21.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script21pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr21p.pas
+# copy to run file
+mv ../Pascal2021/dr21p ../Pascal2021/dr21p.run
+../Pascal2021/dr21p.run >../Pascal2021/dr21p.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr21p.out'), echo=TRUE, eval=FALSE}
+```
+
 
 <!-- ## Python -->
 
