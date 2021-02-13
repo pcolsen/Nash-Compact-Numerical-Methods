@@ -303,7 +303,6 @@ total of 24.
 
 # Algorithm 21 -- Variable metric minimization
 
-
 ## Fortran
 
 ### Listing
@@ -313,13 +312,16 @@ total of 24.
 
 ### Example output
 
-We use the WOOD4 function from @
+We use the WOOD4 function from @jnmws87, page 421 from different starting points. 
+The code is set up to return with a negative count of function evaluations
+if the pre-set limit is reached. This is tested in the first example case.
 
 ```{bash run21f}
 gfortran ../fortran/dr21f.f
 mv ./a.out ../fortran/dr21f.run
 ../fortran/dr21f.run < ../fortran/dr21f.in
 ```
+
 
 
 
@@ -499,7 +501,7 @@ print(rslt)
 <!-- The following script is included to remove files created during compilation or -->
 <!-- execution of the examples. -->
 
-```{bash cleanup, echo=TRUE, eval=TRUE}
+```{bash cleanup, echo=FALSE, eval=TRUE}
 ## remove object and run files
 cd ../fortran/
 echo `pwd`
