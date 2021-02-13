@@ -231,6 +231,34 @@ stored in memory in column order, top to bottom. This was important in early
 programs, where a number of tricks were used to exploit the indexing and
 storage for speed or code size. 
 
+Input / output in Fortran is handled via channels that are numbered. The original
+Nashlib code uses channel 15 for input ("card reader") and 16 for output ("line
+printer"). `gfortran` seeks files for these, using 5 and 6 respectively for 
+`STDIN` and `STDOUT`. Thus we have changed to 5 and 6 for the current repository.
+
+### Sidebar: **Ringing the Bell"
+
+In the late 1960s when IBM was introducing its multi-user operating systems MFT and
+MVT, the University of Calgary acquired a System /360 Model 50 and agreed to try
+the MVT roll-in/roll-out operating system. JN recalls a couple of interesting
+details:
+
+- the Chief System Programmer for the University (??name?? Norm?) quite literally had his
+hair go grey over the summer of 1967;
+
+- the operating system had a monitor that would sound an alarm bell if it detected
+a situation it could not resolve. IBM had, for reasons known only to some sadistic
+designer, to make this alarm a 12 inch fire bell right behind the main control 
+panel of the machine. It became a badge of honour among programmers to "ring the
+bell". Given the size of the bell and proximity to the operator, there could be
+soiled underwear. The Fortran IV of the system used channel 1 for the card reader
+and channel 3 for the line printer, but I accidentally and undeservedly got the
+"ring the bell" honour by trying to read from channel 3. Oddly, a couple of years
+later I worked on an ICL 1906A at Oxford where one could "read" from the line 
+printer and get the contents of the last line printed.
+
+![IBM System /360 panel and operator station](./System360.jpg)
+
 ### Minor Fortran issues
 
 - `gfortran` does not now accept `DO` loops terminating on an executable statement,
