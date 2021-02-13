@@ -322,11 +322,6 @@ mv ./a.out ../fortran/dr21f.run
 ../fortran/dr21f.run < ../fortran/dr21f.in
 ```
 
-
-
-
-<!-- ## Fortran -->
-
 <!-- ## BASIC -->
 
 <!-- ## Pascal -->
@@ -339,7 +334,27 @@ mv ./a.out ../fortran/dr21f.run
 
 <!-- # Algorithm 22 -- ?? -->
 
-<!-- ## Fortran -->
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/alg22.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We use the WOOD4 function from @jnmws87, page 421 from different starting points. 
+The code is set up to return with a negative count of function evaluations
+if the pre-set limit is reached.
+
+??? need to explain and maybe clean up output
+
+```{bash run22f}
+gfortran ../fortran/dr22f.f
+mv ./a.out ../fortran/dr22f.run
+../fortran/dr22f.run < ../fortran/dr22f.in
+```
+
 
 <!-- ## BASIC -->
 
