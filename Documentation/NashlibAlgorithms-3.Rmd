@@ -301,7 +301,27 @@ total of 24.
 
 <!-- ## Others -->
 
-<!-- # Algorithm 21 -- ?? -->
+# Algorithm 21 -- Variable metric minimization
+
+
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/alg21.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We use the WOOD4 function from @
+
+```{bash run21f}
+gfortran ../fortran/dr21f.f
+mv ./a.out ../fortran/dr21f.run
+../fortran/dr21f.run < ../fortran/dr21f.in
+```
+
+
 
 <!-- ## Fortran -->
 
@@ -340,7 +360,7 @@ total of 24.
 
 ### Example output
 
-We test the code with a rather nasty 4-parameter problem called WOOD4
+We again test the code with a rather nasty 4-parameter problem called WOOD4
 (@jnmws87, page 421) from different starting points. An example is 
 included with a function evaluation limit that forces early termination.
 Caution!!
@@ -479,7 +499,7 @@ print(rslt)
 <!-- The following script is included to remove files created during compilation or -->
 <!-- execution of the examples. -->
 
-```{bash cleanup, echo=FALSE}
+```{bash cleanup, echo=TRUE, eval=TRUE}
 ## remove object and run files
 cd ../fortran/
 echo `pwd`
