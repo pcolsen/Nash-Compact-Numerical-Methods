@@ -201,6 +201,7 @@ begin
       count:=0;
       repeat
         cycle:=cycle+1;
+(*
         writeln(gradcount, ' ', funcount, ' ', Fmin);
         write('parameters ');
         for i:=1 to n do
@@ -209,6 +210,7 @@ begin
           if (7 * (i div 7) = i) and (i<n) then writeln;
         end;
         writeln;
+*)
         gradcount:=gradcount+1;
         fmingr(n, Bvec, Workdata, g);
         G1:=0.0; G2:=0.0;
@@ -250,11 +252,10 @@ begin
               f:=fminfn(n, Bvec, Workdata, notcomp);
               funcount:=funcount+1;
               accpoint:=(not notcomp) and (f<=Fmin+gradproj*steplength*acctol);
-
               if not accpoint then
               begin
                 steplength:=steplength*stepredn;
-                write('*');
+(*                write('*');  *)
               end;
             end;
           until (count=n) or accpoint;
@@ -273,11 +274,11 @@ begin
               funcount:=funcount+1;
               if f<Fmin then
               begin
-                Fmin:=f; write(' i< ');
+                Fmin:=f; (* write(' i< ');  *)
               end
               else
               begin
-                write(' i> ');
+(*                write(' i> ');  *)
                 for i:=1 to n do Bvec[i]:=X[i]+steplength*t[i];
               end;
             end;
@@ -286,9 +287,7 @@ begin
         oldstep:=setstep*steplength;
         if oldstep>1.0 then oldstep:=1.0;
       until (count=n) or (G1<=tol) or (cycle=cyclimit);
-
     until (cycle=1) and ((count=n) or (G1<=tol));
-
   end;
   writeln('Exiting from Alg22.pas conjugate gradients minimiser');
   writeln('    ', funcount, ' function evaluations used');

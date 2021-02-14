@@ -392,16 +392,16 @@ is available from archive.org at ??
 
 ### Example output
 
-<!-- ```{bash script22pas, eval=TRUE, echo=TRUE} -->
-<!-- fpc ../Pascal2021/dr22p.pas -->
-<!-- # copy to run file -->
-<!-- mv ../Pascal2021/dr22p ../Pascal2021/dr22p.run -->
-<!-- ../Pascal2021/dr22p.run <../Pascal2021/dr22p.in >../Pascal2021/dr22p.out -->
-<!-- ``` -->
+```{bash script22pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr22p.pas
+# copy to run file
+mv ../Pascal2021/dr22p ../Pascal2021/dr22p.run
+../Pascal2021/dr22p.run <../Pascal2021/dr22p.in >../Pascal2021/dr22p.out
+```
 
 
-<!-- ```{r code=xfun::read_utf8('../Pascal2021/dr22p.out'), echo=TRUE, eval=FALSE} -->
-<!-- ``` -->
+```{r code=xfun::read_utf8('../Pascal2021/dr22p.out'), echo=TRUE, eval=FALSE}
+```
 
 
 
