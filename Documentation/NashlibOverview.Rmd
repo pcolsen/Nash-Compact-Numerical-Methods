@@ -724,8 +724,6 @@ bas ../BASIC/bastimer.bas
 bwbasic ../BASIC/bastimer.bw
 ```
 
-
-
 ## R
 
 R provides convenient utilities for timestamps and for timing.
@@ -738,11 +736,12 @@ only requires a single run of the script.
 ```{r code=xfun::read_utf8('../R/Rtimetest.R'), echo=TRUE, eval=TRUE}
 ```
 
-
-
 ## Python
 
 
+```{bash tpy, eval=TRUE, echo=TRUE}
+../python/PyTime.py
+```
 
 # Data storage and algorithmic considerations
 
