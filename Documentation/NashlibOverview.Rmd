@@ -53,6 +53,8 @@ operating systems, with possible version notes.
 
 - codes in Python. A list of those still to do ??
 
+- how to time programs???
+
 \pagebreak
 # History
 
@@ -602,7 +604,49 @@ var {global definitions}
   con        : text;       {the console file}
 ```
 
-#### Date and Time functions
+## Python
+
+We can run python code in Linux Mint (and likely most Linux distributions) 
+as follows:
+
+```{bash trya9py, echo=TRUE, eval=FALSE}
+python3 ../python/A9.py
+```
+
+
+## R
+
+R is likely best run within the cross-platform Rstudio IDE, in fact in an
+Rmarkdown article such as the present document source or `NashlibAlgorithms.Rmd`.
+
+## Others
+
+?? Possibly C
+
+# Date and Time functions
+
+Though the 1990 Turbo Pascal codes used facilities like the above and Free Pascal
+supports similar features, we have NOT included timing in the current Nashlib
+implementations. However, in this part of the Overview document we will show some
+possible mechanisms that users may employ to time their code. These will, we are
+fairly certain, need modification for local needs.
+
+There are two main needs:
+
+- a time stamp to identify a particular "run" of a program or a particular 
+version of a file. Note that other identification information, such as the machine
+used, location, compiler or interpreter, and other details could be important.
+
+- elapsed time for a particular set of tasks.
+
+With a sufficiently detailed pair of timestamps, the elapsed time could be worked
+out. 
+
+In the sub-sections below, we consider some examples which could be used as 
+templates for time-stamping or timing the routines in the current incarnation
+of Nashlib.
+
+## Pascal
 
 The routine `tdstamp.pas` in the original Turbo Pascal MAY work 
 work in Free Pascal, since there is a code unit called `Dos`. 
@@ -624,14 +668,6 @@ echo "Completed fpc"
 ../Pascal2021/Timeex3
 ```
 
-
-<!-- ```{bash ttime, eval=TRUE, echo=TRUE} -->
-<!-- fpc ../Pascal2021/TimeExample17.pas -->
-<!-- ## -->
-<!-- echo "Completed fpc" -->
-<!-- ../Pascal2021/TimeExample17 -->
-<!-- ``` -->
-
 There are also other time and data functions for Free Pascal in the `sysutils`
 unit, as documented in 
 
@@ -642,25 +678,60 @@ unit, as documented in
 rm ../Pascal2021/Time*.o
 rm ../Pascal2021/Timeex3
 ```
+??? a more detailed approach Tdex.pas??
 
-## Python
+## Fortran
 
-We can run python code in Linux Mint (and likely most Linux distributions) 
-as follows:
+A very nice exposition of timer use under `gfortran` in Fortran 90 is provided
+by \url{https://faculty.washington.edu/rjl/uwhpsc-coursera/timing.html}. This 
+needs some minor modifications to work with the Fortran 77 dialect for most of Nashlib.
+The adjusted example code follows.
 
-```{bash trya9py, echo=TRUE, eval=FALSE}
-python3 ../python/A9.py
+```{r code=xfun::read_utf8('../fortran/fortran77timer.f'), echo=TRUE, eval=FALSE}
 ```
+
+```{bash timefor}
+#!/bin/bash
+gfortran ../fortran/fortran77timer.f
+./a.out
+rm a.out
+```
+
+## BASIC
+
+Given the diversity of BASIC dialects, it is likely that users will have to research
+the capabilities of their local installation. However, both `bwbasic` and `bas` use
+the GWBASIC TIME$ and TIMER functions. Here is an example program to illustrate their
+use. Note that `END` is replaced with `QUIT` for `bwbasic` so the script can be run.
+
+```{r code=xfun::read_utf8('../BASIC/bastimer.bas'), echo=TRUE, eval=FALSE}
+```
+We observe a considerable difference in performance of the two BASIC interpreters.
+
+### bas
+
+```{bash timebasbas}
+#!/bin/bash
+bas ../BASIC/bastimer.bas
+```
+
+### bwbasic
+
+```{bash timebwbas}
+#!/bin/bash
+bwbasic ../BASIC/bastimer.bw
+```
+
 
 
 ## R
 
-R is likely best run within the cross-platform Rstudio IDE, in fact in an
-Rmarkdown article such as the present document source or `NashlibAlgorithms.Rmd`.
+R provides convenient utilities for timestamps and for timeing.
 
-## Others
 
-?? Possibly C
+## Python
+
+
 
 # Data storage and algorithmic considerations
 
@@ -876,9 +947,9 @@ We urge good documentation and clear but simple examples be provided, and hope t
 follow our own advice in this.
 
 
-```{bash cleanup, echo=FALSE, eval=TRUE}
-rm ./a.out
-## echo "Tried to remove a.out"
-```
+<!-- ```{bash cleanup, echo=FALSE, eval=TRUE} -->
+<!-- rm ./a.out -->
+<!-- ## echo "Tried to remove a.out" -->
+<!-- ``` -->
 
 # References

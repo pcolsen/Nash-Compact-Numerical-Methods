@@ -1,0 +1,12 @@
+Bywater BASIC Interpreter/Shell, version 2.20 patch level 2
+Copyright (c) 1993, Ted A. Campbell
+Copyright (c) 1995-1997, Jon B. Volkoff
+ 
+calceps.bas -- machine precision etc.
+B9 =  99999999999999996863366107917975552  -- a large number
+E5 =  10  -- a number for relative equality tests
+E9 =  0.2220446  -- the machine precision*1e+15,  E9=MIN (X : 1+X>1)
+E6 =  2  -- the radix of arithmetic
+J1 =  53  -- the number of radix digits in mantissa of FP numbers
+E6^(-J1) * 1E+16= 1.110223
+
