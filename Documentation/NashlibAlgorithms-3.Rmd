@@ -351,7 +351,7 @@ mv ../Pascal2021/dr21p ../Pascal2021/dr21p.run
 
 <!-- ## Others -->
 
-<!-- # Algorithm 22 -- ?? -->
+# Algorithm 22 -- Conjugate gradients minimizers
 
 ## Fortran
 
@@ -375,13 +375,53 @@ mv ./a.out ../fortran/dr22f.run
 ```
 
 
-<!-- ## BASIC -->
+## BASIC
 
-<!-- ## Pascal -->
+The original BASIC version of Algorithm 22 seems to have been lost to time. However,
+the work towards @jnmws87 created a new Conjugate Gradients minimizer based on Algorithm
+22 but with the addition of code allowing both bounds and masks constraints. The code
+is available from archive.org at ??
+
+
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/alg22.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+<!-- ```{bash script22pas, eval=TRUE, echo=TRUE} -->
+<!-- fpc ../Pascal2021/dr22p.pas -->
+<!-- # copy to run file -->
+<!-- mv ../Pascal2021/dr22p ../Pascal2021/dr22p.run -->
+<!-- ../Pascal2021/dr22p.run <../Pascal2021/dr22p.in >../Pascal2021/dr22p.out -->
+<!-- ``` -->
+
+
+<!-- ```{r code=xfun::read_utf8('../Pascal2021/dr22p.out'), echo=TRUE, eval=FALSE} -->
+<!-- ``` -->
+
+
+
 
 <!-- ## Python -->
 
-<!-- ## R -->
+## R
+
+In the early 2000s, one of us (JN) tried implementing his optimization algorithms
+from Nashlib in R. The outcome of this exercise, coloured by collaborations with 
+other workers (in particular Ravi Varadhan, Hans Wener Borchers, Ben Bolker, Duncan
+Murdoch, and Gabor Grothendiek), is the R-project package `optimx`. However, in 
+considering Algorithm 22, which which I have never been happy, I came across 
+@Dai99, where a very small change in the logic of Algorithm 22 allowed the three
+search direction updates offered separately in Algorithm 22 to be very elegantly
+combined. The resulting program, first packaged as R package `Rcgmin` before it
+was subsumed into `optimx` in 2019, works much, much better than the original
+Algorithm 22. 
+
+
 
 <!-- ## Others -->
 
