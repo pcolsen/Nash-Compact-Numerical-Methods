@@ -701,8 +701,10 @@ rm a.out
 
 Given the diversity of BASIC dialects, it is likely that users will have to research
 the capabilities of their local installation. However, both `bwbasic` and `bas` use
-the GWBASIC TIME$ and TIMER functions. Here is an example program to illustrate their
-use. Note that `END` is replaced with `QUIT` for `bwbasic` so the script can be run.
+the GWBASIC TIME$ and TIMER functions. Unfortunately, it appears the time resolution 
+is only to 1 second, which is too coarse for many computations. Here is an example 
+program to illustrate their use. Note that `END` is replaced with `QUIT` for 
+`bwbasic` so the script can be run.
 
 ```{r code=xfun::read_utf8('../BASIC/bastimer.bas'), echo=TRUE, eval=FALSE}
 ```
@@ -726,7 +728,16 @@ bwbasic ../BASIC/bastimer.bw
 
 ## R
 
-R provides convenient utilities for timestamps and for timeing.
+R provides convenient utilities for timestamps and for timing.
+`system.time()` times a single script, while `microbenchmark` runs
+a number of replications of the script and provides a distribution of
+them. We believe `microbenchmark` should be used if accurate timings
+are wanted, but `system.time` is sufficient for most purposes, and
+only requires a single run of the script.
+
+```{r code=xfun::read_utf8('../R/Rtimetest.R'), echo=TRUE, eval=TRUE}
+```
+
 
 
 ## Python
