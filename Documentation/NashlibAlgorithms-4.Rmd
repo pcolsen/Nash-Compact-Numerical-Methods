@@ -113,23 +113,15 @@ mv ../Pascal2021/dr24le ../Pascal2021/dr24le.run
 
 ### Example output for least squares
 
-Algorithm 24 solves linear equations, so no extra code is presented.
-
-```{bash pas24le}
-fpc ../Pascal2021/dr24le.pas
-mv ../Pascal2021/dr24le ../Pascal2021/dr24le.run
-../Pascal2021/dr24le.run <../Pascal2021/dr24le.in
+```{bash pas24ls}
+fpc ../Pascal2021/dr24ls.pas
+mv ../Pascal2021/dr24ls ../Pascal2021/dr24ls.run
+../Pascal2021/dr24ls.run <../Pascal2021/dr24ls.in
 ```
 
-### Example output for linear equations
+### Example output for inverse iteration for eigensolutions
 
-Algorithm 24 solves linear equations, so no extra code is presented.
-
-```{bash pas24le}
-fpc ../Pascal2021/dr24le.pas
-mv ../Pascal2021/dr24le ../Pascal2021/dr24le.run
-../Pascal2021/dr24le.run <../Pascal2021/dr24le.in
-```
+We need extra code ?? Algorithm 24 solves linear equations, so no extra code is presented.
 
 
 
