@@ -80,7 +80,25 @@ There may be dialects of these programming languages also.
 
 ## Storage stucture
 
-J, J'J, If J'J, then vector form of lower triangle. 
+J, J'J, If J'J, then vector form of lower triangle. ??
+
+If the choice of approach to Gauss-Newton or Marquardt is to build the normal
+equations and hence the sum of squares and cross products (SSCP) matrix, we
+know by construnction that this is a symmetric matrix and also positive definite.
+In this case, we can use algorithms that specifically take advantage of both these
+properties, namely Algorithms 7, 8 and 9 of Nashlib. Algorithms 7 and 8 are the
+Cholesky decomposition and back-solution using a vector of length `n*(n+1)/2`
+to store just the lower triangle of the SSCP matrix. Algorithm 9 inverts this
+matrix *in situ*. 
+
+The original @jncnm79 Algorithm 23 (Marquardt nonlinear least squares solution) computes
+the SSCP matrix $J' J$  and solves the Marquardt-Nash augmented normal equations
+with the Cholesky approach. This was continued in the Second Edition @nlacatvn1060620 and
+in @jnmws87. However, in the now defunct @jnnlmrt12 and successor @nlsr-manual, the choice
+has been to use a QR decomposition as described below in ???. The particular QR calculations
+are in these packages internal to R-base, complicating comparisons of storage, complexity
+and performance.
+
 
 Other storage approaches.
 
