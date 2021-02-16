@@ -35,8 +35,75 @@ Spiral (Jones??)
 
 # Sources of implementation variety
 
+The sources of variety in implementation include:
+
+- programming language
+- possibly operating environment features
+- solver for the least squares or linear equations sub-problems
+- stucture of storage for the solver, that is, compact or full
+- sequential or full creation of the Jacobian and residual, since
+it may be done in parts
+- how the Jacobian is computed or approximated
+- higher level presentation of the problem to the computer, as
+in R's `nls` or packages `minpack.lm` and `nlsr`.
+
+## Programming language
+
+We have a versions of the Nashlib Algorithm 23 in BASIC, Fortran, Pascal, R, ....
+
+There may be dialects of these programming languages also.
+
+## Operating environment
+
+?? issues of how data is provided
+
+## Solver for the least squares or linear equations sub-problems
+
+### Solution of the linear normal equations
+
+
+### Solution of the least squares sub-problem by matrix decomposition
+
+- Householder
+
+- Givens
+
+- pivoting options
+
+- Marquardt and Marquardt Nash options
+
+- Matrix updating??
+
+
+
+
+
+## Storage stucture
+
+J, J'J, If J'J, then vector form of lower triangle. 
+
+Other storage approaches.
+
+
+## Sequential or full Jacobian computation
+
+We could compute a row of the Jacobian plus the corresponding residual element
+and process this before computing the next row etc.
+
+## Analytic or approximate Jacobian
+
+Use of finite difference approximations??
+
+
+## Problem interfacing
+
+R allows the nonlinear least squares problem to be presented via a formula
+for the model. 
 
 # Saving storage
+
+
+
 
 
 # Measuring performance
