@@ -7,7 +7,6 @@ var
 
 begin
   writeln('alg12.pas -- complex eigensolution residuals');
-  writeln(confile,'alg12.pas -- complex eigensolution residuals');
   ss := 0.0;
   for j := 1 to n do
   begin
@@ -18,9 +17,9 @@ begin
       s := s+Acopy[j,k]*T[k,i]-Zcopy[j,k]*U[k,i];
       g := g+Acopy[j,k]*U[k,i]+Zcopy[j,k]*T[k,i];
     end;
-    writeln('(',s,',',g,')'); writeln(confile,'(',s,',',g,')');
+    writeln('(',s,',',g,')');
     ss := ss+s*s+g*g;
   end;
-  writeln('Sum of squares = ',ss); writeln(confile,'Sum of squares = ',ss);
-  writeln; writeln(confile);
+  writeln('Sum of squares = ',ss);
+  writeln;
 end;

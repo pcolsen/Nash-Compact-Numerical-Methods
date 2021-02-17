@@ -40,23 +40,13 @@ var
 begin
   writeln('alg22.pas -- Nash Algorithm 22 version 2 1988-03-24');
   writeln('  Conjugate gradients function minimiser');
-  writeln(confile, 'alg22.pas -- Nash Algorithm 22 version 2 1988-03-24');
-  writeln(confile, '  Conjugate gradients function minimiser');
-
   writeln('Steplength saving factor multiplies best steplength found at the');
   writeln('  end of each iteration as a starting value for next search');
-  writeln(confile,
-        'Steplength saving factor multiplies best steplength found at the');
-  writeln(confile,
-        '  end of each iteration as a starting value for next search');
   write('Enter a steplength saving factor (sugg. 1.7) -- setstep ');
-  readln(infile, setstep);
-  writeln(confile, 'Enter a steplength saving factor (sugg. 1.7) -- setstep ',
-              setstep);
-  if infname<>'con' then writeln(setstep);
+  readln(setstep);
+  writeln(setstep);
   write('Choose method (1=FR, 2=PR, 3=BS) ');
-  readln(infile, i);  if infname<>'con' then writeln(i);
-  writeln(confile, 'Choose method (1=FR, 2=PR, 3=BS) ', i);
+  readln(i); writeln(i);
   case i of
     1: method:=Fletcher_Reeves;
     2: method:=Polak_Ribiere;
@@ -68,24 +58,16 @@ begin
     Polak_Ribiere: writeln('Method: Polak Ribiere');
     Beale_Sorenson: writeln('Method: Beale Sorenson');
   end;
-  case method of
-    Fletcher_Reeves: writeln(confile, 'Method: Fletcher Reeves');
-    Polak_Ribiere: writeln(confile, 'Method: Polak Ribiere');
-    Beale_Sorenson:  writeln(confile, 'Method: Beale Sorenson');
-  end;
   fail:=false;
   cyclimit:=n;
   if intol<0.0 then intol:=Calceps;
   tol:=intol*n*sqrt(intol);
 
   writeln('tolerance used in gradient test=', tol);
-  writeln(confile, 'tolerance used in gradient test=', tol);
   f:=fminfn(n, Bvec, Workdata, notcomp);
   if notcomp then
   begin
     writeln('**** Function cannot be evaluated at initial parameters ****');
-    writeln(confile,
-        '**** Function cannot be evaluated at initial parameters ****');
     fail := true;
   end
   else
@@ -105,21 +87,13 @@ begin
       repeat
         cycle:=cycle+1;
         writeln(gradcount, ' ', funcount, ' ', Fmin);
-        writeln(confile, gradcount, ' ', funcount, ' ', Fmin);
         write('parameters ');
-        write(confile, 'parameters ');
         for i:=1 to n do
         begin
           write(Bvec[i]:10:5, ' ');
-          write(confile, Bvec[i]:10:5, ' ');
-          if (7 * (i div 7) = i) and (i<n) then
-          begin
-            writeln;
-            writeln(confile);
-          end;
+          if (7 * (i div 7) = i) and (i<n) then writeln;
         end;
         writeln;
-        writeln(confile);
         gradcount:=gradcount+1;
         fmingr(n, Bvec, Workdata, g);
         G1:=0.0; G2:=0.0;
@@ -167,7 +141,6 @@ begin
               begin
                 steplength:=steplength*stepredn;
                 write('*');
-                write(confile, '*');
               end;
             end;
           until (count=n) or accpoint;
@@ -187,12 +160,10 @@ begin
               if f<Fmin then
               begin
                 Fmin:=f; write(' i< ');
-                write(confile, ' i< ');
               end
               else
               begin
                 write(' i> ');
-                writeln(confile, ' i> ');
                 for i:=1 to n do Bvec[i]:=X[i]+steplength*t[i];
               end;
             end;
@@ -206,9 +177,6 @@ begin
 
   end;
   writeln('Exiting from Alg22.pas conjugate gradients minimiser');
-  writeln(confile, 'Exiting from Alg22.pas conjugate gradients minimiser');
   writeln('    ', funcount, ' function evaluations used');
   writeln('    ', gradcount, ' gradient evaluations used');
-  writeln(confile, '    ', funcount, ' function evaluations used');
-  writeln(confile, '    ', gradcount, ' gradient evaluations used');
 end;

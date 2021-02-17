@@ -122,6 +122,10 @@ mv ./a.out ../fortran/dr17f.run
 
 ## Pascal
 
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/alg17.pas'), echo=TRUE, eval=FALSE}
+```
 
 ### Example output
 
