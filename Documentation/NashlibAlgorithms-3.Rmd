@@ -122,6 +122,10 @@ mv ./a.out ../fortran/dr17f.run
 
 ## Pascal
 
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/alg17.pas'), echo=TRUE, eval=FALSE}
+```
 
 ### Example output
 
@@ -275,8 +279,6 @@ in the minimizer, but now use 17 (for the input used in this example). However, 
 grid search used 11 function evaluations prior to the call to the minimizer for a 
 total of 24.
 
-
-
 ```{r code=xfun::read_utf8('../Pascal2021/dr1618b.out'), echo=TRUE, eval=FALSE}
 ```
 
@@ -289,7 +291,36 @@ total of 24.
 
 # Algorithm 19 and 20 -- Nelder-Mead minimization and Axial search
 
-<!-- ## Fortran -->
+## Fortran
+
+Algorithm 19 is the Nelder-Mead Simplex direct search minimization. It is perhaps
+better called the Polytope method to avoid confusion with the Dantzig Simplex 
+method for linear programming. Algorithm 20 is an axial search to escape local 
+minima, or possibly the possible collapse of the polytope and a false convergence.
+The axial search has no guarantee of success, but it does sometimes avoid false
+results.
+
+### Listing - Algorithm 19
+
+```{r code=xfun::read_utf8('../fortran/alg19.f'), echo=TRUE, eval=FALSE}
+```
+
+### Listing - Algorithm 20
+
+```{r code=xfun::read_utf8('../fortran/alg20.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+The example is the Wood4 test function.
+
+```{bash run1920f, eval=TRUE, echo=TRUE}
+gfortran ../fortran/dr1920f.f
+# copy to run file
+mv ./a.out ../fortran/dr1920f.run
+../fortran/dr1920f.run <../fortran/dr1920f.in
+```
+
 
 <!-- ## BASIC -->
 
