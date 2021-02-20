@@ -24,13 +24,46 @@ variety could be an instructive subject for software designers.
 
 # Underlying algorithms
 
-Gauss Newton
+## Gauss Newton \url{https://en.wikipedia.org/wiki/Gauss%E2%80%93Newton_algorithm}
 
-Hartley
+## Hartley @Hartley61
 
-Marquardt (Levenberg)
+## Marquardt
 
-Spiral (Jones??)
+@marq63 is perhaps one of the most important developments in nonlinear least squares
+apart from the Gauss-Newton method. There are several ways to view the method.
+
+First, considering that the $J' J$ may be effectively singular in the computational
+environment at hand, the Gauss-Newton method may be unable to compute a search
+step that reduces the sum of squared residuals. The right hand side of the 
+normal equations, that is, $g = - J' r$ is the gradient for the sum of squares.
+Thus a solution of 
+
+$$    1_n \delta = g $$
+is clearly the gradient. And if we solve 
+
+$$  \lambda  1_n \delta = g $$
+various values of $\lambda$ will produce steps along the **steepest descents**
+direction. Solutions of the Levenberg-Marquardt equations
+
+$$ (J' J + \lambda 1_n)  \delta  =  - J' r $$
+can be thought of as yielding a step $\delta$ that merges the Gauss-Newtn and 
+steepest-descents direction. This approach was actually first suggested by 
+@Levenberg44, but it is my opinion that while the idea is sound, Levenberg 
+very likely never tested them in practice. Before computers were commonly
+available, this was not unusual, and many papers were written with computational
+ideas that were not tested or were given only cursory trial. 
+
+
+
+## Others
+
+There have been many proposed approaches to nonlinear least squares. Here
+are one (or two or ...)
+
+### Spiral 
+
+@Jones70Spiral is a method ...
 
 
 # Sources of implementation variety
@@ -61,6 +94,17 @@ There may be dialects of these programming languages also.
 
 ### Solution of the linear normal equations
 
+- Gauss elimination with partial pivoting
+
+- Gauss elimination with complete pivoting
+
+- Variants of Gauss elimination that build matrix decompositions
+
+- Gauss-Jordan inversion
+
+- Choleski Decomposition and back substitution
+
+- Eigendecompositions of the SSCP
 
 ### Solution of the least squares sub-problem by matrix decomposition
 
@@ -72,7 +116,11 @@ There may be dialects of these programming languages also.
 
 - Marquardt and Marquardt Nash options
 
-- Matrix updating??
+- SVD approaches
+
+### Avoiding duplication of effort when increasing the \lambda parameter
+
+
 
 
 
