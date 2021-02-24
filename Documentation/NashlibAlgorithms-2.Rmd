@@ -24,6 +24,8 @@ These concern the eigensolutions of a real, symmetric
 matrix and its generalization to include a symmetric
 positive-definite metric.
 
+?? Need to standardize the examples!!
+
 \pagebreak
 # Overview of this document
 
@@ -186,7 +188,7 @@ mv ../Pascal2021/dr13 ../Pascal2021/dr13.run
 
 ### Example output
 
-We use a Moler matrix of order 5 for our example.
+We use a Frank matrix of order 4 for our example.
 
 ```{bash run14f}
 ## #!/bin/bash
@@ -195,7 +197,30 @@ mv ./a.out ../fortran/dr14x.run
 ../fortran/dr14x.run < ../fortran/dr14xf.in
 ```
 
-<!-- ## BASIC -->
+## BASIC
+
+The two-sided Jacobi eigensolution routine (Algorithm 14) follows.
+
+### Listing
+
+```{r code=xfun::read_utf8('../BASIC/a14.bas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+The following example substitutes the BASIC code for Algorithm 14 for that
+of Algorithm 13 in the BASIC example above that uses the Frank matrix.
+
+?? include Rayleigh quotient. ?? residuals??
+
+
+```{bash a14bas}
+bwbasic ../BASIC/dr14.bas  >../BASIC/dr14b.out
+# echo "done"
+```
+
+```{r code=xfun::read_utf8('../BASIC/dr14b.out'), echo=TRUE, eval=FALSE}
+```
 
 <!-- ### Listing -->
 

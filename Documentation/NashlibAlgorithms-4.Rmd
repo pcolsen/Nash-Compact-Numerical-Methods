@@ -98,10 +98,35 @@ mv ./a.out ../fortran/dr24le.run
 
 ## Pascal
 
-The 1990 edition of Compact Numerical Methods included three different examples
-of use of conjugate gradients for linear algebraic problems:
+### Listing of Algorithm 24
 
-- linear equations 
+
+### Example output for linear equations
+
+Algorithm 24 solves linear equations, so no extra code is presented.
+
+```{bash pas24le}
+fpc ../Pascal2021/dr24le.pas
+mv ../Pascal2021/dr24le ../Pascal2021/dr24le.run
+../Pascal2021/dr24le.run <../Pascal2021/dr24le.in
+```
+
+### Example output for least squares
+
+```{bash pas24ls}
+fpc ../Pascal2021/dr24ls.pas
+mv ../Pascal2021/dr24ls ../Pascal2021/dr24ls.run
+../Pascal2021/dr24ls.run <../Pascal2021/dr24ls.in
+```
+
+### Example output for inverse iteration for eigensolutions
+
+We need extra code ?? Algorithm 24 solves linear equations, so no extra code is presented.
+
+
+
+
+
 
 <!-- ## Python -->
 
@@ -169,10 +194,10 @@ mv ../Pascal2021/dr25 ../Pascal2021/dr25.run
 
 # Cleanup of working files
 
-The following script is included to remove files created during compilation or
-execution of the examples.
+<!-- The following script is included to remove files created during compilation or -->
+<!-- execution of the examples. -->
 
-```{bash cleanup, echo=TRUE}
+```{bash cleanup, echo=FALSE}
 ## remove object and run files
 cd ../fortran/
 echo `pwd`

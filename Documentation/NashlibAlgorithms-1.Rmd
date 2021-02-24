@@ -599,13 +599,13 @@ WARNING: interim test only!!!???
 
 The Algorithm 9 code:
 
-```{r code=xfun::read_utf8('../python/A9.py'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../python/alg09.py'), echo=TRUE, eval=FALSE}
 ```
 
 ### Example output
 
 ```{bash trya9py}
-python3 ../python/A9.py
+python3 ../python/dr09py.py
 ```
 
 ## R

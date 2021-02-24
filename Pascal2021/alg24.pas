@@ -43,7 +43,6 @@ begin
     if abs(step)>steplim then
     begin
       writeln('Step too large -- coefficient matrix indefinite?');
-      writeln(confile,'Step too large -- coefficient matrix indefinite?');
       ssmin := -big;
     end
     else

@@ -47,9 +47,7 @@ begin
     fb := fn1d(b, notcomp);
     if notcomp then halt;
     write(ifn,' evalns: f(',b:16,')=',fb:10);
-    write(confile,ifn,' evalns: f(',b:16,')=',fb:10);
     writeln('  width interval= ',(ubound-lbound):10);
-    writeln(confile,'  width interval= ',(ubound-lbound):10);
     if (ubound-lbound)>tol then
     begin
       if fb*flow<0.0 then

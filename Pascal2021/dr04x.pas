@@ -62,12 +62,6 @@ type
   NOTE: Pascal does not let us define the work-space for the function
   within the user-defined code.  This is a weakness of Pascal for this
   type of work.
-
-  The following variables allow us to keep a copy of all screen
-  information in a file for some of the codes.  Pascal requires a
-  variable (confile in this case) for the file itself.  The string
-  variable confname is used for the name of the file.  Similar variables
-  allow problem data to be read from the file dfile named dfname.
 }
 var {global definitions}
   banner     : string[80]; {program name and description}

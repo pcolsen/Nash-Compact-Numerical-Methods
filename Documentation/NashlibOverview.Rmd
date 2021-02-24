@@ -53,6 +53,8 @@ operating systems, with possible version notes.
 
 - codes in Python. A list of those still to do ??
 
+- how to time programs???
+
 \pagebreak
 # History
 
@@ -231,6 +233,34 @@ stored in memory in column order, top to bottom. This was important in early
 programs, where a number of tricks were used to exploit the indexing and
 storage for speed or code size. 
 
+Input / output in Fortran is handled via channels that are numbered. The original
+Nashlib code uses channel 15 for input ("card reader") and 16 for output ("line
+printer"). `gfortran` seeks files for these, using 5 and 6 respectively for 
+`STDIN` and `STDOUT`. Thus we have changed to 5 and 6 for the current repository.
+
+### Sidebar: **Ringing the Bell"
+
+In the late 1960s when IBM was introducing its multi-user operating systems MFT and
+MVT, the University of Calgary acquired a System /360 Model 50 and agreed to try
+the MVT roll-in/roll-out operating system. JN recalls a couple of interesting
+details:
+
+- the Chief System Programmer for the University (??name?? Norm?) quite literally had his
+hair go grey over the summer of 1967;
+
+- the operating system had a monitor that would sound an alarm bell if it detected
+a situation it could not resolve. IBM had, for reasons known only to some sadistic
+designer, to make this alarm a 12 inch fire bell right behind the main control 
+panel of the machine. It became a badge of honour among programmers to "ring the
+bell". Given the size of the bell and proximity to the operator, there could be
+soiled underwear. The Fortran IV of the system used channel 1 for the card reader
+and channel 3 for the line printer, but I accidentally and undeservedly got the
+"ring the bell" honour by trying to read from channel 3. Oddly, a couple of years
+later I worked on an ICL 1906A at Oxford where one could "read" from the line 
+printer and get the contents of the last line printed.
+
+![IBM System /360 panel and operator station](./System360.jpg)
+
 ### Minor Fortran issues
 
 - `gfortran` does not now accept `DO` loops terminating on an executable statement,
@@ -283,6 +313,42 @@ we see
 bwbasic ../BASIC/printbas.bas
 echo "done"
 ```
+
+A particular nuisance of `bwbasic` is that it does NOT print large or small numbers
+in scientific notation, and seems to ignore the "PRINT USING" language structure.
+This is, we believe, an
+extension to the 1984 ISO Minimal BASIC standard (which appears to have been withdrawn),
+underlining some of the issues with BASIC for use in modern computing.
+
+### Machine precison for BASIC
+
+We can compute the machine precision using the `calceps.bas` program derived from
+@Malcolm72 and Kahan's PARANOIA (@Karpinski85). (JN commissioned the latter article
+for Byte when he was Scientific Computing Editor.)
+
+```{r code=xfun::read_utf8('../BASIC/calceps.bas'), echo=TRUE, eval=FALSE}
+```
+
+Running this in `bwbasic` gives the output below.
+
+```{bash bwcalceps, eval=TRUE, echo=FALSE}
+bwbasic ../BASIC/calceps.bas >../BASIC/bwcalceps.out
+```
+
+```{r code=xfun::read_utf8('../BASIC/bwcalceps.out'), echo=TRUE, eval=FALSE}
+```
+
+A slight modification of the program is needed to run under the `bas` interpreter (??ref):
+
+```{r code=xfun::read_utf8('../BASIC/calceps.bas'), echo=TRUE, eval=FALSE}
+```
+
+Running this in `bas` gives the output below.
+
+```{bash bascalceps, eval=TRUE, echo=TRUE}
+bas ../BASIC/calcepsbas.bas <../BASIC/yes.in
+```
+
 
 ## Pascal
 
@@ -400,6 +466,10 @@ and (at 2021-1-31) version 2.6 as \url{http://www.moria.de/~michael/bas/bas-2.6.
 which fixes a few bugs. Changing `QUIT` to `STOP` allows the use of lines like
 
 `bas program4bas.bas`
+
+We can also use the `SYSTEM` command to exit a program running under `bas` but
+need to answer `y` from the keyboard or else from a file. See "Machine precision
+for BASIC" for an example.
 
 Note that the tarball of `bas` must be extracted, then the program built with the
 commands
@@ -534,7 +604,49 @@ var {global definitions}
   con        : text;       {the console file}
 ```
 
-#### Date and Time functions
+## Python
+
+We can run python code in Linux Mint (and likely most Linux distributions) 
+as follows:
+
+```{bash trya9py, echo=TRUE, eval=FALSE}
+python3 ../python/A9.py
+```
+
+
+## R
+
+R is likely best run within the cross-platform Rstudio IDE, in fact in an
+Rmarkdown article such as the present document source or `NashlibAlgorithms.Rmd`.
+
+## Others
+
+?? Possibly C
+
+# Date and Time functions
+
+Though the 1990 Turbo Pascal codes used facilities like the above and Free Pascal
+supports similar features, we have NOT included timing in the current Nashlib
+implementations. However, in this part of the Overview document we will show some
+possible mechanisms that users may employ to time their code. These will, we are
+fairly certain, need modification for local needs.
+
+There are two main needs:
+
+- a time stamp to identify a particular "run" of a program or a particular 
+version of a file. Note that other identification information, such as the machine
+used, location, compiler or interpreter, and other details could be important.
+
+- elapsed time for a particular set of tasks.
+
+With a sufficiently detailed pair of timestamps, the elapsed time could be worked
+out. 
+
+In the sub-sections below, we consider some examples which could be used as 
+templates for time-stamping or timing the routines in the current incarnation
+of Nashlib.
+
+## Pascal
 
 The routine `tdstamp.pas` in the original Turbo Pascal MAY work 
 work in Free Pascal, since there is a code unit called `Dos`. 
@@ -556,14 +668,6 @@ echo "Completed fpc"
 ../Pascal2021/Timeex3
 ```
 
-
-<!-- ```{bash ttime, eval=TRUE, echo=TRUE} -->
-<!-- fpc ../Pascal2021/TimeExample17.pas -->
-<!-- ## -->
-<!-- echo "Completed fpc" -->
-<!-- ../Pascal2021/TimeExample17 -->
-<!-- ``` -->
-
 There are also other time and data functions for Free Pascal in the `sysutils`
 unit, as documented in 
 
@@ -574,25 +678,70 @@ unit, as documented in
 rm ../Pascal2021/Time*.o
 rm ../Pascal2021/Timeex3
 ```
+??? a more detailed approach Tdex.pas??
 
-## Python
+## Fortran
 
-We can run python code in Linux Mint (and likely most Linux distributions) 
-as follows:
+A very nice exposition of timer use under `gfortran` in Fortran 90 is provided
+by \url{https://faculty.washington.edu/rjl/uwhpsc-coursera/timing.html}. This 
+needs some minor modifications to work with the Fortran 77 dialect for most of Nashlib.
+The adjusted example code follows.
 
-```{bash trya9py, echo=TRUE, eval=FALSE}
-python3 ../python/A9.py
+```{r code=xfun::read_utf8('../fortran/fortran77timer.f'), echo=TRUE, eval=FALSE}
 ```
 
+```{bash timefor}
+#!/bin/bash
+gfortran ../fortran/fortran77timer.f
+./a.out
+rm a.out
+```
+
+## BASIC
+
+Given the diversity of BASIC dialects, it is likely that users will have to research
+the capabilities of their local installation. However, both `bwbasic` and `bas` use
+the GWBASIC TIME$ and TIMER functions. Unfortunately, it appears the time resolution 
+is only to 1 second, which is too coarse for many computations. Here is an example 
+program to illustrate their use. Note that `END` is replaced with `QUIT` for 
+`bwbasic` so the script can be run.
+
+```{r code=xfun::read_utf8('../BASIC/bastimer.bas'), echo=TRUE, eval=FALSE}
+```
+We observe a considerable difference in performance of the two BASIC interpreters.
+
+### bas
+
+```{bash timebasbas}
+#!/bin/bash
+bas ../BASIC/bastimer.bas
+```
+
+### bwbasic
+
+```{bash timebwbas}
+#!/bin/bash
+bwbasic ../BASIC/bastimer.bw
+```
 
 ## R
 
-R is likely best run within the cross-platform Rstudio IDE, in fact in an
-Rmarkdown article such as the present document source or `NashlibAlgorithms.Rmd`.
+R provides convenient utilities for timestamps and for timing.
+`system.time()` times a single script, while `microbenchmark` runs
+a number of replications of the script and provides a distribution of
+them. We believe `microbenchmark` should be used if accurate timings
+are wanted, but `system.time` is sufficient for most purposes, and
+only requires a single run of the script.
 
-## Others
+```{r code=xfun::read_utf8('../R/Rtimetest.R'), echo=TRUE, eval=TRUE}
+```
 
-?? Possibly C
+## Python
+
+
+```{bash tpy, eval=TRUE, echo=TRUE}
+../python/PyTime.py
+```
 
 # Data storage and algorithmic considerations
 
@@ -808,9 +957,9 @@ We urge good documentation and clear but simple examples be provided, and hope t
 follow our own advice in this.
 
 
-```{bash cleanup, echo=FALSE, eval=TRUE}
-rm ./a.out
-## echo "Tried to remove a.out"
-```
+<!-- ```{bash cleanup, echo=FALSE, eval=TRUE} -->
+<!-- rm ./a.out -->
+<!-- ## echo "Tried to remove a.out" -->
+<!-- ``` -->
 
 # References

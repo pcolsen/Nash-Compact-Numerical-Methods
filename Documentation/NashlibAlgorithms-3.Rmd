@@ -122,6 +122,10 @@ mv ./a.out ../fortran/dr17f.run
 
 ## Pascal
 
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/alg17.pas'), echo=TRUE, eval=FALSE}
+```
 
 ### Example output
 
@@ -270,15 +274,13 @@ Let us try WITHOUT grid search first.
 ../Pascal2021/dr1618p.run <../Pascal2021/dr1618b.in >../Pascal2021/dr1618b.out
 ```
 
-
-```{r code=xfun::read_utf8('../Pascal2021/dr1618b.out'), echo=TRUE, eval=FALSE}
-```
-
 But we can run just the minimizer. Note that above we use only 13 function evaluations
 in the minimizer, but now use 17 (for the input used in this example). However, the
 grid search used 11 function evaluations prior to the call to the minimizer for a 
 total of 24.
 
+```{r code=xfun::read_utf8('../Pascal2021/dr1618b.out'), echo=TRUE, eval=FALSE}
+```
 
 <!-- ## Python -->
 
@@ -287,9 +289,38 @@ total of 24.
 <!-- ## Others -->
 
 
-<!-- # Algorithm 19 and 20 -- ?? -->
+# Algorithm 19 and 20 -- Nelder-Mead minimization and Axial search
 
-<!-- ## Fortran -->
+## Fortran
+
+Algorithm 19 is the Nelder-Mead Simplex direct search minimization. It is perhaps
+better called the Polytope method to avoid confusion with the Dantzig Simplex 
+method for linear programming. Algorithm 20 is an axial search to escape local 
+minima, or possibly the possible collapse of the polytope and a false convergence.
+The axial search has no guarantee of success, but it does sometimes avoid false
+results.
+
+### Listing - Algorithm 19
+
+```{r code=xfun::read_utf8('../fortran/alg19.f'), echo=TRUE, eval=FALSE}
+```
+
+### Listing - Algorithm 20
+
+```{r code=xfun::read_utf8('../fortran/alg20.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+The example is the Wood4 test function.
+
+```{bash run1920f, eval=TRUE, echo=TRUE}
+gfortran ../fortran/dr1920f.f
+# copy to run file
+mv ./a.out ../fortran/dr1920f.run
+../fortran/dr1920f.run <../fortran/dr1920f.in
+```
+
 
 <!-- ## BASIC -->
 
@@ -301,13 +332,49 @@ total of 24.
 
 <!-- ## Others -->
 
-<!-- # Algorithm 21 -- ?? -->
+# Algorithm 21 -- Variable metric minimization
 
-<!-- ## Fortran -->
+## Fortran
+
+### Listing
+
+```{r code=xfun::read_utf8('../fortran/alg21.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We use the WOOD4 function from @jnmws87, page 421 from different starting points. 
+The code is set up to return with a negative count of function evaluations
+if the pre-set limit is reached. This is tested in the first example case.
+
+```{bash run21f}
+gfortran ../fortran/dr21f.f
+mv ./a.out ../fortran/dr21f.run
+../fortran/dr21f.run < ../fortran/dr21f.in
+```
 
 <!-- ## BASIC -->
 
-<!-- ## Pascal -->
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/alg21.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script21pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr21p.pas
+# copy to run file
+mv ../Pascal2021/dr21p ../Pascal2021/dr21p.run
+../Pascal2021/dr21p.run >../Pascal2021/dr21p.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr21p.out'), echo=TRUE, eval=FALSE}
+```
+
 
 <!-- ## Python -->
 
@@ -315,27 +382,140 @@ total of 24.
 
 <!-- ## Others -->
 
-<!-- # Algorithm 22 -- ?? -->
+# Algorithm 22 -- Conjugate gradients minimizers
 
-<!-- ## Fortran -->
+## Fortran
 
-<!-- ## BASIC -->
+### Listing
 
-<!-- ## Pascal -->
+```{r code=xfun::read_utf8('../fortran/alg22.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We use the WOOD4 function from @jnmws87, page 421 from different starting points. 
+The code is set up to return with a negative count of function evaluations
+if the pre-set limit is reached.
+
+??? need to explain and maybe clean up output
+
+```{bash run22f}
+gfortran ../fortran/dr22f.f
+mv ./a.out ../fortran/dr22f.run
+../fortran/dr22f.run < ../fortran/dr22f.in
+```
+
+
+## BASIC
+
+The original BASIC version of Algorithm 22 seems to have been lost to time. However,
+the work towards @jnmws87 created a new Conjugate Gradients minimizer based on Algorithm
+22 but with the addition of code allowing both bounds and masks constraints. The code
+is available from archive.org at ??
+
+
+## Pascal
+
+### Listing
+
+```{r code=xfun::read_utf8('../Pascal2021/alg22.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script22pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr22p.pas
+# copy to run file
+mv ../Pascal2021/dr22p ../Pascal2021/dr22p.run
+../Pascal2021/dr22p.run <../Pascal2021/dr22p.in >../Pascal2021/dr22p.out
+```
+
+
+```{r code=xfun::read_utf8('../Pascal2021/dr22p.out'), echo=TRUE, eval=FALSE}
+```
+
+
+
 
 <!-- ## Python -->
 
-<!-- ## R -->
+## R
+
+In the early 2000s, one of us (JN) tried implementing his optimization algorithms
+from Nashlib in R. The outcome of this exercise, coloured by collaborations with 
+other workers (in particular Ravi Varadhan, Hans Wener Borchers, Ben Bolker, Duncan
+Murdoch, and Gabor Grothendiek), is the R-project package `optimx`. However, in 
+considering Algorithm 22, which which I have never been happy, I came across 
+@Dai99, where a very small change in the logic of Algorithm 22 allowed the three
+search direction updates offered separately in Algorithm 22 to be very elegantly
+combined. The resulting program, first packaged as R package `Rcgmin` before it
+was subsumed into `optimx` in 2019, works much, much better than the original
+Algorithm 22. 
+
 
 <!-- ## Others -->
 
-<!-- # Algorithm 23 -- ?? -->
+# Algorithm 23 -- Marquardt method for nonlinear least squares
 
-<!-- ## Fortran -->
+## Fortran
 
-<!-- ## BASIC -->
+### Listing
 
-<!-- ## Pascal -->
+```{r code=xfun::read_utf8('../fortran/alg23.f'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+We again test the code with a rather nasty 4-parameter problem called WOOD4
+(@jnmws87, page 421) from different starting points. An example is 
+included with a function evaluation limit that forces early termination.
+Caution!!
+
+
+```{bash run23f}
+gfortran ../fortran/a23.f
+mv ./a.out ../fortran/a23f.run
+../fortran/a23f.run < ../fortran/dr23f.in
+```
+
+
+## BASIC
+
+### Listing
+
+
+<!-- ```{r code=xfun::read_utf8('../BASIC/'), echo=TRUE, eval=FALSE} -->
+<!-- ``` -->
+
+### Example output
+
+<!-- ```{bash script23pas, eval=TRUE, echo=TRUE} -->
+<!-- fpc ../Pascal2021/dr23p.pas -->
+<!-- # copy to run file -->
+<!-- mv ../Pascal2021/dr23p ../Pascal2021/dr23p.run -->
+<!-- ../Pascal2021/dr23p.run  >../Pascal2021/dr23p.out -->
+<!-- ``` -->
+
+
+## Pascal
+
+### Listing
+
+
+```{r code=xfun::read_utf8('../Pascal2021/alg23.pas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash script23pas, eval=TRUE, echo=TRUE}
+fpc ../Pascal2021/dr23p.pas
+# copy to run file
+mv ../Pascal2021/dr23p ../Pascal2021/dr23p.run
+../Pascal2021/dr23p.run  >../Pascal2021/dr23p.out
+```
+
+```{r code=xfun::read_utf8('../Pascal2021/dr23p.out'), echo=TRUE, eval=FALSE}
+```
 
 <!-- ## Python -->
 
@@ -348,7 +528,21 @@ total of 24.
 
 <!-- ## Fortran -->
 
-<!-- ## BASIC -->
+## BASIC
+
+The Hooke and Jeeves code below is a modified version of that in @nash90NLEX. 
+
+### Listing
+
+```{r code=xfun::read_utf8('../BASIC/hj27.bas'), echo=TRUE, eval=FALSE}
+```
+
+### Example output
+
+```{bash run27b}
+bas ../BASIC/hj27.bas <../BASIC/yes.in
+```
+
 
 ## Pascal
 
@@ -400,18 +594,17 @@ print(rslt)
 ```
 
 
-
 <!-- ## Others -->
 
 
 
 
-# Cleanup of working files
+<!-- # Cleanup of working files -->
 
-The following script is included to remove files created during compilation or
-execution of the examples.
+<!-- The following script is included to remove files created during compilation or -->
+<!-- execution of the examples. -->
 
-```{bash cleanup, echo=TRUE}
+```{bash cleanup, echo=FALSE, eval=TRUE}
 ## remove object and run files
 cd ../fortran/
 echo `pwd`

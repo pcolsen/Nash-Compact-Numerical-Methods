@@ -7,7 +7,6 @@ var
 
 begin
   writeln('alg11.pas -- standardized eigensolutions');
-  writeln(confile,'alg11.pas -- standardized eigensolutions');
   for i := 1 to n do
   begin
     g := T[1,i]*T[1,i]+U[1,i]*U[1,i];

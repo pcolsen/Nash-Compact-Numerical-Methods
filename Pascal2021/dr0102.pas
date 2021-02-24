@@ -151,7 +151,7 @@ end;{matcopy.pas}
 Procedure PrtSVDResults( nRow, nCol:integer;
                 U, V: rmatrix; Z: rvector);
 {psvdres.pas
-  == routine to display svd results and print them to confile
+  == routine to display svd results and print them
 }
 var
   i, j : integer;
