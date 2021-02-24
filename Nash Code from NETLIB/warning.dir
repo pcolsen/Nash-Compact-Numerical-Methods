@@ -1,0 +1,9 @@
+WARNING.DIR
+
+The usual formatting of flexible (floppy) disks does NOT
+provide enough directory entries for the number of files
+in the Compact Numerical Methods collection. The files
+are therefore stored in a subdirectory, since subdirectories
+are not as limited in the number of entries they may contain.
+
+JCN 1995-1-23
