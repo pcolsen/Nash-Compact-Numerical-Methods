@@ -154,7 +154,12 @@ Other storage approaches.
 ## Sequential or full Jacobian computation
 
 We could compute a row of the Jacobian plus the corresponding residual element
-and process this before computing the next row etc.
+and process this before computing the next row etc. This means the full Jacobian
+does not have to be stored. In Nashlib, Algorithms 3 and 4, we used row-wise data 
+entry in linear least squares via Givens' triangularization (QR decompostition),
+with the possibility of extending the QR to a singular value decomposition.
+Forming the SSCP matrix can also be generated row-wise as well.
+
 
 ## Analytic or approximate Jacobian
 
@@ -168,14 +173,98 @@ for the model.
 
 # Saving storage
 
+The obvious ways to reduce storage are:
 
+- use a row-wise generation of the Jacobian in either a Givens' QR or SSCP approach.
+  This saves space for the Jacobian as well as as well as the working matrices of
+  the Gauss-Newton or Marquardt iterations;
 
-
+- if the number of parameters to estimate is large enough, then a normal equations
+  approach using a compact storage of the lower triangle of the SSCP matrix. 
+  However, the scale of the saving is really very small in comparison to 
+  the size of most programs.
+  
 
 # Measuring performance
 
 
 # Test problems
+
+```{r settest15}
+# set parameters
+a <- 1
+b <- 2
+c <- 3
+np <- 15
+tt <-1:np
+yy <- 100*a/(1+10*b*exp(-0.1*c*tt))
+plot(tt, yy, type='l')
+set.seed(123456)
+ev <- runif(np)
+ev <- ev - mean(ev)
+y1 <- yy + ev
+points(tt,y1,type='p', col="green")
+y2 <- yy + 5*ev
+points(tt,y2,type='p', col="blue")
+y3 <- yy + 10*ev
+lg3d15 <- data.frame(tt, yy, y1, y2, y3)
+points(tt,y3,type='p', col="red")
+library(nlsr)
+sol0 <- nlxb(yy ~ a0/(1+b0*exp(-c0*tt)), data=lg3d15)
+print(sol0)
+sol1 <- nlxb(y1 ~ a1/(1+b1*exp(-c1*tt)), data=lg3d15)
+print(sol1)
+sol2 <- nlxb(y2 ~ a2/(2+b2*exp(-c2*tt)), data=lg3d15)
+print(sol2)
+sol3 <- nlxb(y3 ~ a3/(3+b3*exp(-c3*tt)), data=lg3d15)
+print(sol3)
+yy <- 100*a/(1+10*b*exp(-0.1*c*tt))
+plot(tt, yy, type='l')
+set.seed(123456)
+ev <- runif(np)
+ev <- ev - mean(ev)
+y1 <- yy + ev
+points(tt,y1,type='p', col="green")
+y2 <- yy + 5*ev
+points(tt,y2,type='p', col="blue")
+y3 <- yy + 10*ev
+lg3d15 <- data.frame(tt, yy, y1, y2, y3)
+points(tt,y3,type='p', col="red")
+library(nlsr)
+sol0 <- nlxb(yy ~ a0/(1+b0*exp(-c0*tt)), data=lg3d15)
+print(sol0)
+sol1 <- nlxb(y1 ~ a1/(1+b1*exp(-c1*tt)), data=lg3d15)
+print(sol1)
+sol2 <- nlxb(y2 ~ a2/(2+b2*exp(-c2*tt)), data=lg3d15)
+print(sol2)
+sol3 <- nlxb(y3 ~ a3/(3+b3*exp(-c3*tt)), data=lg3d15)
+print(sol3)
+
+np <- 150
+tt <- (1:np)/10
+yy <- 100*a/(1+10*b*exp(-0.1*c*tt))
+set.seed(123456)
+ev <- runif(np)
+ev <- ev - mean(ev)
+y1 <- yy + ev
+y2 <- yy + 5*ev
+y3 <- yy + 10*ev
+lg3d150 <- data.frame(tt, yy, y1, y2, y3)
+np <- 1500
+tt <- (1:np)/100
+yy <- 100*a/(1+10*b*exp(-0.1*c*tt))
+set.seed(123456)
+ev <- runif(np)
+ev <- ev - mean(ev)
+y1 <- yy + ev
+y2 <- yy + 5*ev
+y3 <- yy + 10*ev
+lg3d1500 <- data.frame(tt, yy, y1, y2, y3)
+f0 <- yy ~ a0/(1+b0*exp(-c0*tt))
+f1 <- y1 ~ a1/(1+b1*exp(-c1*tt))
+f2 <- y2 ~ a2/(2+b2*exp(-c2*tt))
+f3 <- y3 ~ a3/(3+b3*exp(-c3*tt))
+```
 
 
 # Implementation comparisons
