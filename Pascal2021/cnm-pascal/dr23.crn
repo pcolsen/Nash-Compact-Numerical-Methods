@@ -1,0 +1,10 @@
+***** dr23.pas
+{$I rosen.pas}
+{*** replace 'rosen' with 'logistic' in above line to run 3 parameter
+       logistic function fit ***}
+{$I alg07.pas}
+***** b:\cnm\dr23.pas
+{$I rosen.pas}
+{$I alg07.pas}
+*****
+

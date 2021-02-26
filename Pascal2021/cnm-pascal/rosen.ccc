@@ -1,0 +1,33 @@
+***** rosen.pas
+
+function fminfn(n: integer; var Bvec: rvector; var Workdata:probdata;
+            var nocomp:boolean):real;
+***** a:rosen.pas
+
+function fminfn(n: integer; var Bvec: rvector; Workdata:probdata;
+            var nocomp:boolean):real;
+*****
+
+***** rosen.pas
+procedure fmingr(n:integer;Bvec:rvector; var Workdata:probdata; 
+                                                   var g:rvector);
+***** a:rosen.pas
+procedure fmingr(n:integer;Bvec:rvector; Workdata:probdata; var g:rvector);
+*****
+
+***** rosen.pas
+
+function nlres(i, n : integer; Bvec: rvector; var nocomp: boolean;
+                                           var Workdata: probdata): real;
+***** a:rosen.pas
+
+function nlres(i, n : integer; Bvec: rvector; var nocomp: boolean): real;
+*****
+
+***** rosen.pas
+procedure nljac(i, n: integer; Bvec: rvector; var jacrow: rvector;
+                                              var Workdata: probdata);
+***** a:rosen.pas
+procedure nljac(i, n: integer; Bvec: rvector; var jacrow: rvector);
+*****
+
