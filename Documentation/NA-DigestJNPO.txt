@@ -1,0 +1,18 @@
+An exchange of emails between Peter Olsen and John Nash has led to a modest project to bring together various implementations of the pseudo-code algorithms from Nash J. C. "Compact Numerical Methods for Computers: Linear Algebra and Function Minimisation", Adam Hilger: Bristol, 1979. There was a 1990 Second Edition with Turbo Pascal codes which are part of the netlib collection.
+
+The codes have turned out to be surprisingly resilient and have evolved as they have been applied, in particular in the R project.
+
+Codes and documentation are being collected and edited so they all are runable at
+
+https://github.com/pcolsen/Nash-Compact-Numerical-Methods
+
+We believe the collection may prove useful:
+
+- as a repository of different versions of the codes, possibly with addition of the extensions that have appeared over the nearly half century since some were initially coded.
+- as a source of modest student or learning projects to code the algorithms in different programming languages e.g., Matlab/Octave or C. Python and R are the current goals. Fortran, BASIC and Pascal are well-represented.
+- as a resource for exploring the influence of resource and programming language features on software design.
+- as a base for specialised implementations e.g., a multiprecision version of an SVD code has been built, where the short code was helpful to adapting to the programming language extensions.
+
+We welcome interest and collaboration.
+
+John Nash and Peter Olsen
