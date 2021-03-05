@@ -1,15 +1,41 @@
 ---
 title: "Overview of Nashlib and its Implementations"
-author: 
-   - John C Nash, retired professor, University of Ottawa
-   - Peter Olsen, retired ??
-date: "11/01/2021"
+author:  |
+  | John C Nash, retired professor, University of Ottawa 
+  |      nashjc@uottawa.ca 
+  |
+  | Peter Olsen 
+  |    Commander, United States Coast Guard Reserve, Retired, and  
+  |    Department of Computer Science and Electrical Engineering,
+  |    University of Maryland Baltimore County, pcolsen@gmail.com
+date: "`r Sys.Date()`"
 output: 
     pdf_document:
         keep_tex: false
         toc: true
 bibliography: nashlib.bib
 ---
+
+<!-- title:  -->
+<!--     "Overview of Nashlib and its Implementations" -->
+<!--   - name: John C Nash -->
+<!--     affiliation: retired professor, University of Ottawa -->
+<!--     email: nashjc@uottawa.ca -->
+<!--   - name: Peter Olsen -->
+<!--     affiliation: Commander, United States Coast Guard Reserve, Retired, -->
+<!--     address:  -->
+<!--       and Department of Computer Science and Electrical Engineering,  -->
+<!--       University of Maryland Baltimore County -->
+<!--     email: pcolsen@gmail.com -->
+<!-- date: "11/01/2021" -->
+<!-- output:  -->
+<!--     pdf_document: -->
+<!--         keep_tex: false -->
+<!--         toc: true -->
+<!-- bibliography: nashlib.bib -->
+
+
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
