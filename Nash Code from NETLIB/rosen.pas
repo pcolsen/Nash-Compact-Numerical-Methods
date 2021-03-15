@@ -72,4 +72,3 @@ begin
   end; {case}
 end; {nljac from rosen.pas}
 {end of rosen.pas test function code suite}
-

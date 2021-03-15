@@ -221,7 +221,7 @@ begin
       end;
       if m=n then sym:=true;
     end;
-    else {case statement else
+    else {case statement else} {!!!! Note missing close bracket here}
     begin
       writeln;
       writeln(confile);

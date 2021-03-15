@@ -7,8 +7,8 @@ Program dr14(input, output);
 }
 {$I constype.def}
 {$I tdstamp.pas}  {time and date stamp}
-{$I resids}       {compute residuals -- used in alg2.pas}
-{$I Matrixin}     {input or generate a matrix of reals}
+{$I resids.pas}       {compute residuals -- used in alg2.pas}
+{$I matrixin.pas}     {input or generate a matrix of reals}
 {$I alg14.pas}    {evJacobi -- symmetric matrix eigenproblem}
 {$I startup.pas}
 
