@@ -273,8 +273,13 @@ that required special programming language processors, for example, FM Fortran
 As this work progressed, it was noted that work on LAPACK had, in 2000, revealed 
 quite large discrepancies between some implementations of the Givens' method for
 the QR decomposition, and a working paper was prepared, eventually published
+<<<<<<< HEAD
 as @Bindel2002Givens. Some aspects of these ideas will 
 be included in this collection. (This comment written as of 2021-3-21.) 
+=======
+as @Bindel2002Givens. Some aspects of these ideas will (??written as of 2021-3-21)
+be included in this collection.
+>>>>>>> a42e9e6b62b1fdb1ff5ad262fc7f202f091c83dd
 
 
 ## Fortran
@@ -400,6 +405,7 @@ incorporates the suggestions of @Bindel2002Givens.
 
 # Algorithm 4 -- Row-oriented SVD and least squares solution
 
+<<<<<<< HEAD
 The essence of Algorithm 4 is to use a QR decomposition to triangularize a "long
 skinny" matrix, that is, $m$ by $n$ with $m >> n$. The resulting $n$ by $n$ matrix
 is then further decomposed to a singular value decomposition.
@@ -416,6 +422,9 @@ $$                 U = Q P $$
 There are many possibilities for both the QR and SVD parts of this process. In the
 early 1970s, one of us (JN) needed to solve a problem with $m=196$ by $n=25$ columns
 (variables plus a constant).
+=======
+The essence of Algorithm 4
+>>>>>>> a42e9e6b62b1fdb1ff5ad262fc7f202f091c83dd
 
 
 ## Fortran
@@ -437,6 +446,11 @@ mv ./a.out ../fortran/dr04.run
 ```
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> a42e9e6b62b1fdb1ff5ad262fc7f202f091c83dd
 ### Example output
 
 <!-- ## BASIC -->
