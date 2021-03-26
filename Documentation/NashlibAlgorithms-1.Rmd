@@ -261,6 +261,21 @@ information on the plane rotations that make up $Q$. Such codes can then apply t
 rotations to a unit matrix of the right size to reconstruct $Q$ as needed. However,
 these details have largely become irrelevant in an age of cheap memory chips.
 
+### Notes on work in 2021 with Sidey Timmons
+
+Starting in late 2019, one of us (JN) exchanged ideas relating to the one-sided
+Jacobi approach to the singular value decomposition. The application was to work
+to estimate the magnetic field of Jupiter from spacecraft measurements. The compact
+Nash codes were attractive as extremely high precision calculations were needed
+that required special programming language processors, for example, FM Fortran
+(@Smith91afortran, see also \url{http://dmsmith.lmu.build/}). 
+
+As this work progressed, it was noted that work on LAPACK had, in 2000, revealed 
+quite large discrepancies between some implementations of the Givens' method for
+the QR decomposition, and a working paper was prepared, eventually published
+as @Bindel2002Givens. Some aspects of these ideas will (??written as of 2021-3-21)
+be included in this collection.
+
 
 ## Fortran
 
@@ -368,6 +383,9 @@ in the results.
 <!-- ## Others -->
 
 # Algorithm 4 -- Row-oriented SVD and least squares solution
+
+The essence of Algorithm 4
+
 
 ## Fortran
 
