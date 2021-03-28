@@ -225,6 +225,7 @@ There is also a C version in
 ===========================================================================
 
 \pagebreak
+
 # Algorithm 3 -- Givens' decomposition
 
 The Givens and Householder decompositions of a rectangular $m$ by $n$ matrix $A$
@@ -255,7 +256,8 @@ In fact, $m$ does not have to be greater than or equal to $n$. However, underdet
 systems of equations do raise some issues that we will not address here.
 
 
-It is therefore unnecessary to store $Q$, which when @jncnm79 was being prepared was a
+For solving the least squares problem, it 
+is therefore unnecessary to store $Q$, which when @jncnm79 was being prepared was a
 potentially large matrix. There are alternative designs of the code which could save
 information on the plane rotations that make up $Q$. Such codes can then apply the 
 rotations to a unit matrix of the right size to reconstruct $Q$ as needed. However,
@@ -385,10 +387,29 @@ CLARGV, the Level 1 BLAS routines SROTG and CROTG [Lawson et al. 1979],
 as well as Algorithm 5.1.5 in Golub and Van Loan [1996] can get significantly
 different answers for mathematically identical inputs."`
 
+The essence of the Givens' approach to generating a QR decomposition of a
+matrix is to apply a plane rotation to two rows of the current working matrix
+$W$. Let us call these rows $W_j$ and $W_k$ where $k > j$. Since the rest of
+the full plane rotation is simply an identity, we only need consider the effects
+on the two rows. That is, we will look at what we get from 
+
+$$   \begin{Bmatrix}  newW_j\\   newW_k  \end{Bmatrix}  =  \begin{Bmatrix}    c & s\\  -s  & c  \end{Bmatrix}  \begin{Bmatrix}  W_j\\   W_k  \end{Bmatrix} $$
+where we want the $j$ element $newW_{k,j}$ to be zero.
+
+We have two equations
+
+$$ 0 = -s*W_{j,j} + c*W_{k,j} $$
+and 
+
+$$  c^2 + s^2 = 1 $$
+to define $c$ and $s$. The 1970s version of Algorithm 3 used
+
+
+
 Based on the LAPACK routine `slartg.f`, the following version of Algorithm 3 
 incorporates the suggestions of @Bindel2002Givens. 
 
-```{r code=xfun::read_utf8('../R/dr03B.R'), echo=TRUE, eval=FALSE}
+```{r code=xfun::read_utf8('../fortran/dr03b.f'), echo=TRUE, eval=FALSE}
 ```
 
 ### Examples of effect of Bindel et al. Givens' plane rotations
