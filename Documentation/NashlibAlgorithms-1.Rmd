@@ -225,6 +225,7 @@ There is also a C version in
 ===========================================================================
 
 \pagebreak
+
 # Algorithm 3 -- Givens' decomposition
 
 The Givens and Householder decompositions of a rectangular $m$ by $n$ matrix $A$
@@ -255,11 +256,27 @@ In fact, $m$ does not have to be greater than or equal to $n$. However, underdet
 systems of equations do raise some issues that we will not address here.
 
 
-It is therefore unnecessary to store $Q$, which when @jncnm79 was being prepared was a
+For solving the least squares problem, it 
+is therefore unnecessary to store $Q$, which when @jncnm79 was being prepared was a
 potentially large matrix. There are alternative designs of the code which could save
 information on the plane rotations that make up $Q$. Such codes can then apply the 
 rotations to a unit matrix of the right size to reconstruct $Q$ as needed. However,
 these details have largely become irrelevant in an age of cheap memory chips.
+
+### Notes on work in 2021 with Sidey Timmons
+
+Starting in late 2019, one of us (JN) exchanged ideas relating to the one-sided
+Jacobi approach to the singular value decomposition. The application was to work
+to estimate the magnetic field of Jupiter from spacecraft measurements. The compact
+Nash codes were attractive as extremely high precision calculations were needed
+that required special programming language processors, for example, FM Fortran
+(@Smith91afortran, see also \url{http://dmsmith.lmu.build/}). 
+
+As this work progressed, it was noted that work on LAPACK had, in 2000, revealed 
+quite large discrepancies between some implementations of the Givens' method for
+the QR decomposition, and a working paper was prepared, eventually published
+as @Bindel2002Givens. Some aspects of these ideas will 
+be included in this collection. (This comment written as of 2021-3-21.) 
 
 
 ## Fortran
@@ -276,9 +293,9 @@ As a precaution, we use a 1 by 1 matrix as our first test. We have seen situatio
 where otherwise reliable programs have failed on such trivial cases.
 
 ```{bash run3}
-gfortran ../fortran/a3.f
-mv ./a.out ../fortran/a3.run
-../fortran/a3.run < ../fortran/a3data.in > ../fortran/a3out.txt
+gfortran ../fortran/dr03.f
+mv ./a.out ../fortran/dr03.run
+../fortran/dr03.run < ../fortran/a3data.in > ../fortran/a3out.txt
 ```
 
 ```{r code=xfun::read_utf8('../fortran/a3out.txt'), echo=TRUE, eval=FALSE}
@@ -362,12 +379,65 @@ in the results.
 ```
 
 
+## Issues with calculating the Givens' plane rotations
 
+@Bindel2002Givens point out `"the
+LAPACK [Anderson et al. 1999] routines SLARTG, CLARTG, SLARGV and
+CLARGV, the Level 1 BLAS routines SROTG and CROTG [Lawson et al. 1979],
+as well as Algorithm 5.1.5 in Golub and Van Loan [1996] can get significantly
+different answers for mathematically identical inputs."`
+
+The essence of the Givens' approach to generating a QR decomposition of a
+matrix is to apply a plane rotation to two rows of the current working matrix
+$W$. Let us call these rows $W_j$ and $W_k$ where $k > j$. Since the rest of
+the full plane rotation is simply an identity, we only need consider the effects
+on the two rows. That is, we will look at what we get from 
+
+$$   \begin{Bmatrix}  newW_j\\   newW_k  \end{Bmatrix}  =  \begin{Bmatrix}    c & s\\  -s  & c  \end{Bmatrix}  \begin{Bmatrix}  W_j\\   W_k  \end{Bmatrix} $$
+where we want the $j$ element $newW_{k,j}$ to be zero.
+
+We have two equations
+
+$$ 0 = -s*W_{j,j} + c*W_{k,j} $$
+and 
+
+$$  c^2 + s^2 = 1 $$
+to define $c$ and $s$. The 1970s version of Algorithm 3 used
+
+
+
+Based on the LAPACK routine `slartg.f`, the following version of Algorithm 3 
+incorporates the suggestions of @Bindel2002Givens. 
+
+```{r code=xfun::read_utf8('../fortran/dr03b.f'), echo=TRUE, eval=FALSE}
+```
+
+### Examples of effect of Bindel et al. Givens' plane rotations
+
+?? need some illustrative cases that are not too big.
 
 
 <!-- ## Others -->
 
 # Algorithm 4 -- Row-oriented SVD and least squares solution
+
+The essence of Algorithm 4 is to use a QR decomposition to triangularize a "long
+skinny" matrix, that is, $m$ by $n$ with $m >> n$. The resulting $n$ by $n$ matrix
+is then further decomposed to a singular value decomposition.
+
+$$                 A  =  Q R $$
+
+$$                 R  =  P S V^T $$
+Thus  
+
+$$                 A  =  Q P S V^T $$
+so
+
+$$                 U = Q P $$
+There are many possibilities for both the QR and SVD parts of this process. In the
+early 1970s, one of us (JN) needed to solve a problem with $m=196$ by $n=25$ columns
+(variables plus a constant).
+
 
 ## Fortran
 
@@ -377,6 +447,16 @@ We include the plane-rotation sub-program.
 
 ```{r code=xfun::read_utf8('../fortran/alg04.f'), echo=TRUE, eval=FALSE}
 ```
+
+```{bash run4}
+gfortran ../fortran/dr04.f
+mv ./a.out ../fortran/dr04.run
+../fortran/dr04.run < ../fortran/dr04f.in > ../fortran/dr04f.out
+```
+
+```{r code=xfun::read_utf8('../fortran/dr04f.out'), echo=TRUE, eval=FALSE}
+```
+
 
 ### Example output
 
