@@ -448,6 +448,9 @@ We include the plane-rotation sub-program.
 ```{r code=xfun::read_utf8('../fortran/alg04.f'), echo=TRUE, eval=FALSE}
 ```
 
+
+### Example output
+
 ```{bash run4}
 gfortran ../fortran/dr04.f
 mv ./a.out ../fortran/dr04.run
@@ -457,8 +460,6 @@ mv ./a.out ../fortran/dr04.run
 ```{r code=xfun::read_utf8('../fortran/dr04f.out'), echo=TRUE, eval=FALSE}
 ```
 
-
-### Example output
 
 <!-- ## BASIC -->
 

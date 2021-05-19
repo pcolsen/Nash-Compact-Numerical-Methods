@@ -116,6 +116,14 @@ mv ../Pascal2021/dr10 ../Pascal2021/dr10.run
 <!-- ## Others -->
 
 \pagebreak
+# A note on Algorithms 11 and 12
+
+These two codes are auxiliary procedures to standardize and compute the residuals for
+eigensolutions of complex matrices. They are used in conjuction with Algorithm 26:
+complex matrix eigensolutions. They are presented in Part 5 of this documentation
+series rather than in numerical order, i.e., here.
+
+\pagebreak
 # Algorithm 13
 
 ## Fortran
