@@ -580,7 +580,6 @@ mv ../Pascal2021/dr27 ../Pascal2021/dr27.run
 
 We use the Rosenbrock banana-shaped valley problem in 2 dimensions.
 
-
 ```{r script27R, eval=TRUE, echo=TRUE}
 source("../R/hjn.R") # bring the Hooke and Jeeves minimizer code into workspace
 fminfn <-function(x){ 
