@@ -174,8 +174,8 @@ for (J=1; J<=N; J++) /*   DO 20 J=1,N  */
        } /* 10       CONTINUE */
 /* 11       IF(A(L).LE.0.0) GO TO 21  */
     }
-    if (A(L)<=0.0)
-    { return 1 }
+    if (A->element[L]<=0.0)
+    { return 1;}
     else
     {  S=sqrt(A->element[L]);
        for (I=J; I<=N; I++) /*    DO 19 I=J,N  */
